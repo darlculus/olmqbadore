@@ -1,0 +1,1925 @@
+// ===== MAIN JAVASCRIPT FILE =====
+
+// DOM Content Loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+
+    // Initialize all components
+    initNavigation();
+    initLoadingScreen();
+    initDateDisplay();
+    
+});
+
+// ===== LOADING SCREEN =====
+function initLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    
+    // Hide loading screen after 3 seconds (give time to read the text)
+    setTimeout(() => {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500);
+    }, 3000);
+}
+
+// ===== NAVIGATION =====
+function initNavigation() {
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Mobile menu toggle
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+    }
+
+    // Close mobile menu when clicking on a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+        });
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.15)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+        }
+    });
+
+    // Active link highlighting based on scroll position
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const sections = document.querySelectorAll('section[id]');
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    });
+}
+
+// ===== DATE DISPLAY =====
+function initDateDisplay() {
+    updateCurrentDate();
+    // Update date every minute
+    setInterval(updateCurrentDate, 60000);
+}
+
+function updateCurrentDate() {
+    const now = new Date();
+    const day = now.getDate();
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const month = monthNames[now.getMonth()];
+    
+    // Create the formatted date string with superscript month
+    const dateString = `${day}<sup>${month}</sup>`;
+    
+    // Update date displays if they exist
+    const dateElements = document.querySelectorAll('.current-date');
+    dateElements.forEach(element => {
+        element.innerHTML = dateString; // Use innerHTML to render the <sup> tag
+    });
+}
+
+// ===== UTILITY FUNCTIONS =====
+function smoothScrollTo(targetId) {
+    const target = document.getElementById(targetId);
+    if (target) {
+        target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
+
+// Handle smooth scrolling for anchor links
+document.addEventListener('click', function(e) {
+    if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').substring(1);
+        smoothScrollTo(targetId);
+    }
+});
+
+// ===== HERO CAROUSEL =====
+function initHeroCarousel() {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const navDots = document.querySelectorAll('.nav-dot');
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    let currentSlide = 0;
+    let slideInterval;
+
+    // Initialize carousel
+    function showSlide(index) {
+        // Remove active class from all slides and dots
+        slides.forEach(slide => slide.classList.remove('active'));
+        navDots.forEach(dot => dot.classList.remove('active'));
+        
+        // Add active class to current slide and dot
+        slides[index].classList.add('active');
+        navDots[index].classList.add('active');
+        
+        // Animate text for active slide
+        animateSlideText(slides[index]);
+    }
+
+    // Animate text elements in slide
+    function animateSlideText(slide) {
+        const words = slide.querySelectorAll('.word');
+        
+        // Reset animations
+        words.forEach(word => {
+            word.style.animation = 'none';
+            word.offsetHeight; // Trigger reflow
+            word.style.animation = null;
+        });
+        
+        // Set animation delays
+        words.forEach((word, index) => {
+            const delay = word.getAttribute('data-delay') || (index * 200);
+            word.style.setProperty('--delay', delay);
+        });
+    }
+
+    // Next slide
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    // Previous slide
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    // Auto-play carousel
+    function startAutoPlay() {
+        slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+    }
+
+    function stopAutoPlay() {
+        clearInterval(slideInterval);
+    }
+
+    // Event listeners
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            stopAutoPlay();
+            setTimeout(startAutoPlay, 3000); // Restart auto-play after 3 seconds
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            stopAutoPlay();
+            setTimeout(startAutoPlay, 3000);
+        });
+    }
+
+    // Navigation dots
+    navDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentSlide = index;
+            showSlide(currentSlide);
+            stopAutoPlay();
+            setTimeout(startAutoPlay, 3000);
+        });
+    });
+
+    // Pause on hover
+    const carousel = document.querySelector('.hero-carousel');
+    if (carousel) {
+        carousel.addEventListener('mouseenter', stopAutoPlay);
+        carousel.addEventListener('mouseleave', startAutoPlay);
+    }
+
+    // Touch/swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    carousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                nextSlide(); // Swipe left - next slide
+            } else {
+                prevSlide(); // Swipe right - previous slide
+            }
+            stopAutoPlay();
+            setTimeout(startAutoPlay, 3000);
+        }
+    }
+
+    // Initialize
+    showSlide(0);
+    startAutoPlay();
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+            stopAutoPlay();
+            setTimeout(startAutoPlay, 3000);
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+            stopAutoPlay();
+            setTimeout(startAutoPlay, 3000);
+        }
+    });
+}
+
+// Update the DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+
+    // Initialize all components
+    initNavigation();
+    initLoadingScreen();
+    initDateDisplay();
+    initHeroCarousel(); // Add this line
+});
+
+// Add this to the existing JavaScript file
+
+// ===== MASS COUNTDOWN TIMER =====
+function initMassCountdown() {
+    
+    function getNextMass() {
+        const now = new Date();
+        const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+        const currentTime = currentHour * 60 + currentMinute; // Convert to minutes
+        
+        let nextMass = new Date();
+        let massInfo = { day: '', time: '', displayTime: '' };
+        
+        // Sunday Masses: 6:30am, 8:30am, 9:00am, 6:00pm
+        if (currentDay === 0) { // Sunday
+            if (currentTime < 6 * 60 + 30) { // Before 6:30 AM
+                nextMass.setHours(6, 30, 0, 0);
+                massInfo = { day: 'Sunday', time: '6:30 AM', displayTime: '6:30 AM' };
+            } else if (currentTime < 8 * 60 + 30) { // Before 8:30 AM
+                nextMass.setHours(8, 30, 0, 0);
+                massInfo = { day: 'Sunday', time: '8:30 AM', displayTime: '8:30 AM' };
+            } else if (currentTime < 9 * 60) { // Before 9:00 AM
+                nextMass.setHours(9, 0, 0, 0);
+                massInfo = { day: 'Sunday', time: '9:00 AM', displayTime: '9:00 AM (Children)' };
+            } else if (currentTime < 18 * 60) { // Before 6:00 PM
+                nextMass.setHours(18, 0, 0, 0);
+                massInfo = { day: 'Sunday', time: '6:00 PM', displayTime: '6:00 PM' };
+            } else {
+                // After Sunday 6:00 PM, next is Monday 6:30 AM
+                nextMass.setDate(now.getDate() + 1);
+                nextMass.setHours(6, 30, 0, 0);
+                massInfo = { day: 'Monday', time: '6:30 AM', displayTime: '6:30 AM' };
+            }
+        }
+        // Monday to Friday: 6:30am & 6:30pm
+        else if (currentDay >= 1 && currentDay <= 5) { // Monday to Friday
+            if (currentTime < 6 * 60 + 30) { // Before 6:30 AM
+                nextMass.setHours(6, 30, 0, 0);
+                const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                massInfo = { day: dayNames[currentDay], time: '6:30 AM', displayTime: '6:30 AM' };
+            } else if (currentTime < 18 * 60 + 30) { // Before 6:30 PM
+                nextMass.setHours(18, 30, 0, 0);
+                const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                massInfo = { day: dayNames[currentDay], time: '6:30 PM', displayTime: '6:30 PM' };
+            } else {
+                // After 6:30 PM, next is tomorrow morning
+                if (currentDay === 5) { // Friday, next is Saturday 7:00 AM
+                    nextMass.setDate(now.getDate() + 1);
+                    nextMass.setHours(7, 0, 0, 0);
+                    massInfo = { day: 'Saturday', time: '7:00 AM', displayTime: '7:00 AM' };
+                } else { // Monday-Thursday, next is tomorrow 6:30 AM
+                    nextMass.setDate(now.getDate() + 1);
+                    nextMass.setHours(6, 30, 0, 0);
+                    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                    massInfo = { day: dayNames[currentDay + 1], time: '6:30 AM', displayTime: '6:30 AM' };
+                }
+            }
+        }
+        // Saturday: 7:00am only
+        else if (currentDay === 6) { // Saturday
+            if (currentTime < 7 * 60) { // Before 7:00 AM
+                nextMass.setHours(7, 0, 0, 0);
+                massInfo = { day: 'Saturday', time: '7:00 AM', displayTime: '7:00 AM' };
+            } else {
+                // After Saturday 7:00 AM, next is Sunday 6:30 AM
+                nextMass.setDate(now.getDate() + 1);
+                nextMass.setHours(6, 30, 0, 0);
+                massInfo = { day: 'Sunday', time: '6:30 AM', displayTime: '6:30 AM' };
+            }
+        }
+        
+        return { date: nextMass, info: massInfo };
+    }
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const nextMassData = getNextMass();
+        const massTime = nextMassData.date.getTime();
+        const distance = massTime - now;
+
+        // Time calculations
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Update mass info display
+        const massDayElement = document.querySelector('.mass-day');
+        const massTimeElement = document.querySelector('.mass-time');
+        
+        if (massDayElement && massTimeElement) {
+            massDayElement.textContent = nextMassData.info.day;
+            massTimeElement.textContent = nextMassData.info.displayTime;
+        }
+
+        // Update countdown display
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const countdownText = document.getElementById('countdown-text');
+
+        if (hoursElement && minutesElement && secondsElement) {
+            // If more than 24 hours, show days + hours
+            if (days > 0) {
+                hoursElement.textContent = days.toString().padStart(2, '0');
+                minutesElement.textContent = hours.toString().padStart(2, '0');
+                secondsElement.textContent = minutes.toString().padStart(2, '0');
+                
+                // Update labels
+                document.querySelector('#hours').nextElementSibling.textContent = days === 1 ? 'Day' : 'Days';
+                document.querySelector('#minutes').nextElementSibling.textContent = hours === 1 ? 'Hour' : 'Hours';
+                document.querySelector('#seconds').nextElementSibling.textContent = 'Minutes';
+            } else {
+                // Less than 24 hours, show hours:minutes:seconds
+                hoursElement.textContent = hours.toString().padStart(2, '0');
+                minutesElement.textContent = minutes.toString().padStart(2, '0');
+                secondsElement.textContent = seconds.toString().padStart(2, '0');
+                
+                // Reset labels
+                document.querySelector('#hours').nextElementSibling.textContent = 'Hours';
+                document.querySelector('#minutes').nextElementSibling.textContent = 'Minutes';
+                document.querySelector('#seconds').nextElementSibling.textContent = 'Seconds';
+            }
+        }
+
+        // Update message based on time remaining
+        if (countdownText) {
+            if (distance < 0) {
+                countdownText.textContent = "Mass is starting now!";
+            } else if (hours < 1 && days === 0) {
+                countdownText.textContent = "Mass starting soon!";
+            } else if (days === 0) {
+                countdownText.textContent = "Until next Mass";
+            } else {
+                countdownText.textContent = `Until ${nextMassData.info.day} Mass`;
+            }
+        }
+
+        // Add pulsing effect when close to mass time
+        const countdownCard = document.querySelector('.next-mass-card');
+        if (countdownCard) {
+            if (hours < 1 && days === 0) {
+                countdownCard.style.animation = 'pulse 2s ease-in-out infinite';
+            } else {
+                countdownCard.style.animation = 'shimmer 3s ease-in-out infinite';
+            }
+        }
+    }
+
+    // Update countdown every second
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+}
+
+// Add pulse animation to CSS dynamically
+function addPulseAnimation() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 25px 50px rgba(102, 126, 234, 0.4);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ===== SCHEDULE CARD ANIMATIONS =====
+function initScheduleAnimations() {
+    const scheduleCards = document.querySelectorAll('.schedule-card');
+    
+    scheduleCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const icon = card.querySelector('.card-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+            }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            const icon = card.querySelector('.card-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            }
+        });
+    });
+}
+
+// Update the main DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+
+    // Initialize all components
+    initNavigation();
+    initLoadingScreen();
+    initDateDisplay();
+    initHeroCarousel();
+    initMassCountdown(); // Add this line
+    initScheduleAnimations(); // Add this line
+    addPulseAnimation(); // Add this line
+});
+
+// ===== ANIMATED COUNTERS =====
+function initAnimatedCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    const observerOptions = {
+        threshold: 0.7
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-count'));
+                const duration = 2000; // 2 seconds
+                const step = target / (duration / 16); // 60fps
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+
+                updateCounter();
+                observer.unobserve(counter);
+            }
+        });
+    }, observerOptions);
+
+    counters.forEach(counter => {
+        observer.observe(counter);
+    });
+}
+
+// ===== LEADERSHIP CARD INTERACTIONS =====
+// Continue from leadership card interactions
+
+function initLeadershipCards() {
+    const leaderCards = document.querySelectorAll('.leader-card');
+    
+    leaderCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            // Add subtle animation to other cards
+            leaderCards.forEach(otherCard => {
+                if (otherCard !== card) {
+                    otherCard.style.opacity = '0.7';
+                    otherCard.style.transform = 'scale(0.95)';
+                }
+            });
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            // Reset all cards
+            leaderCards.forEach(otherCard => {
+                otherCard.style.opacity = '1';
+                otherCard.style.transform = 'scale(1)';
+            });
+        });
+    });
+}
+
+// ===== VALUE ITEMS STAGGER ANIMATION =====
+function initValueItemsAnimation() {
+    const valueItems = document.querySelectorAll('.value-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                }, index * 100);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    valueItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-30px)';
+        item.style.transition = 'all 0.6s ease';
+        observer.observe(item);
+    });
+}
+
+// ===== TIMELINE PREVIEW ANIMATION =====
+function initTimelineAnimation() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    
+                    // Animate the year circle
+                    const yearCircle = entry.target.querySelector('.timeline-year');
+                    yearCircle.style.animation = 'pulse-glow 0.6s ease-out';
+                }, index * 200);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    timelineItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(30px)';
+        item.style.transition = 'all 0.6s ease';
+        observer.observe(item);
+    });
+}
+
+// ===== FLOATING ELEMENTS ANIMATION =====
+function initFloatingElements() {
+    const floatingCross = document.querySelector('.floating-cross');
+    const floatingDove = document.querySelector('.floating-dove');
+    
+    if (floatingCross && floatingDove) {
+        // Add random movement to floating elements
+        setInterval(() => {
+            const randomX = Math.random() * 20 - 10;
+            const randomY = Math.random() * 20 - 10;
+            
+            floatingCross.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${Math.random() * 10 - 5}deg)`;
+        }, 3000);
+        
+        setInterval(() => {
+            const randomX = Math.random() * 20 - 10;
+            const randomY = Math.random() * 20 - 10;
+            
+            floatingDove.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${Math.random() * 10 - 5}deg)`;
+        }, 4000);
+    }
+}
+
+// ===== PARALLAX EFFECT FOR ABOUT SECTION =====
+function initAboutParallax() {
+    const aboutSection = document.querySelector('.about-section');
+    const floatingElements = document.querySelector('.floating-elements');
+    
+    if (aboutSection && floatingElements) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const sectionTop = aboutSection.offsetTop;
+            const sectionHeight = aboutSection.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            // Check if section is in viewport
+            if (scrolled + windowHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
+                const parallaxSpeed = (scrolled - sectionTop) * 0.1;
+                floatingElements.style.transform = `translateY(${parallaxSpeed}px)`;
+            }
+        });
+    }
+}
+
+// ===== MISSION/VISION CARDS REVEAL ANIMATION =====
+function initMissionVisionCards() {
+    const missionCard = document.querySelector('.mission-card');
+    const visionCard = document.querySelector('.vision-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.classList.contains('mission-card')) {
+                    entry.target.style.animation = 'slideInLeft 0.8s ease-out forwards';
+                } else if (entry.target.classList.contains('vision-card')) {
+                    entry.target.style.animation = 'slideInRight 0.8s ease-out forwards';
+                }
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    if (missionCard) {
+        missionCard.style.opacity = '0';
+        missionCard.style.transform = 'translateX(-50px)';
+        observer.observe(missionCard);
+    }
+    
+    if (visionCard) {
+        visionCard.style.opacity = '0';
+        visionCard.style.transform = 'translateX(50px)';
+        observer.observe(visionCard);
+    }
+}
+
+// Add CSS animations dynamically
+function addAboutAnimations() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(52, 152, 219, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes shimmer-about {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        .primary-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .primary-btn:hover::after {
+            left: 100%;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Update the main DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+
+    // Initialize all components
+    initNavigation();
+    initLoadingScreen();
+    initDateDisplay();
+    initHeroCarousel();
+    initMassCountdown();
+    initScheduleAnimations();
+    addPulseAnimation();
+    
+    // Add About section initializations
+    initAnimatedCounters();
+    initLeadershipCards();
+    initValueItemsAnimation();
+    initTimelineAnimation();
+    initFloatingElements();
+    initAboutParallax();
+    initMissionVisionCards();
+    addAboutAnimations();
+});
+
+// Add this to the existing JavaScript file
+
+// ===== DAILY READINGS FUNCTIONALITY =====
+function initDailyReadings() {
+    updateLiturgicalInfo();
+    loadDailyReadings();
+    initReadingControls();
+    initReadingModal();
+}
+
+// ===== LITURGICAL CALENDAR =====
+function updateLiturgicalInfo() {
+    const today = new Date();
+    const liturgicalData = getLiturgicalData(today);
+    
+    // Update liturgical season
+    document.getElementById('liturgical-season').textContent = liturgicalData.season;
+    document.getElementById('liturgical-week').textContent = liturgicalData.week;
+    document.getElementById('season-icon').className = `fas ${liturgicalData.icon}`;
+    
+    // Update date
+    document.getElementById('liturgical-date').textContent = today.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    document.getElementById('liturgical-day').textContent = liturgicalData.celebration;
+    
+    // Update liturgical color
+    document.getElementById('liturgical-color-name').textContent = liturgicalData.color.name;
+    document.getElementById('liturgical-color-indicator').style.background = liturgicalData.color.hex;
+    
+    // Set CSS custom property for liturgical color
+    document.documentElement.style.setProperty('--liturgical-color', liturgicalData.color.hex);
+}
+
+function getLiturgicalData(date) {
+    // Simplified liturgical calendar logic
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    
+    // This is a simplified version - in production, you'd use a proper liturgical calendar API
+    if (month === 12 && day >= 1 && day <= 24) {
+        return {
+            season: 'Advent',
+            week: `Week ${Math.ceil(day / 7)}`,
+            celebration: 'Weekday of Advent',
+            icon: 'fa-star',
+            color: { name: 'Purple', hex: '#663399' }
+        };
+    } else if (month === 12 && day >= 25 || month === 1 && day <= 6) {
+        return {
+            season: 'Christmas',
+            week: 'Christmas Season',
+            celebration: 'Christmas Time',
+            icon: 'fa-baby',
+            color: { name: 'White', hex: '#ffffff' }
+        };
+    } else if (month >= 2 && month <= 4) {
+        return {
+            season: 'Lent',
+            week: `Week ${Math.ceil(day / 7)} of Lent`,
+            celebration: 'Weekday of Lent',
+            icon: 'fa-cross',
+            color: { name: 'Purple', hex: '#663399' }
+        };
+    } else if (month === 4 && day >= 15) {
+        return {
+            season: 'Easter',
+            week: 'Easter Season',
+            celebration: 'Easter Time',
+            icon: 'fa-dove',
+            color: { name: 'White', hex: '#ffffff' }
+        };
+    } else {
+        return {
+            season: 'Ordinary Time',
+            week: `Week ${Math.ceil(day / 7)}`,
+            celebration: 'Weekday in Ordinary Time',
+            icon: 'fa-leaf',
+            color: { name: 'Green', hex: '#28a745' }
+        };
+    }
+}
+
+// ===== LOAD DAILY READINGS =====
+function loadDailyReadings() {
+    // Sample readings data - in production, this would come from an API
+    const todaysReadings = {
+        firstReading: {
+            reference: "Isaiah 55:10-11",
+            text: "Thus says the LORD: Just as from the heavens the rain and snow come down and do not return there till they have watered the earth, making it fertile and fruitful, giving seed to the one who sows and bread to the one who eats, so shall my word be that goes forth from my mouth; my word shall not return to me void, but shall do my will, achieving the end for which I sent it."
+        },
+        psalm: {
+            reference: "Psalm 65:10, 11, 12-13, 14",
+            response: "The seed that falls on good ground will yield a fruitful harvest.",
+            text: "You have visited the land and watered it; greatly have you enriched it. God's watercourses are filled; you have prepared the grain. Thus have you prepared the land: drenching its furrows, breaking up its clods, softening it with showers, blessing its yield."
+        },
+        secondReading: {
+            reference: "Romans 8:18-23",
+            text: "Brothers and sisters: I consider that the sufferings of this present time are as nothing compared with the glory to be revealed for us. For creation awaits with eager expectation the revelation of the children of God; for creation was made subject to futility, not of its own accord but because of the one who subjected it, in hope that creation itself would be set free from slavery to corruption and share in the glorious freedom of the children of God."
+        },
+        gospel: {
+            reference: "Matthew 13:1-23",
+            acclamation: "The seed is the word of God, Christ is the sower. All who come to him will have life forever.",
+            text: "On that day, Jesus went out of the house and sat down by the sea. Such large crowds gathered around him that he got into a boat and sat down, and the whole crowd stood along the shore. And he spoke to them at length in parables, saying: 'A sower went out to sow. And as he sowed, some seed fell on the path, and birds came and ate it up. Some fell on rocky ground, where it had little soil. It sprang up at once because the soil was not deep, and when the sun rose it was scorched, and it withered for lack of roots.'"
+        },
+        reflection: "Today's parable of the sower reminds us that God's word is like seed scattered generously. The question is not whether God's word is powerful - it always is. The question is what kind of soil our hearts provide. Are we the path where the word bounces off? The rocky ground where it starts but doesn't take root? The thorny ground where worldly concerns choke it out? Or are we the good soil where God's word can grow and bear fruit? Let us examine our hearts today and ask God to make us good soil for His word."
+    };
+
+    // Update the DOM with readings
+    document.getElementById('first-reading-reference').textContent = todaysReadings.firstReading.reference;
+    document.getElementById('first-reading-text').textContent = todaysReadings.firstReading.text;
+    
+    document.getElementById('psalm-reference').textContent = todaysReadings.psalm.reference;
+    document.getElementById('psalm-response').textContent = todaysReadings.psalm.response;
+    document.getElementById('psalm-text').textContent = todaysReadings.psalm.text;
+    
+    document.getElementById('second-reading-reference').textContent = todaysReadings.secondReading.reference;
+    document.getElementById('second-reading-text').textContent = todaysReadings.secondReading.text;
+    
+    document.getElementById('gospel-reference').textContent = todaysReadings.gospel.reference;
+    document.getElementById('gospel-acclamation-text').textContent = todaysReadings.gospel.acclamation;
+    document.getElementById('gospel-text').textContent = todaysReadings.gospel.text;
+    
+    document.getElementById('daily-reflection').textContent = todaysReadings.reflection;
+}
+
+// ===== READING CONTROLS =====
+function initReadingControls() {
+    // Audio buttons
+    const audioButtons = document.querySelectorAll('.audio-btn');
+    audioButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const readingType = this.getAttribute('data-reading');
+            toggleAudio(readingType, this);
+        });
+    });
+
+    // Expand buttons
+    const expandButtons = document.querySelectorAll('.expand-btn');
+    expandButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const readingType = this.getAttribute('data-reading');
+            openReadingModal(readingType);
+        });
+    });
+
+    // Action buttons
+    document.getElementById('read-all-btn').addEventListener('click', readAllReadings);
+    document.getElementById('download-readings-btn').addEventListener('click', downloadReadings);
+    document.getElementById('share-readings-btn').addEventListener('click', shareReadings);
+}
+
+// ===== AUDIO FUNCTIONALITY =====
+let currentAudio = null;
+let currentAudioBtn = null;
+
+function toggleAudio(readingType, button) {
+    // Stop current audio if playing
+    if (currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        currentAudioBtn.classList.remove('playing');
+        currentAudioBtn.innerHTML = '<i class="fas fa-play"></i>';
+        
+        if (currentAudioBtn === button) {
+            currentAudio = null;
+            currentAudioBtn = null;
+            return;
+        }
+    }
+
+    // Get reading text
+    const readingText = getReadingText(readingType);
+    
+    // Use Web Speech API for text-to-speech
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(readingText);
+        utterance.rate = 0.8;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        
+        utterance.onstart = () => {
+            button.classList.add('playing');
+            button.innerHTML = '<i class="fas fa-pause"></i>';
+            currentAudioBtn = button;
+        };
+        
+        utterance.onend = () => {
+            button.classList.remove('playing');
+            button.innerHTML = '<i class="fas fa-play"></i>';
+            currentAudio = null;
+            currentAudioBtn = null;
+        };
+        
+        speechSynthesis.speak(utterance);
+        currentAudio = { pause: () => speechSynthesis.cancel(), paused: false };
+    } else {
+        alert('Text-to-speech is not supported in your browser.');
+    }
+}
+
+function getReadingText(readingType) {
+    switch(readingType) {
+        case 'first':
+            return document.getElementById('first-reading-text').textContent;
+        case 'psalm':
+            return document.getElementById('psalm-response').textContent + ' ' + 
+                   document.getElementById('psalm-text').textContent;
+        case 'second':
+            return document.getElementById('second-reading-text').textContent;
+        case 'gospel':
+            return document.getElementById('gospel-text').textContent;
+        default:
+            return '';
+    }
+}
+
+// ===== READING MODAL =====
+function initReadingModal() {
+    const modal = document.getElementById('reading-modal');
+    const closeBtn = document.getElementById('close-modal');
+    
+    closeBtn.addEventListener('click', closeReadingModal);
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeReadingModal();
+        }
+    });
+    
+    // Modal buttons
+    document.getElementById('modal-audio-btn').addEventListener('click', function() {
+        const text = document.getElementById('modal-text').textContent;
+        playModalAudio(text);
+    });
+    
+    document.getElementById('modal-copy-btn').addEventListener('click', function() {
+        const text = document.getElementById('modal-text').textContent;
+        copyToClipboard(text);
+    });
+}
+
+function openReadingModal(readingType) {
+    const modal = document.getElementById('reading-modal');
+    const title = document.getElementById('modal-reading-title');
+    const reference = document.getElementById('modal-reference');
+    const text = document.getElementById('modal-text');
+    
+    // Set modal content based on reading type
+    switch(readingType) {
+        case 'first':
+            title.textContent = 'First Reading';
+            reference.textContent = document.getElementById('first-reading-reference').textContent;
+            text.textContent = document.getElementById('first-reading-text').textContent;
+            break;
+        case 'psalm':
+            title.textContent = 'Responsorial Psalm';
+            reference.textContent = document.getElementById('psalm-reference').textContent;
+            text.textContent = document.getElementById('psalm-response').textContent + '\n\n' + 
+                              document.getElementById('psalm-text').textContent;
+            break;
+        case 'second':
+            title.textContent = 'Second Reading';
+            reference.textContent = document.getElementById('second-reading-reference').textContent;
+            text.textContent = document.getElementById('second-reading-text').textContent;
+            break;
+        case 'gospel':
+            title.textContent = 'Gospel';
+            reference.textContent = document.getElementById('gospel-reference').textContent;
+            text.textContent = document.getElementById('gospel-text').textContent;
+            break;
+    }
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeReadingModal() {
+    const modal = document.getElementById('reading-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function playModalAudio(text) {
+    if ('speechSynthesis' in window) {
+        speechSynthesis.cancel(); // Stop any current speech
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.8;
+        speechSynthesis.speak(utterance);
+    }
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        // Show success message
+        showNotification('Text copied to clipboard!', 'success');
+    }).catch(() => {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showNotification('Text copied to clipboard!', 'success');
+    });
+}
+
+// ===== ACTION BUTTON FUNCTIONS =====
+function readAllReadings() {
+    const allReadings = [
+        'First Reading: ' + document.getElementById('first-reading-reference').textContent + '. ' + 
+        document.getElementById('first-reading-text').textContent,
+        'Responsorial Psalm: ' + document.getElementById('psalm-reference').textContent + '. ' + 
+        document.getElementById('psalm-response').textContent + ' ' + document.getElementById('psalm-text').textContent,
+        'Second Reading: ' + document.getElementById('second-reading-reference').textContent + '. ' + 
+        document.getElementById('second-reading-text').textContent,
+        'Gospel: ' + document.getElementById('gospel-reference').textContent + '. ' + 
+        document.getElementById('gospel-text').textContent
+    ].join('\n\n');
+    
+    if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(allReadings);
+        utterance.rate = 0.8;
+        speechSynthesis.speak(utterance);
+        showNotification('Reading all scriptures...', 'info');
+    }
+}
+
+function downloadReadings() {
+    const readings = {
+        date: new Date().toLocaleDateString(),
+        firstReading: {
+            reference: document.getElementById('first-reading-reference').textContent,
+            text: document.getElementById('first-reading-text').textContent
+        },
+        psalm: {
+            reference: document.getElementById('psalm-reference').textContent,
+            response: document.getElementById('psalm-response').textContent,
+            text: document.getElementById('psalm-text').textContent
+        },
+        secondReading: {
+            reference: document.getElementById('second-reading-reference').textContent,
+            text: document.getElementById('second-reading-text').textContent
+        },
+        gospel: {
+            reference: document.getElementById('gospel-reference').textContent,
+            text: document.getElementById('gospel-text').textContent
+        },
+        reflection: document.getElementById('daily-reflection').textContent
+    };
+    
+    const content = formatReadingsForDownload(readings);
+    downloadTextFile(content, `Daily_Readings_${new Date().toISOString().split('T')[0]}.txt`);
+}
+
+function formatReadingsForDownload(readings) {
+    return `DAILY READINGS - ${readings.date}
+    
+FIRST READING
+${readings.firstReading.reference}
+${readings.firstReading.text}
+
+RESPONSORIAL PSALM
+${readings.psalm.reference}
+Response: ${readings.psalm.response}
+${readings.psalm.text}
+
+SECOND READING
+${readings.secondReading.reference}
+${readings.secondReading.text}
+
+GOSPEL
+${readings.gospel.reference}
+${readings.gospel.text}
+
+REFLECTION
+${readings.reflection}
+
+---
+Our Lady Mother and Queen Catholic Church, Badore
+`;
+}
+
+// Continue from downloadTextFile function
+
+function downloadTextFile(content, filename) {
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    showNotification('Readings downloaded successfully!', 'success');
+}
+
+function shareReadings() {
+    const readingsText = `Today's Catholic Readings - ${new Date().toLocaleDateString()}
+
+First Reading: ${document.getElementById('first-reading-reference').textContent}
+Gospel: ${document.getElementById('gospel-reference').textContent}
+
+Join us for Mass at Our Lady Mother and Queen Catholic Church, Badore
+Visit: ${window.location.origin}`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'Today\'s Catholic Readings',
+            text: readingsText,
+            url: window.location.href
+        }).then(() => {
+            showNotification('Readings shared successfully!', 'success');
+        }).catch(() => {
+            fallbackShare(readingsText);
+        });
+    } else {
+        fallbackShare(readingsText);
+    }
+}
+
+function fallbackShare(text) {
+    // Copy to clipboard as fallback
+    copyToClipboard(text);
+    showNotification('Readings copied to clipboard for sharing!', 'info');
+}
+
+// ===== NOTIFICATION SYSTEM =====
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas ${getNotificationIcon(type)}"></i>
+            <span>${message}</span>
+        </div>
+        <button class="notification-close">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Add styles if not already added
+    if (!document.querySelector('#notification-styles')) {
+        addNotificationStyles();
+    }
+    
+    // Show notification
+    setTimeout(() => notification.classList.add('show'), 100);
+    
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+    
+    // Close button functionality
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    });
+}
+
+function getNotificationIcon(type) {
+    switch(type) {
+        case 'success': return 'fa-check-circle';
+        case 'error': return 'fa-exclamation-circle';
+        case 'warning': return 'fa-exclamation-triangle';
+        default: return 'fa-info-circle';
+    }
+}
+
+function addNotificationStyles() {
+    const style = document.createElement('style');
+    style.id = 'notification-styles';
+    style.textContent = `
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            max-width: 350px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-success {
+            border-left-color: #27ae60;
+        }
+        
+        .notification-error {
+            border-left-color: #e74c3c;
+        }
+        
+        .notification-warning {
+            border-left-color: #f39c12;
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification-content i {
+            font-size: 18px;
+        }
+        
+        .notification-success .notification-content i {
+            color: #27ae60;
+        }
+        
+        .notification-error .notification-content i {
+            color: #e74c3c;
+        }
+        
+        .notification-warning .notification-content i {
+            color: #f39c12;
+        }
+        
+        .notification-info .notification-content i {
+            color: #3498db;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #7f8c8d;
+            font-size: 14px;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-close:hover {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        
+        @media (max-width: 480px) {
+            .notification {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+                transform: translateY(-100px);
+            }
+            
+            .notification.show {
+                transform: translateY(0);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ===== READINGS ANIMATION EFFECTS =====
+function initReadingsAnimations() {
+    // Stagger animation for reading cards
+    const readingCards = document.querySelectorAll('.reading-card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 150);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    readingCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'all 0.6s ease';
+        observer.observe(card);
+    });
+
+    // Liturgical info animation
+    const liturgicalInfo = document.querySelector('.liturgical-info');
+    if (liturgicalInfo) {
+        const infoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideInFromTop 0.8s ease-out forwards';
+                    infoObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        liturgicalInfo.style.opacity = '0';
+        liturgicalInfo.style.transform = 'translateY(-30px)';
+        infoObserver.observe(liturgicalInfo);
+    }
+}
+
+// Add CSS animations for readings
+function addReadingsAnimations() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes readingCardHover {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.02); }
+            100% { transform: translateY(-10px) scale(1); }
+        }
+        
+        .reading-card:hover {
+            animation: readingCardHover 0.3s ease-out forwards;
+        }
+        
+        @keyframes liturgicalPulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(var(--liturgical-color-rgb), 0.4);
+            }
+            50% { 
+                box-shadow: 0 0 0 20px rgba(var(--liturgical-color-rgb), 0);
+            }
+        }
+        
+        .liturgical-info::before {
+            animation: liturgicalPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes textShimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .reading-text {
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: textShimmer 3s ease-in-out infinite;
+        }
+        
+        .gospel .reading-text {
+            background: linear-gradient(90deg, transparent, rgba(231, 76, 60, 0.1), transparent);
+            background-size: 200% 100%;
+        }
+        
+        .psalm .reading-text {
+            background: linear-gradient(90deg, transparent, rgba(243, 156, 18, 0.1), transparent);
+            background-size: 200% 100%;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+function initReadingsKeyboardShortcuts() {
+    document.addEventListener('keydown', function(e) {
+        // Only activate shortcuts when not typing in input fields
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        
+        switch(e.key) {
+            case '1':
+                if (e.ctrlKey) {
+                    e.preventDefault();
+                    openReadingModal('first');
+                }
+                break;
+            case '2':
+                if (e.ctrlKey) {
+                    e.preventDefault();
+                    openReadingModal('psalm');
+                }
+                break;
+            case '3':
+                if (e.ctrlKey) {
+                    e.preventDefault();
+                    openReadingModal('second');
+                }
+                break;
+            case '4':
+                if (e.ctrlKey) {
+                    e.preventDefault();
+                    openReadingModal('gospel');
+                }
+                break;
+            case 'Escape':
+                closeReadingModal();
+                break;
+            case ' ':
+                if (e.ctrlKey) {
+                    e.preventDefault();
+                    readAllReadings();
+                }
+                break;
+        }
+    });
+}
+
+// Update the main DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+
+    // Initialize all components
+    initNavigation();
+    initScrollToTop();
+    initLoadingScreen();
+    initDateDisplay();
+    initHeroCarousel();
+    initMassCountdown();
+    initScheduleAnimations();
+    addPulseAnimation();
+    
+    // About section initializations
+    initAnimatedCounters();
+    initLeadershipCards();
+    initValueItemsAnimation();
+    initTimelineAnimation();
+    initFloatingElements();
+    initAboutParallax();
+    initMissionVisionCards();
+    addAboutAnimations();
+    
+    // Daily Readings initializations
+    initDailyReadings();
+    initReadingsAnimations();
+    addReadingsAnimations();
+    initReadingsKeyboardShortcuts();
+});
+
+// ===== HARVEST SECTION JAVASCRIPT =====
+
+// Initialize harvest section when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initHarvestSection();
+});
+
+// Main harvest initialization function
+function initHarvestSection() {
+    initHarvestCountdown();
+    initParticipationModal();
+    initAmountButtons();
+    initProgressBars();
+    initHarvestButtons();
+}
+
+// ===== HARVEST COUNTDOWN TIMER =====
+function initHarvestCountdown() {
+    const countdownElement = document.getElementById('harvest-countdown');
+    if (!countdownElement) return;
+    
+    // Set harvest dates
+    const childrenHarvestDate = new Date('2024-08-24T10:00:00').getTime();
+    const adultHarvestDate = new Date('2025-11-16T10:30:00').getTime();
+    
+    function updateCountdown() {
+        const now = new Date().getTime();
+        
+        // Determine which harvest to countdown to
+        let targetDate, eventName, eventType;
+        
+        if (now < childrenHarvestDate) {
+            targetDate = childrenHarvestDate;
+            eventName = "Children's Harvest";
+            eventType = "children";
+        } else if (now < adultHarvestDate) {
+            targetDate = adultHarvestDate;
+            eventName = "Adult Harvest & Bazaar";
+            eventType = "adult";
+        } else {
+            countdownElement.innerHTML = `
+                <div class="countdown-ended">
+                    <h3>Harvest Season Complete! 🎉</h3>
+                    <p>Thank you for making our harvest celebrations wonderful!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const distance = targetDate - now;
+        
+        if (distance < 0) {
+            updateCountdown();
+            return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        countdownElement.innerHTML = `
+            <div class="countdown-header-dynamic">
+                <div class="event-badge ${eventType}">
+                    <i class="fas ${eventType === 'children' ? 'fa-child' : 'fa-users'}"></i>
+                    ${eventName}
+                </div>
+                <h4>Time Remaining</h4>
+            </div>
+            <div class="countdown-container">
+                <div class="countdown-item">
+                    <div class="countdown-number">${days}</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">${hours}</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">${minutes}</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">${seconds}</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+            <div class="next-harvest-info">
+                ${eventType === 'children' ? 
+                    '<p><i class="fas fa-calendar-alt"></i> Adult Harvest & Bazaar: November 16, 2025</p>' : 
+                    '<p><i class="fas fa-heart"></i> Join us for this special celebration!</p>'
+                }
+            </div>
+        `;
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+}
+
+// ===== PARTICIPATION MODAL =====
+function initParticipationModal() {
+    const participateBtn = document.getElementById('participate-btn');
+    const modal = document.getElementById('participation-modal');
+    const closeBtn = document.getElementById('close-participation-modal');
+    const cancelBtn = document.getElementById('cancel-participation');
+    const form = document.getElementById('participation-form');
+    
+    if (!participateBtn || !modal) return;
+    
+    // Open modal
+    participateBtn.addEventListener('click', () => {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close modal
+    function closeModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        if (form) form.reset();
+        resetFormVisibility();
+    }
+    
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+    
+    // Close modal when clicking outside
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // Handle form submission
+    if (form) {
+        form.addEventListener('submit', handleParticipationSubmission);
+    }
+    
+    // Handle dynamic form fields
+    initDynamicFormFields();
+}
+
+// ===== DYNAMIC FORM FIELDS =====
+function initDynamicFormFields() {
+    const participationCheckboxes = document.querySelectorAll('input[name="participation"]');
+    
+    participationCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', toggleFormSections);
+    });
+}
+
+function toggleFormSections() {
+    const participationTypes = Array.from(document.querySelectorAll('input[name="participation"]:checked'))
+        .map(cb => cb.value);
+    
+    // Show/hide produce details
+    const produceDetails = document.getElementById('produce-details');
+    if (produceDetails) {
+        produceDetails.style.display = participationTypes.includes('produce') ? 'block' : 'none';
+    }
+    
+    // Show/hide volunteer details
+    const volunteerDetails = document.getElementById('volunteer-details');
+    if (volunteerDetails) {
+        volunteerDetails.style.display = participationTypes.includes('volunteer') ? 'block' : 'none';
+    }
+    
+    // Show/hide bazaar details
+    const bazaarDetails = document.getElementById('bazaar-details');
+    if (bazaarDetails) {
+        bazaarDetails.style.display = participationTypes.includes('bazaar') ? 'block' : 'none';
+    }
+}
+
+function resetFormVisibility() {
+    const dynamicSections = ['produce-details', 'volunteer-details', 'bazaar-details'];
+    dynamicSections.forEach(sectionId => {
+        const section = document.getElementById(sectionId);
+        if (section) section.style.display = 'none';
+    });
+}
+
+// ===== FORM SUBMISSION HANDLER =====
+function handleParticipationSubmission(e) {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(e.target);
+    const participationData = {
+        name: formData.get('participant-name'),
+        email: formData.get('participant-email'),
+        phone: formData.get('participant-phone'),
+        participationTypes: [],
+        produceType: formData.get('produce-type'),
+        volunteerArea: formData.get('volunteer-area'),
+        stallType: formData.get('stall-type'),
+        specialRequests: formData.get('special-requests')
+    };
+    
+    // Get selected participation types
+    const checkedBoxes = document.querySelectorAll('input[name="participation"]:checked');
+    checkedBoxes.forEach(box => {
+        participationData.participationTypes.push(box.value);
+    });
+    
+    // Validate required fields
+    if (!participationData.name || !participationData.email || !participationData.phone) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+    
+    if (participationData.participationTypes.length === 0) {
+        showNotification('Please select at least one way to participate', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    submitBtn.disabled = true;
+    
+    // Simulate form submission
+    setTimeout(() => {
+        try {
+            console.log('Participation data:', participationData);
+            showNotification('Registration successful! We will contact you soon.', 'success');
+            
+            // Close modal and reset form
+            document.getElementById('participation-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            e.target.reset();
+            resetFormVisibility();
+            
+        } catch (error) {
+            showNotification('Registration failed. Please try again.', 'error');
+        } finally {
+            // Reset button
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    }, 2000);
+}
+
+// ===== AMOUNT BUTTONS =====
+function initAmountButtons() {
+    const amountButtons = document.querySelectorAll('.amount-btn');
+    
+    amountButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            amountButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            button.classList.add('active');
+            
+            // Handle custom amount
+            if (button.classList.contains('custom-amount')) {
+                const customAmount = prompt('Enter your custom amount (₦):');
+                if (customAmount && !isNaN(customAmount) && customAmount > 0) {
+                    button.textContent = `₦${parseInt(customAmount).toLocaleString()}`;
+                    button.dataset.amount = customAmount;
+                } else {
+                    button.classList.remove('active');
+                }
+            }
+        });
+    });
+    
+    // Handle donate button
+    const donateBtn = document.querySelector('.donate-btn');
+    if (donateBtn) {
+        donateBtn.addEventListener('click', () => {
+            const activeAmount = document.querySelector('.amount-btn.active');
+            if (activeAmount) {
+                const amount = activeAmount.dataset.amount;
+                handleDonation(amount);
+            } else {
+                showNotification('Please select an amount to donate', 'warning');
+            }
+        });
+    }
+}
+
+// ===== DONATION HANDLER =====
+function handleDonation(amount) {
+    showNotification(`Redirecting to payment gateway for ₦${parseInt(amount).toLocaleString()}...`, 'info');
+    
+    setTimeout(() => {
+        const confirmed = confirm(`Proceed with donation of ₦${parseInt(amount).toLocaleString()}?`);
+        if (confirmed) {
+            showNotification('Thank you for your generous donation!', 'success');
+        }
+    }, 1500);
+}
+
+// ===== PROGRESS BARS ANIMATION =====
+function initProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const progressBar = entry.target;
+                const targetProgress = progressBar.dataset.progress;
+                
+                setTimeout(() => {
+                    progressBar.style.width = targetProgress + '%';
+                }, 500);
+                
+                observer.unobserve(progressBar);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    progressBars.forEach(bar => {
+        observer.observe(bar);
+    });
+}
+
+// ===== HARVEST BUTTONS =====
+function initHarvestButtons() {
+    // Volunteer button
+    const volunteerBtn = document.querySelector('.volunteer-btn');
+    if (volunteerBtn) {
+        volunteerBtn.addEventListener('click', () => {
+            const participateBtn = document.getElementById('participate-btn');
+            if (participateBtn) {
+                participateBtn.click();
+                setTimeout(() => {
+                    const volunteerCheckbox = document.querySelector('input[name="participation"][value="volunteer"]');
+                    if (volunteerCheckbox) {
+                        volunteerCheckbox.checked = true;
+                        toggleFormSections();
+                    }
+                }, 100);
+            }
+        });
+    }
+    
+    // Register stall button
+    const registerBtn = document.querySelector('.register-btn');
+    if (registerBtn) {
+        registerBtn.addEventListener('click', () => {
+            const participateBtn = document.getElementById('participate-btn');
+            if (participateBtn) {
+                participateBtn.click();
+                setTimeout(() => {
+                    const bazaarCheckbox = document.querySelector('input[name="participation"][value="bazaar"]');
+                    if (bazaarCheckbox) {
+                        bazaarCheckbox.checked = true;
+                        toggleFormSections();
+                    }
+                }, 100);
+            }
+        });
+    }
+    
+    // Donate harvest button
+    const donateHarvestBtn = document.getElementById('donate-harvest-btn');
+    if (donateHarvestBtn) {
+        donateHarvestBtn.addEventListener('click', () => {
+            const offeringsSection = document.querySelector('.harvest-offerings');
+            if (offeringsSection) {
+                offeringsSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        });
+    }
+}

@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parish Gallery - Our Lady Mother and Queen Catholic Church, Badore</title>
+    <meta
+      name="description"
+      content="Explore our parish photo gallery showcasing moments of faith, fellowship, and community life at Our Lady Mother and Queen Catholic Church, Badore."
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/liturgical-colors.css" />
+    <link rel="stylesheet" href="assets/css/gallery.css" />
+
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Lightbox CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" />
+  </head>
+
+  <body class="liturgical-theme" data-liturgical-season="">
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+      <div class="loading-logo">
+        <img
+          src="assets/img/logo.png"
+          alt="OLMQ Logo"
+          class="loading-logo-img"
+        />
+      </div>
+      <h2>OUR LADY MOTHER AND QUEEN</h2>
+      <p>"We shall do whatever your son tells us"</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <div class="current-date-display">
+            <span class="current-date">Loading date...</span>
+          </div>
+          <div class="nav-logo">
+            <img src="assets/img/logo.png" alt="OLMQ Logo" class="logo-img" />
+            <div class="logo-text">
+              <h3>OLMQ</h3>
+              <span>Badore</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-menu" id="nav-menu">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About Us</a>
+          <a href="our-faith.html" class="nav-link">Our Faith</a>
+          <a href="harvest.html" class="nav-link">Harvest Corner</a>
+          <a href="gallery.html" class="nav-link active">Gallery</a>
+          <a href="live-stream.html" class="nav-link">Live Stream</a>
+          <a href="announcements.html" class="nav-link">Ad/Announcement</a>
+        </div>
+
+        <div class="nav-toggle" id="nav-toggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header gallery-header">
+      <div class="header-background">
+        <img
+          src="https://images.unsplash.com/photo-1520637736862-4d197d17c55a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+          alt="Parish Gallery"
+          class="header-bg-img"
+        />
+        <div class="header-overlay"></div>
+      </div>
+      <div class="container">
+        <div class="header-content" data-aos="fade-up">
+          <nav class="breadcrumb">
+            <a href="index.html">Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Gallery</span>
+          </nav>
+          <h1>Parish Gallery</h1>
+          <p>Capturing moments of faith, fellowship, and community life</p>
+          <div class="header-stats">
+            <div class="stat-item">
+              <span class="stat-number" data-count="500">0</span>
+              <span class="stat-label">Photos</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-count="50">0</span>
+              <span class="stat-label">Events</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-count="12">0</span>
+              <span class="stat-label">Albums</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Controls Section -->
+    <section class="gallery-controls-section">
+      <div class="container">
+        <div class="controls-wrapper" data-aos="fade-up">
+          <!-- Search and Filter -->
+          <div class="gallery-search">
+            <div class="search-input-wrapper">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                id="gallery-search"
+                placeholder="Search photos by event, date, or description..."
+              />
+              <button class="clear-search" id="clear-search">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Buttons -->
+          <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">
+              <i class="fas fa-th"></i>
+              <span>All Photos</span>
+              <span class="filter-count">(500)</span>
+            </button>
+            <button class="filter-btn" data-filter="mass">
+              <i class="fas fa-church"></i>
+              <span>Holy Mass</span>
+              <span class="filter-count">(120)</span>
+            </button>
+            <button class="filter-btn" data-filter="sacraments">
+              <i class="fas fa-cross"></i>
+              <span>Sacraments</span>
+              <span class="filter-count">(85)</span>
+            </button>
+            <button class="filter-btn" data-filter="events">
+              <i class="fas fa-calendar-alt"></i>
+              <span>Parish Events</span>
+              <span class="filter-count">(95)</span>
+            </button>
+            <button class="filter-btn" data-filter="community">
+              <i class="fas fa-users"></i>
+              <span>Community</span>
+              <span class="filter-count">(75)</span>
+            </button>
+            <button class="filter-btn" data-filter="youth">
+              <i class="fas fa-child"></i>
+              <span>Youth Ministry</span>
+              <span class="filter-count">(60)</span>
+            </button>
+            <button class="filter-btn" data-filter="harvest">
+              <i class="fas fa-seedling"></i>
+              <span>Harvest</span>
+              <span class="filter-count">(40)</span>
+            </button>
+            <button class="filter-btn" data-filter="construction">
+              <i class="fas fa-hard-hat"></i>
+              <span>Construction</span>
+              <span class="filter-count">(25)</span>
+            </button>
+          </div>
+
+          <!-- View Options -->
+          <div class="view-options">
+            <div class="view-toggle">
+              <button class="view-btn active" data-view="grid">
+                <i class="fas fa-th"></i>
+              </button>
+              <button class="view-btn" data-view="list">
+                <i class="fas fa-list"></i>
+              </button>
+              <button class="view-btn" data-view="masonry">
+                <i class="fas fa-th-large"></i>
+              </button>
+            </div>
+            <div class="sort-options">
+              <select id="sort-gallery">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="popular">Most Popular</option>
+                <option value="alphabetical">Alphabetical</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calendar and Next Event Section -->
+    <section class="calendar-events-section">
+      <div class="container">
+        <div class="calendar-events-grid">
+          <!-- Parish Calendar -->
+          <div class="calendar-card" data-aos="fade-right">
+            <div class="card-header">
+              <div class="header-icon">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <div class="header-content">
+                <h3>Parish Calendar</h3>
+                <p>Stay updated with all parish events</p>
+              </div>
+            </div>
+            <div class="calendar-preview">
+              <div class="calendar-month">
+                <div class="month-header">
+                  <button class="nav-btn prev-month">
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+                  <h4 id="current-month">December 2024</h4>
+                  <button class="nav-btn next-month">
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                  <!-- Calendar will be populated by JavaScript -->
+                </div>
+              </div>
+              <div class="calendar-legend">
+                <div class="legend-item">
+                  <div class="legend-color mass"></div>
+                  <span>Mass</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color event"></div>
+                  <span>Events</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color sacrament"></div>
+                  <span>Sacraments</span>
+                </div>
+              </div>
+            </div>
+            <div class="calendar-actions">
+              <button class="btn btn-primary" id="download-calendar">
+                <i class="fas fa-download"></i>
+                <span>Download Calendar</span>
+              </button>
+              <button class="btn btn-secondary" id="view-full-calendar">
+                <i class="fas fa-expand"></i>
+                <span>Full Calendar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Next Event -->
+          <div class="next-event-card" data-aos="fade-left">
+            <div class="card-header">
+              <div class="header-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="header-content">
+                <h3>Next Event</h3>
+                <p>Don't miss our upcoming celebration</p>
+              </div>
+            </div>
+            <div class="event-details">
+              <div class="event-image">
+                <img
+                  src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Christmas Carol Night"
+                />
+                <div class="event-badge">
+                  <span>Upcoming</span>
+                </div>
+              </div>
+              <div class="event-info">
+                <h4>Christmas Carol Night</h4>
+                <p>Join us for an evening of beautiful Christmas carols and fellowship</p>
+                <div class="event-meta">
+                  <div class="meta-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>December 23, 2024</span>
+                  </div>
+                  <div class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>7:00 PM</span>
+                  </div>
+                  <div class="meta-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Church Hall</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="countdown-timer" id="event-countdown">
+              <div class="countdown-item">
+                <span class="countdown-number" id="days">0</span>
+                <span class="countdown-label">Days</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-number" id="hours">0</span>
+                <span class="countdown-label">Hours</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-number" id="minutes">0</span>
+                <span class="countdown-label">Minutes</span>
+              </div>
+            </div>
+            <div class="event-actions">
+              <button class="btn btn-primary" id="rsvp-event">
+                <i class="fas fa-check"></i>
+                <span>RSVP</span>
+              </button>
+              <button class="btn btn-secondary" id="add-to-calendar">
+                <i class="fas fa-calendar-plus"></i>
+                <span>Add to Calendar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Albums Section -->
+    <section class="featured-albums-section">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <h2>Featured Albums</h2>
+          <p>Explore our most recent and popular photo collections</p>
+        </div>
+
+        <div class="albums-grid">
+          <!-- Recent Album -->
+          <div class="album-card featured" data-aos="fade-up" data-aos-delay="200">
+            <div class="album-cover">
+              <img
+                src="https://images.unsplash.com/photo-1520637736862-4d197d17c55a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Christmas Preparations 2024"
+              />
+              <div class="album-overlay">
+                <div class="album-info">
+                  <h3>Christmas Preparations 2024</h3>
+                  <p>Church decoration and Christmas preparations</p>
+                  <div class="album-meta">
+                                        <span><i class="fas fa-images"></i> 45 Photos</span>
+                    <span><i class="fas fa-calendar"></i> Dec 15, 2024</span>
+                  </div>
+                </div>
+                <div class="album-actions">
+                  <button class="view-album-btn" data-album="christmas-2024">
+                    <i class="fas fa-eye"></i>
+                    <span>View Album</span>
+                  </button>
+                </div>
+              </div>
+              <div class="featured-badge">
+                <span>Latest</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Popular Album -->
+          <div class="album-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="album-cover">
+              <img
+                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Harvest Festival 2024"
+              />
+              <div class="album-overlay">
+                <div class="album-info">
+                  <h3>Harvest Festival 2024</h3>
+                  <p>Annual harvest celebration and thanksgiving</p>
+                  <div class="album-meta">
+                    <span><i class="fas fa-images"></i> 78 Photos</span>
+                    <span><i class="fas fa-calendar"></i> Nov 16, 2024</span>
+                  </div>
+                </div>
+                <div class="album-actions">
+                  <button class="view-album-btn" data-album="harvest-2024">
+                    <i class="fas fa-eye"></i>
+                    <span>View Album</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sacraments Album -->
+          <div class="album-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="album-cover">
+              <img
+                src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Baptisms & Confirmations"
+              />
+              <div class="album-overlay">
+                <div class="album-info">
+                  <h3>Baptisms & Confirmations</h3>
+                  <p>Sacred moments of faith and commitment</p>
+                  <div class="album-meta">
+                    <span><i class="fas fa-images"></i> 62 Photos</span>
+                    <span><i class="fas fa-calendar"></i> Oct 2024</span>
+                  </div>
+                </div>
+                <div class="album-actions">
+                  <button class="view-album-btn" data-album="sacraments-2024">
+                    <i class="fas fa-eye"></i>
+                    <span>View Album</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Youth Ministry Album -->
+          <div class="album-card" data-aos="fade-up" data-aos-delay="500">
+            <div class="album-cover">
+              <img
+                src="https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Youth Ministry Activities"
+              />
+              <div class="album-overlay">
+                <div class="album-info">
+                  <h3>Youth Ministry Activities</h3>
+                  <p>Young people growing in faith together</p>
+                  <div class="album-meta">
+                    <span><i class="fas fa-images"></i> 35 Photos</span>
+                    <span><i class="fas fa-calendar"></i> Sep 2024</span>
+                  </div>
+                </div>
+                <div class="album-actions">
+                  <button class="view-album-btn" data-album="youth-2024">
+                    <i class="fas fa-eye"></i>
+                    <span>View Album</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Gallery Section -->
+    <section class="main-gallery-section">
+      <div class="container">
+        <div class="gallery-header" data-aos="fade-up">
+          <h2>Photo Gallery</h2>
+          <div class="gallery-info">
+            <span class="showing-count">Showing <span id="showing-count">24</span> of <span id="total-photos">500</span> photos</span>
+          </div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid masonry-grid" id="gallery-grid">
+          <!-- Christmas Preparations -->
+          <div class="gallery-item" data-category="events" data-date="2024-12-15" data-aos="fade-up">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1520637736862-4d197d17c55a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Christmas Church Decoration"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Christmas Church Decoration</h4>
+                  <p>Preparing our sacred space for Christmas celebration</p>
+                  <span class="gallery-date">December 15, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Christmas Church Decoration">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sunday Mass -->
+          <div class="gallery-item" data-category="mass" data-date="2024-12-08" data-aos="fade-up" data-aos-delay="100">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Sunday Mass Celebration"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Sunday Mass Celebration</h4>
+                  <p>Our vibrant Sunday worship service</p>
+                  <span class="gallery-date">December 8, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Sunday Mass Celebration">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Harvest Festival -->
+          <div class="gallery-item" data-category="harvest" data-date="2024-11-16" data-aos="fade-up" data-aos-delay="200">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Harvest Festival 2024"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Harvest Festival 2024</h4>
+                  <p>Annual harvest celebration and thanksgiving</p>
+                  <span class="gallery-date">November 16, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Harvest Festival 2024">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Baptism Ceremony -->
+          <div class="gallery-item" data-category="sacraments" data-date="2024-11-10" data-aos="fade-up" data-aos-delay="300">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Baptism Ceremony"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Baptism Ceremony</h4>
+                  <p>New life in Christ through baptism</p>
+                  <span class="gallery-date">November 10, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Baptism Ceremony">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Youth Ministry -->
+          <div class="gallery-item" data-category="youth" data-date="2024-11-03" data-aos="fade-up" data-aos-delay="400">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Youth Ministry Meeting"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Youth Ministry Meeting</h4>
+                  <p>Young people growing in faith together</p>
+                  <span class="gallery-date">November 3, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Youth Ministry Meeting">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Community Outreach -->
+          <div class="gallery-item" data-category="community" data-date="2024-10-28" data-aos="fade-up" data-aos-delay="500">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Community Outreach Program"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Community Outreach Program</h4>
+                  <p>Serving our local community with love</p>
+                  <span class="gallery-date">October 28, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Community Outreach Program">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- First Holy Communion -->
+          <div class="gallery-item" data-category="sacraments" data-date="2024-10-20" data-aos="fade-up" data-aos-delay="600">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="First Holy Communion"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>First Holy Communion</h4>
+                  <p>Children receiving Jesus for the first time</p>
+                  <span class="gallery-date">October 20, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="First Holy Communion">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Church Construction -->
+          <div class="gallery-item" data-category="construction" data-date="2024-10-15" data-aos="fade-up" data-aos-delay="700">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                alt="Church Renovation Progress"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Church Renovation Progress</h4>
+                  <p>Restoration work on our sacred space</p>
+                  <span class="gallery-date">October 15, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Church Renovation Progress">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parish Feast Day -->
+          <div class="gallery-item" data-category="events" data-date="2024-10-07" data-aos="fade-up" data-aos-delay="800">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1464207687429-7505649dae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Parish Feast Day Celebration"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Parish Feast Day Celebration</h4>
+                  <p>Honoring Our Lady Mother and Queen</p>
+                  <span class="gallery-date">October 7, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Parish Feast Day Celebration">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wedding Ceremony -->
+          <div class="gallery-item" data-category="sacraments" data-date="2024-09-28" data-aos="fade-up" data-aos-delay="900">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Wedding Ceremony"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Wedding Ceremony</h4>
+                  <p>Celebrating the sacrament of marriage</p>
+                  <span class="gallery-date">September 28, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Wedding Ceremony">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bible Study Group -->
+          <div class="gallery-item" data-category="community" data-date="2024-09-25" data-aos="fade-up" data-aos-delay="1000">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Bible Study Group"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Bible Study Group</h4>
+                  <p>Growing in knowledge of God's Word</p>
+                  <span class="gallery-date">September 25, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Bible Study Group">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Children's Harvest -->
+          <div class="gallery-item" data-category="harvest" data-date="2024-08-24" data-aos="fade-up" data-aos-delay="1100">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1544776527-0b6b7b1b3e0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                alt="Children's Harvest Celebration"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Children's Harvest Celebration</h4>
+                  <p>Young ones celebrating God's blessings</p>
+                  <span class="gallery-date">August 24, 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button class="gallery-btn view-btn" data-lightbox="gallery" data-title="Children's Harvest Celebration">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn download-btn">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="gallery-load-more" data-aos="fade-up">
+          <button class="load-more-btn" id="load-more-gallery">
+            <i class="fas fa-plus"></i>
+            <span>Load More Photos</span>
+            <div class="btn-loader" style="display: none;">
+              <div class="spinner"></div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section class="upload-section">
+      <div class="container">
+        <div class="upload-card" data-aos="fade-up">
+          <div class="upload-content">
+            <div class="upload-icon">
+              <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3>Share Your Photos</h3>
+            <p>Have photos from parish events? Share them with our community and help us preserve our memories!</p>
+            <div class="upload-features">
+              <div class="feature-item">
+                <i class="fas fa-check"></i>
+                <span>Easy upload process</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-check"></i>
+                <span>Multiple file formats supported</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-check"></i>
+                <span>Photos reviewed before publishing</span>
+              </div>
+            </div>
+            <div class="upload-actions">
+              <button class="btn btn-primary" id="upload-photos-btn">
+                <i class="fas fa-camera"></i>
+                <span>Upload Photos</span>
+              </button>
+              <button class="btn btn-secondary" id="upload-guidelines-btn">
+                <i class="fas fa-info-circle"></i>
+                <span>Upload Guidelines</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer-section">
+      <div class="container">
+        <!-- Main Footer Content -->
+        <div class="footer-content">
+          <!-- Church Information -->
+          <div class="footer-column church-info">
+            <div class="footer-logo">
+              <img src="assets/img/logo.png" alt="OLMQ Logo" class="footer-logo-img" />
+              <div class="footer-church-name">
+                <h3>Our Lady Mother and Queen</h3>
+                <p>Catholic Church, Badore</p>
+                <span class="footer-motto">"We shall do whatever your son tells us"</span>
+              </div>
+            </div>
+            <p class="church-description">
+              A vibrant Catholic community in the heart of Badore, dedicated to 
+              worship, service, and fellowship. Join us as we grow together in faith 
+              and love under the guidance of Our Lady Mother and Queen.
+            </p>
+            <div class="contact-info">
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Badore, Ajah, Lagos State, Nigeria</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>+234 (0) 801 234 5678</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>info@olmqbadore.org</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="footer-column quick-links">
+            <h4>Quick Links</h4>
+            <div class="links-grid">
+              <div class="links-column">
+                <a href="index.html" class="footer-link">
+                  <i class="fas fa-home"></i>
+                  <span>Home</span>
+                </a>
+                <a href="about.html" class="footer-link">
+                  <i class="fas fa-info-circle"></i>
+                  <span>About Our Parish</span>
+                </a>
+                <a href="our-faith.html" class="footer-link">
+                  <i class="fas fa-book-open"></i>
+                  <span>Our Faith & Teachings</span>
+                </a>
+                <a href="harvest.html" class="footer-link">
+                  <i class="fas fa-seedling"></i>
+                  <span>Harvest Corner</span>
+                </a>
+              </div>
+              <div class="links-column">
+                <a href="gallery.html" class="footer-link active">
+                  <i class="fas fa-images"></i>
+                  <span>Photo Gallery</span>
+                </a>
+                <a href="live-stream.html" class="footer-link">
+                  <i class="fas fa-video"></i>
+                  <span>Live Streaming</span>
+                </a>
+                <a href="announcements.html" class="footer-link">
+                  <i class="fas fa-bullhorn"></i>
+                  <span>Announcements</span>
+                </a>
+                <a href="events.html" class="footer-link">
+                  <i class="fas fa-calendar-alt"></i>
+                  <span>Upcoming Events</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Links -->
+          <div class="footer-column gallery-links">
+            <h4>Gallery Categories</h4>
+            <div class="category-links">
+              <a href="#" class="footer-link" data-filter="mass">
+                <i class="fas fa-church"></i>
+                <span>Holy Mass</span>
+              </a>
+              <a href="#" class="footer-link" data-filter="sacraments">
+                <i class="fas fa-cross"></i>
+                <span>Sacraments</span>
+              </a>
+              <a href="#" class="footer-link" data-filter="events">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Parish Events</span>
+              </a>
+              <a href="#" class="footer-link" data-filter="community">
+                <i class="fas fa-users"></i>
+                <span>Community</span>
+              </a>
+              <a href="#" class="footer-link" data-filter="youth">
+                <i class="fas fa-child"></i>
+                <span>Youth Ministry</span>
+              </a>
+              <a href="#" class="footer-link" data-filter="harvest">
+                <i class="fas fa-seedling"></i>
+                <span>Harvest</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Connect With Us -->
+          <div class="footer-column connect">
+            <h4>Connect With Us</h4>
+            <div class="social-media">
+              <a href="https://facebook.com/olmqbadore" target="_blank" class="social-link facebook">
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+              </a>
+              <a href="https://instagram.com/olmqbadore" target="_blank" class="social-link instagram">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+              </a>
+              <a href="https://youtube.com/olmqbadore" target="_blank" class="social-link youtube">
+                <i class="fab fa-youtube"></i>
+                <span>YouTube</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+          <div class="footer-bottom-content">
+            <div class="copyright">
+              <p>&copy; 2025 Our Lady Mother and Queen Catholic Church, Badore. All rights reserved.</p>
+              <p>Archdiocese of Lagos | Catholic Church</p>
+            </div>
+            <div class="developed-by">
+              <p>Developed with ❤️ by <a href="darlculus.dev">Darlculus</a> for the Glory of God</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Background Elements -->
+      <div class="footer-bg-elements">
+        <div class="floating-cross footer-cross"></div>
+        <div class="floating-dove footer-dove"></div>
+        <div class="floating-heart footer-heart"></div>
+      </div>
+    </footer>
+
+    <!-- Modals -->
+    
+    <!-- Photo Upload Modal -->
+    <div id="photo-upload-modal" class="upload-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Upload Photos</h3>
+                    <p class="modal-subtitle">Share your parish memories with our community</p>
+          <button class="close-modal" id="close-upload-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="photo-upload-form" enctype="multipart/form-data">
+            <div class="upload-zone" id="photo-drop-zone">
+              <div class="upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+              </div>
+              <h4>Drag & Drop Photos Here</h4>
+              <p>or click to browse files</p>
+              <input type="file" id="photo-files" multiple accept="image/*" />
+              <div class="upload-info">
+                <small>Supported formats: JPG, PNG, GIF | Max size: 5MB per file</small>
+              </div>
+            </div>
+
+            <div class="upload-preview" id="upload-preview" style="display: none;">
+              <h4>Selected Photos</h4>
+              <div class="preview-grid" id="preview-grid">
+                <!-- Preview items will be added here -->
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-group">
+                <label for="upload-event">Event/Category *</label>
+                <select id="upload-event" required>
+                  <option value="">Select event category</option>
+                  <option value="mass">Holy Mass</option>
+                  <option value="sacraments">Sacraments</option>
+                  <option value="events">Parish Events</option>
+                  <option value="community">Community Activities</option>
+                  <option value="youth">Youth Ministry</option>
+                  <option value="harvest">Harvest</option>
+                  <option value="construction">Construction/Renovation</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="upload-date">Event Date *</label>
+                <input type="date" id="upload-date" required />
+              </div>
+
+              <div class="form-group">
+                <label for="upload-description">Description</label>
+                <textarea
+                  id="upload-description"
+                  rows="3"
+                  placeholder="Brief description of the event or photos..."
+                ></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="uploader-name">Your Name *</label>
+                <input type="text" id="uploader-name" required />
+              </div>
+
+              <div class="form-group">
+                <label for="uploader-email">Your Email *</label>
+                <input type="email" id="uploader-email" required />
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="upload-consent" required />
+                  <span class="checkmark"></span>
+                  I consent to these photos being published on the parish website and social media
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="upload-credit" />
+                  <span class="checkmark"></span>
+                  Credit me as the photographer
+                </label>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" id="cancel-upload">
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-upload"></i>
+                <span>Upload Photos</span>
+                <div class="btn-loader" style="display: none;">
+                  <div class="spinner"></div>
+                </div>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Guidelines Modal -->
+    <div id="upload-guidelines-modal" class="guidelines-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Photo Upload Guidelines</h3>
+          <button class="close-modal" id="close-guidelines-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="guidelines-content">
+            <div class="guideline-section">
+              <h4><i class="fas fa-check-circle"></i> What to Upload</h4>
+              <ul>
+                <li>Photos from parish events, masses, and celebrations</li>
+                <li>Community activities and fellowship moments</li>
+                <li>Sacramental ceremonies (baptisms, weddings, confirmations)</li>
+                <li>Youth ministry and children's activities</li>
+                <li>Construction and renovation progress</li>
+                <li>Harvest celebrations and special occasions</li>
+              </ul>
+            </div>
+
+            <div class="guideline-section">
+              <h4><i class="fas fa-times-circle"></i> What Not to Upload</h4>
+              <ul>
+                <li>Blurry, dark, or poor quality images</li>
+                <li>Photos without proper consent from subjects</li>
+                <li>Images that don't relate to parish activities</li>
+                <li>Copyrighted material or stock photos</li>
+                <li>Inappropriate or offensive content</li>
+              </ul>
+            </div>
+
+            <div class="guideline-section">
+              <h4><i class="fas fa-cog"></i> Technical Requirements</h4>
+              <ul>
+                <li>File formats: JPG, PNG, GIF</li>
+                <li>Maximum file size: 5MB per image</li>
+                <li>Minimum resolution: 800x600 pixels</li>
+                <li>Maximum of 10 photos per upload session</li>
+              </ul>
+            </div>
+
+            <div class="guideline-section">
+              <h4><i class="fas fa-shield-alt"></i> Privacy & Consent</h4>
+              <ul>
+                <li>Ensure you have permission to photograph people</li>
+                <li>Be mindful of children's privacy</li>
+                <li>Respect those who prefer not to be photographed</li>
+                <li>All uploads are reviewed before publication</li>
+              </ul>
+            </div>
+
+            <div class="review-process">
+              <h4><i class="fas fa-eye"></i> Review Process</h4>
+              <p>
+                All uploaded photos go through a review process by our parish media team. 
+                This typically takes 1-3 business days. You'll receive an email notification 
+                once your photos are approved and published.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="understood-guidelines">
+            <i class="fas fa-check"></i>
+            <span>I Understand</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RSVP Modal -->
+    <div id="rsvp-modal" class="rsvp-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>RSVP for Christmas Carol Night</h3>
+          <p class="modal-subtitle">December 23, 2024 at 7:00 PM</p>
+          <button class="close-modal" id="close-rsvp-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="rsvp-form">
+            <div class="form-group">
+              <label for="rsvp-name">Full Name *</label>
+              <input type="text" id="rsvp-name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="rsvp-email">Email Address *</label>
+              <input type="email" id="rsvp-email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="rsvp-phone">Phone Number</label>
+              <input type="tel" id="rsvp-phone" />
+            </div>
+
+            <div class="form-group">
+              <label for="rsvp-guests">Number of Guests</label>
+              <select id="rsvp-guests">
+                <option value="0">Just me</option>
+                <option value="1">1 guest</option>
+                <option value="2">2 guests</option>
+                <option value="3">3 guests</option>
+                <option value="4">4 guests</option>
+                <option value="5">5+ guests</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="rsvp-participation">How would you like to participate?</label>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="participation" value="attend" />
+                  <span class="checkmark"></span>
+                  Attend as audience
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="participation" value="perform" />
+                  <span class="checkmark"></span>
+                  Perform/sing carols
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="participation" value="volunteer" />
+                  <span class="checkmark"></span>
+                  Volunteer to help
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="rsvp-comments">Special Requests/Comments</label>
+              <textarea
+                id="rsvp-comments"
+                rows="3"
+                placeholder="Any special needs or comments..."
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" id="cancel-rsvp">
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-check"></i>
+                <span>Confirm RSVP</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Calendar Modal -->
+    <div id="full-calendar-modal" class="calendar-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Parish Calendar 2025</h3>
+          <button class="close-modal" id="close-calendar-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="calendar-view">
+            <div class="calendar-controls">
+              <button class="nav-btn" id="prev-year">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <h4 id="calendar-year">2025</h4>
+              <button class="nav-btn" id="next-year">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+            <div class="months-grid" id="months-grid">
+              <!-- Months will be populated by JavaScript -->
+            </div>
+          </div>
+          <div class="calendar-events-list">
+            <h4>Upcoming Events</h4>
+            <div class="events-list" id="calendar-events-list">
+              <div class="event-item">
+                <div class="event-date">
+                  <span class="date">23</span>
+                  <span class="month">Dec</span>
+                </div>
+                <div class="event-info">
+                  <h5>Christmas Carol Night</h5>
+                  <p>7:00 PM - Church Hall</p>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date">
+                  <span class="date">24</span>
+                  <span class="month">Dec</span>
+                </div>
+                <div class="event-info">
+                  <h5>Christmas Eve Mass</h5>
+                  <p>11:30 PM - Main Church</p>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date">
+                  <span class="date">25</span>
+                  <span class="month">Dec</span>
+                </div>
+                <div class="event-info">
+                  <h5>Christmas Day Masses</h5>
+                  <p>7:00 AM, 9:00 AM, 11:00 AM</p>
+                </div>
+              </div>
+              <div class="event-item">
+                <div class="event-date">
+                  <span class="date">31</span>
+                  <span class="month">Dec</span>
+                </div>
+                <div class="event-info">
+                  <h5>New Year's Eve Service</h5>
+                  <p>11:00 PM - Thanksgiving Mass</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="download-calendar-pdf">
+            <i class="fas fa-download"></i>
+            <span>Download PDF</span>
+          </button>
+          <button class="btn btn-primary" id="subscribe-calendar">
+            <i class="fas fa-calendar-plus"></i>
+            <span>Subscribe to Calendar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/gallery.js"></script>
+  </body>
+</html>
+
+

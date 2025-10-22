@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Faith - Our Lady Mother and Queen Catholic Church, Badore</title>
+    <meta
+      name="description"
+      content="Explore the Catholic faith through daily readings, teachings, prayers, and spiritual resources at Our Lady Mother and Queen Catholic Church, Badore."
+    />
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/our-faith.css" />
+    <link rel="stylesheet" href="assets/css/liturgical-colors.css" />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  </head>
+  <body class="liturgical-theme" data-liturgical-season="">
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Navigation (Updated to match other pages) -->
+    <nav id="navbar" class="navbar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <div class="current-date-display">
+            <span class="current-date">Loading date...</span>
+          </div>
+          <div class="nav-logo">
+            <img src="assets/img/logo.png" alt="OLMQ Logo" class="logo-img" />
+            <div class="logo-text">
+              <h3>OLMQ</h3>
+              <span>Badore</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-menu" id="nav-menu">
+          <a href="index.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span>Back to Home</span>
+          </a>
+          <a href="about.html" class="nav-link">
+            <i class="fas fa-info-circle"></i>
+            <span>About Us</span>
+          </a>
+          <a href="parish-office.html" class="nav-link">
+            <i class="fas fa-building"></i>
+            <span>Parish Office</span>
+          </a>
+          <a href="index.html#contact" class="nav-link">
+            <i class="fas fa-envelope"></i>
+            <span>Contact Us</span>
+          </a>
+        </div>
+
+        <div class="nav-toggle" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="faith-hero">
+      <div class="hero-background">
+        <div class="hero-overlay"></div>
+        <img
+          src="https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+          alt="Catholic Faith"
+          class="hero-bg-img"
+        />
+      </div>
+
+      <div class="hero-content">
+        <div class="container">
+          <!-- Breadcrumb -->
+          <nav class="breadcrumb" data-aos="fade-up">
+            <a href="index.html">
+              <i class="fas fa-home"></i>
+              <span>Home</span>
+            </a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Our Faith</span>
+          </nav>
+
+          <!-- Hero Title -->
+          <div class="hero-title" data-aos="fade-up" data-aos-delay="200">
+            <h1>Our Catholic Faith</h1>
+            <p class="hero-subtitle">
+              "Your word is a lamp to my feet and a light to my path" - Psalm
+              119:105
+            </p>
+            <div class="faith-pillars">
+              <div class="pillar-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="pillar-icon">
+                  <i class="fas fa-book-open"></i>
+                </div>
+                <span>Scripture</span>
+              </div>
+              <div class="pillar-item" data-aos="fade-up" data-aos-delay="500">
+                <div class="pillar-icon">
+                  <i class="fas fa-church"></i>
+                </div>
+                <span>Tradition</span>
+              </div>
+              <div class="pillar-item" data-aos="fade-up" data-aos-delay="600">
+                <div class="pillar-icon">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span>Magisterium</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="800">
+        <div class="scroll-text">Explore Our Faith</div>
+        <div class="scroll-arrow">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main id="main-content">
+      <!-- Daily Readings Section -->
+      <section id="daily-readings" class="readings-section">
+        <div class="container">
+          <!-- Section Header -->
+          <div class="section-header" data-aos="fade-up">
+            <span class="section-subtitle">God's Word Today</span>
+            <h2>Daily Readings</h2>
+            <p>Nourish your soul with today's sacred scripture</p>
+          </div>
+
+          <!-- Liturgical Info Bar -->
+          <div class="liturgical-info" data-aos="fade-up" data-aos-delay="200">
+            <div class="liturgical-season">
+              <div class="season-icon">
+                <i class="fas fa-leaf" id="season-icon"></i>
+              </div>
+              <div class="season-details">
+                <h3 id="liturgical-season">Ordinary Time</h3>
+                <p id="liturgical-week">Week 1</p>
+              </div>
+            </div>
+            <div class="liturgical-date">
+              <div class="date-display">
+                <span id="liturgical-date"></span>
+                <span id="liturgical-day"></span>
+              </div>
+            </div>
+            <div class="liturgical-color">
+              <div
+                class="color-indicator"
+                id="liturgical-color-indicator"
+              ></div>
+              <span id="liturgical-color-name">Green</span>
+            </div>
+          </div>
+
+          <!-- Readings Grid -->
+          <div class="readings-grid">
+            <!-- First Reading -->
+            <div
+              class="reading-card first-reading"
+              data-aos="fade-up"
+              data-aos-delay="300"
+            >
+              <div class="reading-header">
+                <div class="reading-icon">
+                  <i class="fas fa-scroll"></i>
+                </div>
+                <div class="reading-title">
+                  <h3>First Reading</h3>
+                  <p id="first-reading-reference">Loading...</p>
+                </div>
+                <div class="reading-controls">
+                  <button class="audio-btn" data-reading="first">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <button class="expand-btn" data-reading="first">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="reading-content">
+                <div class="reading-text" id="first-reading-text">
+                  Loading today's first reading...
+                </div>
+                <div class="reading-footer">
+                  <span class="reading-end">The word of the Lord.</span>
+                  <span class="reading-response">Thanks be to God.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Responsorial Psalm -->
+            <div
+              class="reading-card psalm"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <div class="reading-header">
+                <div class="reading-icon">
+                  <i class="fas fa-music"></i>
+                </div>
+                <div class="reading-title">
+                  <h3>Responsorial Psalm</h3>
+                  <p id="psalm-reference">Loading...</p>
+                </div>
+                <div class="reading-controls">
+                  <button class="audio-btn" data-reading="psalm">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <button class="expand-btn" data-reading="psalm">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="reading-content">
+                <div class="psalm-response" id="psalm-response">
+                  Loading psalm response...
+                </div>
+                <div class="reading-text" id="psalm-text">
+                  Loading today's psalm...
+                </div>
+              </div>
+            </div>
+
+            <!-- Second Reading -->
+            <div
+              class="reading-card second-reading"
+              data-aos="fade-up"
+              data-aos-delay="500"
+            >
+              <div class="reading-header">
+                <div class="reading-icon">
+                  <i class="fas fa-book-open"></i>
+                </div>
+                <div class="reading-title">
+                  <h3>Second Reading</h3>
+                  <p id="second-reading-reference">Loading...</p>
+                </div>
+                <div class="reading-controls">
+                  <button class="audio-btn" data-reading="second">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <button class="expand-btn" data-reading="second">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="reading-content">
+                <div class="reading-text" id="second-reading-text">
+                  Loading today's second reading...
+                </div>
+                <div class="reading-footer">
+                  <span class="reading-end">The word of the Lord.</span>
+                  <span class="reading-response">Thanks be to God.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gospel -->
+            <div
+              class="reading-card gospel"
+              data-aos="fade-up"
+              data-aos-delay="600"
+            >
+              <div class="reading-header">
+                <div class="reading-icon">
+                  <i class="fas fa-cross"></i>
+                </div>
+                <div class="reading-title">
+                  <h3>Gospel</h3>
+                  <p id="gospel-reference">Loading...</p>
+                </div>
+                <div class="reading-controls">
+                  <button class="audio-btn" data-reading="gospel">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <button class="expand-btn" data-reading="gospel">
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="reading-content">
+                <div class="gospel-acclamation">
+                  <p><strong>Alleluia, Alleluia!</strong></p>
+                  <p id="gospel-acclamation-text">Loading...</p>
+                  <p><strong>Alleluia!</strong></p>
+                </div>
+                <div class="reading-text" id="gospel-text">
+                  Loading today's Gospel...
+                </div>
+                <div class="reading-footer">
+                  <span class="reading-end">The Gospel of the Lord.</span>
+                  <span class="reading-response"
+                    >Praise to you, Lord Jesus Christ.</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reflection Section -->
+          <div
+            class="reflection-section"
+            data-aos="fade-up"
+            data-aos-delay="700"
+          >
+            <div class="reflection-card">
+              <div class="reflection-header">
+                <div class="reflection-icon">
+                  <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>Today's Reflection</h3>
+              </div>
+              <div class="reflection-content">
+                <p id="daily-reflection">Loading today's reflection...</p>
+                <div class="reflection-author">
+                  <span>— Parish Reflection</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="readings-actions" data-aos="fade-up" data-aos-delay="800">
+            <button class="action-btn primary-btn" id="read-all-btn">
+              <i class="fas fa-book-reader"></i>
+              <span>Read All Readings</span>
+            </button>
+            <button class="action-btn secondary-btn" id="download-readings-btn">
+              <i class="fas fa-download"></i>
+              <span>Download PDF</span>
+            </button>
+            <button class="action-btn tertiary-btn" id="share-readings-btn">
+              <i class="fas fa-share-alt"></i>
+              <span>Share Readings</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Know Your Faith Section -->
+      <section id="know-your-faith" class="faith-education-section">
+        <div class="container">
+          <!-- Section Header -->
+          <div class="section-header" data-aos="fade-up">
+            <span class="section-subtitle">Catholic Education</span>
+            <h2>Know Your Faith</h2>
+            <p>
+              Deepen your understanding of Catholic teachings and traditions
+            </p>
+          </div>
+
+          <!-- Faith Categories -->
+          <div class="faith-categories" data-aos="fade-up" data-aos-delay="200">
+            <div class="category-filters">
+              <button class="filter-btn active" data-category="all">
+                <i class="fas fa-th"></i>
+                <span>All Topics</span>
+              </button>
+              <button class="filter-btn" data-category="basics">
+                <i class="fas fa-seedling"></i>
+                <span>Faith Basics</span>
+              </button>
+              <button class="filter-btn" data-category="sacraments">
+                <i class="fas fa-hands-praying"></i>
+                <span>Sacraments</span>
+              </button>
+              <button class="filter-btn" data-category="prayers">
+                <i class="fas fa-rosary"></i>
+                <span>Prayers</span>
+              </button>
+              <button class="filter-btn" data-category="saints">
+                <i class="fas fa-star"></i>
+                <span>Saints</span>
+              </button>
+              <button class="filter-btn" data-category="liturgy">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Liturgy</span>
+              </button>
+              <button class="filter-btn" data-category="doctrine">
+                <i class="fas fa-book"></i>
+                <span>Doctrine</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Faith Topics Grid -->
+          <div class="faith-topics-grid">
+            <!-- Faith Basics -->
+            <div
+              class="faith-topic-card basics"
+              data-aos="fade-up"
+              data-aos-delay="300"
+            >
+              <div class="topic-image">
+                <img
+                  src="https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Trinity"
+                  class="topic-img"
+                />
+                <div class="topic-overlay">
+                  <div class="topic-icon">
+                    <i class="fas fa-infinity"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="topic-content">
+                <div class="topic-category">Faith Basics</div>
+                <h3>The Holy Trinity</h3>
+                <p>
+                  Understanding the mystery of the Father, Son, and Holy Spirit
+                  - three persons in one God.
+                </p>
+                <div class="topic-meta">
+                  <span class="reading-time">
+                    <i class="fas fa-clock"></i>
+                    5 min read
+                  </span>
+                  <span class="difficulty">
+                    <i class="fas fa-star"></i>
+                    Beginner
+                  </span>
+                </div>
+                <button class="topic-btn" onclick="openFaithModal('trinity')">
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Sacraments -->
+            <div
+              class="faith-topic-card sacraments"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <div class="topic-image">
+                <img
+                  src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Baptism"
+                  class="topic-img"
+                />
+                <div class="topic-overlay">
+                  <div class="topic-icon">
+                    <i class="fas fa-water"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="topic-content">
+                <div class="topic-category">Sacraments</div>
+                <h3>The Seven Sacraments</h3>
+                <p>
+                  Explore the seven sacred signs instituted by Christ to give
+                  grace to the faithful.
+                </p>
+                <div class="topic-meta">
+                  <span class="reading-time">
+                    <i class="fas fa-clock"></i>
+                    8 min read
+                  </span>
+                  <span class="difficulty">
+                    <i class="fas fa-star"></i>
+                    Intermediate
+                  </span>
+                </div>
+                <button
+                  class="topic-btn"
+                  onclick="openFaithModal('sacraments')"
+                >
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Prayers -->
+            <div
+              class="faith-topic-card prayers"
+              data-aos="fade-up"
+              data-aos-delay="500"
+            >
+              <div class="topic-image">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Prayer"
+                  class="topic-img"
+                />
+                <div class="topic-overlay">
+                  <div class="topic-icon">
+                    <i class="fas fa-praying-hands"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="topic-content">
+                <div class="topic-category">Prayers</div>
+                <h3>Essential Catholic Prayers</h3>
+                <p>
+                  Learn the fundamental prayers every Catholic should know, from
+                  the Our Father to the Rosary.
+                </p>
+                <div class="topic-meta">
+                  <span class="reading-time">
+                    <i class="fas fa-clock"></i>
+                    6 min read
+                  </span>
+                  <span class="difficulty">
+                    <i class="fas fa-star"></i>
+                    Beginner
+                  </span>
+                </div>
+                <button class="topic-btn" onclick="openFaithModal('prayers')">
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Saints -->
+            <div
+              class="faith-topic-card saints"
+              data-aos="fade-up"
+              data-aos-delay="600"
+            >
+              <div class="topic-image">
+                <img
+                  src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Saints"
+                  class="topic-img"
+                />
+                <div class="topic-overlay">
+                  <div class="topic-icon">
+                    <i class="fas fa-crown"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="topic-content">
+                <div class="topic-category">Saints</div>
+                <h3>Saints and Their Lives</h3>
+                <p>
+                  Discover the inspiring stories of Catholic saints and how they
+                  can guide our spiritual journey.
+                </p>
+                <div class="topic-meta">
+                  <span class="reading-time">
+                    <i class="fas fa-clock"></i>
+                    7 min read
+                  </span>
+                  <span class="difficulty">
+                    <i class="fas fa-star"></i>
+                    Beginner
+                  </span>
+                </div>
+                <button class="topic-btn" onclick="openFaithModal('saints')">
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Liturgy -->
+            <div
+              class="faith-topic-card liturgy"
+              data-aos="fade-up"
+              data-aos-delay="700"
+            >
+              <div class="topic-image">
+                <img
+                  src="https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Mass"
+                  class="topic-img"
+                />
+                <div class="topic-overlay">
+                  <div class="topic-icon">
+                    <i class="fas fa-church"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="topic-content">
+                <div class="topic-category">Liturgy</div>
+                <h3>Understanding the Mass</h3>
+                <p>
+                  A comprehensive guide to the parts of the Mass and their
+                  spiritual significance.
+                </p>
+                <div class="topic-meta">
+                  <span class="reading-time">
+                    <i class="fas fa-clock"></i>
+                    10 min read
+                  </span>
+                  <span class="difficulty">
+                    <i class="fas fa-star"></i>
+                    Intermediate
+                  </span>
+                </div>
+                <button class="topic-btn" onclick="openFaithModal('mass')">
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Doctrine -->
+            <div
+              class="faith-topic-card doctrine"
+              data-aos="fade-up"
+              data-aos-delay="800"
+            >
+              <div class="topic-image">
+                <img
+                  src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Bible"
+                  class="topic-img"
+                />
+                <div class="topic-overlay">
+                  <div class="topic-icon">
+                    <i class="fas fa-scroll"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="topic-content">
+                <div class="topic-category">Doctrine</div>
+                <h3>Catholic Social Teaching</h3>
+                <p>
+                  Learn about the Church's teachings on social justice, human
+                  dignity, and care for creation.
+                </p>
+                <div class="topic-meta">
+                  <span class="reading-time">
+                    <i class="fas fa-clock"></i>
+                    12 min read
+                  </span>
+                  <span class="difficulty">
+                    <i class="fas fa-star"></i>
+                    Advanced
+                  </span>
+                </div>
+                <button
+                  class="topic-btn"
+                  onclick="openFaithModal('social-teaching')"
+                >
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- More Faith Topics -->
+            <div
+              class="faith-topic-card basics"
+              data-aos="fade-up"
+              data-aos-delay="900"
+            >
+              <div class="topic-image">
+                <img
+                  src="https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Ten Commandments"
+                  class="topic-img"
+                />
+                <div class="topic-overlay">
+                  <div class="topic-icon">
+                    <i class="fas fa-tablets"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="topic-content">
+                <div class="topic-category">Faith Basics</div>
+                <h3>The Ten Commandments</h3>
+                <p>
+                  Understanding God's fundamental laws and how they guide
+                  Christian living today.
+                </p>
+                <div class="topic-meta">
+                  <span class="reading-time">
+                    <i class="fas fa-clock"></i>
+                    6 min read
+                  </span>
+                  <span class="difficulty">
+                    <i class="fas fa-star"></i>
+                    Beginner
+                  </span>
+                </div>
+                <button
+                  class="topic-btn"
+                  onclick="openFaithModal('commandments')"
+                >
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="faith-topic-card prayers"
+              data-aos="fade-up"
+              data-aos-delay="1000"
+            >
+              <div class="topic-image">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Rosary"
+                  class="topic-img"
+                />
+                <div class="topic-overlay">
+                  <div class="topic-icon">
+                    <i class="fas fa-rosary"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="topic-content">
+                <div class="topic-category">Prayers</div>
+                <h3>How to Pray the Rosary</h3>
+                <p>
+                  A step-by-step guide to this beloved Marian devotion and its
+                  mysteries.
+                </p>
+                <div class="topic-meta">
+                  <span class="reading-time">
+                    <i class="fas fa-clock"></i>
+                    8 min read
+                  </span>
+                  <span class="difficulty">
+                    <i class="fas fa-star"></i>
+                    Beginner
+                  </span>
+                </div>
+                <button class="topic-btn" onclick="openFaithModal('rosary')">
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="faith-topic-card liturgy"
+              data-aos="fade-up"
+              data-aos-delay="1100"
+            >
+              <div class="topic-image">
+                <img
+                  src="https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Liturgical Year"
+                  class="topic-img"
+                />
+                <div class="topic-overlay">
+                  <div class="topic-icon">
+                    <i class="fas fa-calendar-week"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="topic-content">
+                <div class="topic-category">Liturgy</div>
+                <h3>The Liturgical Year</h3>
+                <p>
+                  Journey through the Church's calendar from Advent to Ordinary
+                  Time and understand each season.
+                </p>
+                <div class="topic-meta">
+                  <span class="reading-time">
+                    <i class="fas fa-clock"></i>
+                    9 min read
+                  </span>
+                  <span class="difficulty">
+                    <i class="fas fa-star"></i>
+                    Intermediate
+                  </span>
+                </div>
+                <button
+                  class="topic-btn"
+                  onclick="openFaithModal('liturgical-year')"
+                >
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Load More Button -->
+          <div
+            class="load-more-section"
+            data-aos="fade-up"
+            data-aos-delay="1200"
+          >
+            <button class="load-more-btn" id="load-more-topics">
+              <i class="fas fa-plus"></i>
+              <span>Load More Topics</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Resources Section -->
+      <section class="featured-resources-section">
+        <div class="container">
+          <div class="section-header" data-aos="fade-up">
+            <span class="section-subtitle">Spiritual Resources</span>
+            <h2>Featured Faith Resources</h2>
+            <p>Essential tools and materials for your spiritual journey</p>
+          </div>
+
+          <div class="resources-grid">
+            <!-- Catechism -->
+            <div class="resource-card" data-aos="fade-up" data-aos-delay="200">
+              <div class="resource-icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="resource-content">
+                <h3>Catechism of the Catholic Church</h3>
+                <p>
+                  The official teaching of the Catholic Church, containing the
+                  fundamental beliefs and practices.
+                </p>
+                <div class="resource-links">
+                  <a href="#" class="resource-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Read Online</span>
+                  </a>
+                  <a href="#" class="resource-link">
+                    <i class="fas fa-download"></i>
+                    <span>Download PDF</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bible -->
+            <div class="resource-card" data-aos="fade-up" data-aos-delay="300">
+              <div class="resource-icon">
+                <i class="fas fa-bible"></i>
+              </div>
+              <div class="resource-content">
+                <h3>Catholic Bible Online</h3>
+                <p>
+                  Access the complete Catholic Bible with commentary and study
+                  notes for deeper understanding.
+                </p>
+                <div class="resource-links">
+                  <a href="#" class="resource-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Read Bible</span>
+                  </a>
+                  <a href="#" class="resource-link">
+                    <i class="fas fa-search"></i>
+                    <span>Bible Search</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prayer Book -->
+            <div class="resource-card" data-aos="fade-up" data-aos-delay="400">
+              <div class="resource-icon">
+                <i class="fas fa-hands-praying"></i>
+              </div>
+              <div class="resource-content">
+                <h3>Catholic Prayer Book</h3>
+                <p>
+                  A collection of traditional and contemporary Catholic prayers
+                  for every occasion and need.
+                </p>
+                <div class="resource-links">
+                  <a href="#" class="resource-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>View Prayers</span>
+                  </a>
+                  <a href="#" class="resource-link">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Mobile App</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Saints Guide -->
+            <div class="resource-card" data-aos="fade-up" data-aos-delay="500">
+              <div class="resource-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="resource-content">
+                <h3>Lives of the Saints</h3>
+                <p>
+                  Discover the inspiring stories and feast days of Catholic
+                  saints throughout the year.
+                </p>
+                <div class="resource-links">
+                  <a href="#" class="resource-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Browse Saints</span>
+                  </a>
+                  <a href="#" class="resource-link">
+                    <i class="fas fa-calendar"></i>
+                    <span>Saint Calendar</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Faith Formation Programs -->
+      <section class="faith-formation-section">
+        <div class="container">
+          <div class="section-header" data-aos="fade-up">
+            <span class="section-subtitle">Grow in Faith</span>
+            <h2>Faith Formation Programs</h2>
+            <p>Join our community programs to deepen your Catholic faith</p>
+          </div>
+
+          <div class="programs-grid">
+            <!-- RCIA -->
+            <div class="program-card" data-aos="fade-up" data-aos-delay="200">
+              <div class="program-header">
+                <div class="program-icon">
+                  <i class="fas fa-seedling"></i>
+                </div>
+                <div class="program-badge">Adults</div>
+              </div>
+              <div class="program-content">
+                <h3>RCIA - Rite of Christian Initiation</h3>
+                <p>
+                  For adults seeking to become Catholic or complete their
+                  initiation sacraments.
+                </p>
+                <div class="program-details">
+                  <div class="detail-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>September - Easter</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Sundays 2:00 PM</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-users"></i>
+                    <span>Small Groups</span>
+                  </div>
+                </div>
+                <button class="program-btn" onclick="openProgramModal('rcia')">
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Bible Study -->
+            <div class="program-card" data-aos="fade-up" data-aos-delay="300">
+              <div class="program-header">
+                <div class="program-icon">
+                  <i class="fas fa-book-open"></i>
+                </div>
+                <div class="program-badge">All Ages</div>
+              </div>
+              <div class="program-content">
+                <h3>Bible Study Groups</h3>
+                <p>
+                  Weekly scripture study sessions to deepen understanding of
+                  God's Word.
+                </p>
+                <div class="program-details">
+                  <div class="detail-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>Year Round</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Wednesdays 7:00 PM</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-users"></i>
+                    <span>Discussion Groups</span>
+                  </div>
+                </div>
+                <button
+                  class="program-btn"
+                  onclick="openProgramModal('bible-study')"
+                >
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Youth Faith Formation -->
+            <div class="program-card" data-aos="fade-up" data-aos-delay="400">
+              <div class="program-header">
+                <div class="program-icon">
+                  <i class="fas fa-child"></i>
+                </div>
+                <div class="program-badge">Youth</div>
+              </div>
+              <div class="program-content">
+                <h3>Youth Faith Formation</h3>
+                <p>
+                  Age-appropriate religious education for children and
+                  teenagers.
+                </p>
+                <div class="program-details">
+                  <div class="detail-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>September - May</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Sundays 10:00 AM</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-users"></i>
+                    <span>Age Groups</span>
+                  </div>
+                </div>
+                <button
+                  class="program-btn"
+                  onclick="openProgramModal('youth-formation')"
+                >
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Adult Faith Sharing -->
+            <div class="program-card" data-aos="fade-up" data-aos-delay="500">
+              <div class="program-header">
+                <div class="program-icon">
+                  <i class="fas fa-comments"></i>
+                </div>
+                <div class="program-badge">Adults</div>
+              </div>
+              <div class="program-content">
+                <h3>Adult Faith Sharing</h3>
+                <p>
+                  Small group discussions on faith, life, and Catholic teaching.
+                </p>
+                <div class="program-details">
+                  <div class="detail-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>Year Round</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Thursdays 7:30 PM</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fas fa-users"></i>
+                    <span>Small Groups</span>
+                  </div>
+                </div>
+                <button
+                  class="program-btn"
+                  onclick="openProgramModal('adult-faith')"
+                >
+                  <span>Learn More</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FAITH TOPIC MODALS -->
+
+    <!-- Trinity Modal -->
+    <div id="trinity-modal" class="faith-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>The Holy Trinity</h3>
+          <p class="modal-subtitle">
+            Understanding the Mystery of Three Persons in One God
+          </p>
+          <button
+            class="close-modal"
+            onclick="closeFaithModal('trinity-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="faith-content">
+            <div class="content-section">
+              <h4>What is the Trinity?</h4>
+              <p>
+                The Trinity is the central mystery of the Christian faith. It
+                reveals that there is one God who exists in three distinct
+                persons: the Father, the Son (Jesus Christ), and the Holy
+                Spirit. These three persons are co-equal, co-eternal, and share
+                the same divine essence.
+              </p>
+            </div>
+
+            <div class="content-section">
+              <h4>Biblical Foundation</h4>
+              <div class="scripture-quote">
+                <p>
+                  "Go therefore and make disciples of all nations, baptizing
+                  them in the name of the Father and of the Son and of the Holy
+                  Spirit."
+                </p>
+                <cite>— Matthew 28:19</cite>
+              </div>
+              <p>
+                The Trinity is revealed throughout Scripture, from the baptism
+                of Jesus where all three persons are present, to the many
+                references to the Father, Son, and Holy Spirit working together
+                in salvation.
+              </p>
+            </div>
+
+            <div class="content-section">
+              <h4>The Three Persons</h4>
+              <div class="trinity-persons">
+                <div class="person-card">
+                  <div class="person-icon">
+                    <i class="fas fa-crown"></i>
+                  </div>
+                  <h5>God the Father</h5>
+                  <p>
+                    The first person of the Trinity, the source and origin of
+                    all creation.
+                  </p>
+                </div>
+                <div class="person-card">
+                  <div class="person-icon">
+                    <i class="fas fa-cross"></i>
+                  </div>
+                  <h5>God the Son</h5>
+                  <p>
+                    Jesus Christ, the second person who became incarnate for our
+                    salvation.
+                  </p>
+                </div>
+                <div class="person-card">
+                  <div class="person-icon">
+                    <i class="fas fa-dove"></i>
+                  </div>
+                  <h5>God the Holy Spirit</h5>
+                  <p>
+                    The third person who sanctifies and guides the Church and
+                    believers.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h4>Living the Trinity</h4>
+              <p>
+                Understanding the Trinity helps us in our prayer life and
+                relationship with God. We pray to the Father, through the Son,
+                in the Holy Spirit. This mystery also teaches us about perfect
+                love and unity in diversity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sacraments Modal -->
+    <div id="sacraments-modal" class="faith-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>The Seven Sacraments</h3>
+          <p class="modal-subtitle">Sacred Signs Instituted by Christ</p>
+          <button
+            class="close-modal"
+            onclick="closeFaithModal('sacraments-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="faith-content">
+            <div class="content-section">
+              <h4>What are Sacraments?</h4>
+              <p>
+                Sacraments are efficacious signs of grace, instituted by Christ
+                and entrusted to the Church, by which divine life is dispensed
+                to us. They are visible signs of invisible grace.
+              </p>
+            </div>
+
+            <div class="content-section">
+              <h4>The Seven Sacraments</h4>
+              <div class="sacraments-grid">
+                <div class="sacrament-item">
+                  <div class="sacrament-icon">
+                    <i class="fas fa-water"></i>
+                  </div>
+                  <h5>Baptism</h5>
+                  <p>
+                    The gateway to the Christian life, washing away original
+                    sin.
+                  </p>
+                </div>
+                <div class="sacrament-item">
+                  <div class="sacrament-icon">
+                    <i class="fas fa-hands"></i>
+                  </div>
+                  <h5>Confirmation</h5>
+                  <p>
+                    Strengthens the grace of Baptism through the gifts of the
+                    Holy Spirit.
+                  </p>
+                </div>
+                <div class="sacrament-item">
+                  <div class="sacrament-icon">
+                    <i class="fas fa-bread-slice"></i>
+                  </div>
+                  <h5>Eucharist</h5>
+                  <p>
+                    The source and summit of Christian life - the Body and Blood
+                    of Christ.
+                  </p>
+                </div>
+                <div class="sacrament-item">
+                  <div class="sacrament-icon">
+                    <i class="fas fa-cross"></i>
+                  </div>
+                  <h5>Reconciliation</h5>
+                  <p>
+                    Forgiveness of sins committed after Baptism through God's
+                    mercy.
+                  </p>
+                </div>
+                <div class="sacrament-item">
+                  <div class="sacrament-icon">
+                    <i class="fas fa-heart"></i>
+                  </div>
+                  <h5>Anointing of the Sick</h5>
+                  <p>
+                    Spiritual and sometimes physical healing for the seriously
+                    ill.
+                  </p>
+                </div>
+                <div class="sacrament-item">
+                  <div class="sacrament-icon">
+                    <i class="fas fa-church"></i>
+                  </div>
+                  <h5>Holy Orders</h5>
+                  <p>
+                    Ordination of deacons, priests, and bishops to serve the
+                    Church.
+                  </p>
+                </div>
+                <div class="sacrament-item">
+                  <div class="sacrament-icon">
+                    <i class="fas fa-rings-wedding"></i>
+                  </div>
+                  <h5>Matrimony</h5>
+                  <p>The sacred union between a man and woman in Christ.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h4>Categories of Sacraments</h4>
+              <div class="sacrament-categories">
+                <div class="category-card">
+                  <h5>Sacraments of Initiation</h5>
+                  <p>
+                    Baptism, Confirmation, and Eucharist - the foundation of
+                    Christian life.
+                  </p>
+                </div>
+                <div class="category-card">
+                  <h5>Sacraments of Healing</h5>
+                  <p>
+                    Reconciliation and Anointing of the Sick - God's mercy and
+                    healing.
+                  </p>
+                </div>
+                <div class="category-card">
+                  <h5>Sacraments of Service</h5>
+                  <p>Holy Orders and Matrimony - serving God and community.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prayers Modal -->
+    <div id="prayers-modal" class="faith-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Essential Catholic Prayers</h3>
+          <p class="modal-subtitle">
+            Fundamental Prayers Every Catholic Should Know
+          </p>
+          <button
+            class="close-modal"
+            onclick="closeFaithModal('prayers-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="faith-content">
+            <div class="content-section">
+              <h4>The Our Father</h4>
+              <div class="prayer-text">
+                <p>
+                  Our Father, who art in heaven, hallowed be thy name; thy
+                  kingdom come; thy will be done on earth as it is in heaven.
+                  Give us this day our daily bread; and forgive us our
+                  trespasses as we forgive those who trespass against us; and
+                  lead us not into temptation, but deliver us from evil. Amen.
+                </p>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h4>The Hail Mary</h4>
+              <div class="prayer-text">
+                <p>
+                  Hail Mary, full of grace, the Lord is with thee; blessed art
+                  thou among women, and blessed is the fruit of thy womb, Jesus.
+                  Holy Mary, Mother of God, pray for us sinners, now and at the
+                  hour of our death. Amen.
+                </p>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h4>The Glory Be</h4>
+              <div class="prayer-text">
+                <p>
+                  Glory be to the Father, and to the Son, and to the Holy
+                  Spirit. As it was in the beginning, is now, and ever shall be,
+                  world without end. Amen.
+                </p>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h4>The Apostles' Creed</h4>
+              <div class="prayer-text">
+                <p>
+                  I believe in God, the Father almighty, Creator of heaven and
+                  earth, and in Jesus Christ, his only Son, our Lord, who was
+                  conceived by the Holy Spirit, born of the Virgin Mary,
+                  suffered under Pontius Pilate, was crucified, died and was
+                  buried; he descended into hell; on the third day he rose again
+                  from the dead; he ascended into heaven, and is seated at the
+                  right hand of God the Father almighty; from there he will come
+                  to judge the living and the dead. I believe in the Holy
+                  Spirit, the holy catholic Church, the communion of saints, the
+                  forgiveness of sins, the resurrection of the body, and life
+                  everlasting. Amen.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reading Modal for Full Text -->
+    <div id="reading-modal" class="reading-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="reading-modal-title">Reading</h3>
+          <button class="close-modal" onclick="closeReadingModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="reading-full-content" id="reading-modal-content">
+            <!-- Reading content will be loaded here -->
+          </div>
+          <div class="reading-controls">
+            <button class="control-btn" id="play-audio-btn">
+              <i class="fas fa-play"></i>
+              <span>Play Audio</span>
+            </button>
+            <button class="control-btn" id="increase-font-btn">
+              <i class="fas fa-plus"></i>
+              <span>Larger Text</span>
+            </button>
+            <button class="control-btn" id="decrease-font-btn">
+              <i class="fas fa-minus"></i>
+              <span>Smaller Text</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="footer-logo">
+              <img
+                src="assets/img/logo.png"
+                alt="OLMQ Logo"
+                class="footer-logo-img"
+              />
+              <div class="footer-logo-text">
+                <h3>Our Lady Mother and Queen</h3>
+                <p>Catholic Church, Badore</p>
+              </div>
+            </div>
+            <p class="footer-description">
+              Growing in faith, hope, and love as we journey together toward
+              eternal life with Christ.
+            </p>
+          </div>
+
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="our-faith.html">Our Faith</a></li>
+              <li><a href="parish-office.html">Parish Office</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4>Faith Resources</h4>
+            <ul class="footer-links">
+              <li><a href="#daily-readings">Daily Readings</a></li>
+              <li><a href="#know-your-faith">Know Your Faith</a></li>
+              <li>
+                <a href="#" onclick="openFaithModal('prayers')"
+                  >Catholic Prayers</a
+                >
+              </li>
+              <li><a href="#" onclick="openFaithModal('saints')">Saints</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4>Contact Info</h4>
+            <div class="footer-contact">
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>123 Church Street, Badore, Ajah, Lagos</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <a href="tel:+2348123456789">+234 812 345 6789</a>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:info@olmqbadore.org">info@olmqbadore.org</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            <p>
+              &copy; 2024 Our Lady Mother and Queen Catholic Church, Badore. All
+              rights reserved.
+            </p>
+          </div>
+          <div class="footer-social">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="YouTube">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/our-faith.js"></script>
+
+    <!-- Main Faith Modal (for general faith topics) -->
+    <div id="faith-modal" class="faith-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Faith Topic</h3>
+          <p class="modal-subtitle">Learn about our Catholic faith</p>
+          <button class="close-modal" onclick="closeModal('faith-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="faith-content">
+            <!-- Content will be dynamically loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reading Modal (for expanded readings) -->
+    <div id="reading-modal" class="reading-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="reading-modal-title">Reading</h3>
+          <p class="modal-subtitle" id="reading-modal-reference">Reference</p>
+          <button class="close-modal" onclick="closeModal('reading-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="reading-full-content" id="reading-modal-content">
+            <!-- Reading content will be loaded here -->
+          </div>
+          <div class="reading-controls">
+            <button
+              class="control-btn"
+              data-action="read-aloud"
+              title="Read aloud"
+            >
+              <i class="fas fa-volume-up"></i>
+              <span>Read Aloud</span>
+            </button>
+            <button
+              class="control-btn"
+              data-action="bookmark"
+              title="Bookmark this reading"
+            >
+              <i class="far fa-bookmark"></i>
+              <span>Bookmark</span>
+            </button>
+            <button
+              class="control-btn"
+              data-action="share"
+              title="Share this reading"
+            >
+              <i class="fas fa-share-alt"></i>
+              <span>Share</span>
+            </button>
+            <button
+              class="control-btn"
+              data-action="print"
+              title="Print this reading"
+            >
+              <i class="fas fa-print"></i>
+              <span>Print</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

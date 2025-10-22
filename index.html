@@ -1,0 +1,3147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Our Lady Mother and Queen Catholic Church, Badore - Archdiocese of Lagos
+    </title>
+    <meta
+      name="description"
+      content="Welcome to Our Lady Mother and Queen Catholic Church, Badore. Join us for Mass, register for sacraments, and stay connected with our parish community."
+    />
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/liturgical-colors.css" />
+
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  </head>
+  <body class="liturgical-theme" data-liturgical-season="">
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+      <div class="loading-logo">
+        <img
+          src="assets/img/logo.png"
+          alt="OLMQ Logo"
+          class="loading-logo-img"
+        />
+      </div>
+      <h2>OUR LADY MOTHER AND QUEEN</h2>
+      <p>"We shall do whatever your son tells us"</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <div class="current-date-display">
+            <span class="current-date">Loading date...</span>
+          </div>
+          <div class="nav-logo">
+            <img src="assets/img/logo.png" alt="OLMQ Logo" class="logo-img" />
+            <div class="logo-text">
+              <h3>OLMQ</h3>
+              <span>Badore</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-menu" id="nav-menu">
+          <a href="#home" class="nav-link active">Home</a>
+          <a href="#about" class="nav-link">About Us</a>
+          <a href="#daily-readings" class="nav-link">Our Faith</a>
+          <a href="#harvest" class="nav-link">Harvest Corner</a>
+          <a href="#gallery" class="nav-link">Gallery</a>
+          <a href="#live-stream" class="nav-link">Live Stream</a>
+          <a href="#announcements" class="nav-link">Ad/Announcement</a>
+        </div>
+
+        <div class="nav-toggle" id="nav-toggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Carousel Section -->
+    <section id="home" class="hero-carousel">
+      <div class="carousel-container">
+        <!-- Slide 1 -->
+        <div class="carousel-slide active">
+          <div class="slide-background">
+            <img
+              src="assets/img/hero1.jpg"
+              alt="Catholic Church Interior"
+              class="slide-img"
+            />
+            <div class="slide-overlay"></div>
+          </div>
+          <div class="slide-content">
+            <div class="container">
+              <div class="text-animation-wrapper">
+                <h1 class="slide-title">
+                  <span class="word" data-delay="0">Welcome</span>
+                  <span class="word" data-delay="200">to</span>
+                  <span class="word" data-delay="400">Our</span>
+                  <span class="word" data-delay="600">Lady</span>
+                  <span class="word" data-delay="800">Mother</span>
+                  <span class="word" data-delay="1000">and</span>
+                  <span class="word" data-delay="1200">Queen</span>
+                </h1>
+                <p class="slide-subtitle typing-text">
+                  Where faith meets community in the heart of Badore
+                </p>
+                <div class="slide-buttons">
+                  <a
+                    href="about.html#join-parish"
+                    class="btn btn-primary pulse-btn"
+                    id="join-parish-btn"
+                  >
+                    <span>Join Our Parish</span>
+                    <div class="btn-particles"></div>
+                  </a>
+                  <a href="#live-stream" class="btn btn-secondary glow-btn">
+                    <i class="fas fa-play"></i>
+                    <span>Watch Live</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-slide">
+          <div class="slide-background">
+            <img
+              src="assets/img/hero2.jpg"
+              alt="Catholic Church Exterior"
+              class="slide-img"
+            />
+            <div class="slide-overlay"></div>
+          </div>
+          <div class="slide-content">
+            <div class="container">
+              <div class="text-animation-wrapper">
+                <h1 class="slide-title">
+                  <span class="word" data-delay="0">Experience</span>
+                  <span class="word" data-delay="200">Divine</span>
+                  <span class="word" data-delay="400">Worship</span>
+                </h1>
+                <p class="slide-subtitle typing-text">
+                  Join us for Mass, prayer, and spiritual growth
+                </p>
+                <div class="slide-buttons">
+                  <a href="#about" class="btn btn-primary pulse-btn">
+                    <span>Learn More</span>
+                    <div class="btn-particles"></div>
+                  </a>
+                  <a href="#mass-times" class="btn btn-secondary glow-btn">
+                    <i class="fas fa-calendar"></i>
+                    <span>Mass Times</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-slide">
+          <div class="slide-background">
+            <img
+              src="https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+              alt="Catholic Church Community"
+              class="slide-img"
+            />
+            <div class="slide-overlay"></div>
+          </div>
+          <div class="slide-content">
+            <div class="container">
+              <div class="text-animation-wrapper">
+                <h1 class="slide-title">
+                  <span class="word" data-delay="0">Build</span>
+                  <span class="word" data-delay="200">Faith</span>
+                  <span class="word" data-delay="400">Together</span>
+                </h1>
+                <p class="slide-subtitle typing-text">
+                  "We shall do whatever your son tells us"
+                </p>
+                <div class="slide-buttons">
+                  <a href="#harvest" class="btn btn-primary pulse-btn">
+                    <span>Get Involved</span>
+                    <div class="btn-particles"></div>
+                  </a>
+                  <a href="#gallery" class="btn btn-secondary glow-btn">
+                    <i class="fas fa-images"></i>
+                    <span>View Gallery</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carousel Navigation -->
+      <div class="carousel-nav">
+        <button class="nav-dot active" data-slide="0"></button>
+        <button class="nav-dot" data-slide="1"></button>
+        <button class="nav-dot" data-slide="2"></button>
+      </div>
+
+      <!-- Carousel Arrows -->
+      <button class="carousel-arrow prev" id="prevSlide">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="carousel-arrow next" id="nextSlide">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+
+      <!-- Floating Particles -->
+      <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+    </section>
+
+    <!-- Mass Times & Activities Section -->
+    <section id="mass-times" class="mass-times-section">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <h2>Mass Times & Parish Activities</h2>
+          <p>Join us for worship and community activities</p>
+        </div>
+
+        <!-- Next Mass Countdown -->
+        <div class="next-mass-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="countdown-wrapper">
+            <h3>Next Mass</h3>
+            <div class="mass-info">
+              <span class="mass-day">Sunday</span>
+              <span class="mass-time">6:30 AM</span>
+            </div>
+            <div class="countdown-timer" id="mass-countdown">
+              <div class="time-unit">
+                <span class="time-value" id="hours">00</span>
+                <span class="time-label">Hours</span>
+              </div>
+              <div class="time-unit">
+                <span class="time-value" id="minutes">00</span>
+                <span class="time-label">Minutes</span>
+              </div>
+              <div class="time-unit">
+                <span class="time-value" id="seconds">00</span>
+                <span class="time-label">Seconds</span>
+              </div>
+            </div>
+            <div class="countdown-message">
+              <i class="fas fa-bell"></i>
+              <span id="countdown-text">Until next Mass</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule Grid -->
+        <div class="schedule-grid">
+          <!-- Mass Schedule Card -->
+          <div
+            class="schedule-card mass-card"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="fas fa-church"></i>
+              </div>
+              <h3>Holy Mass</h3>
+            </div>
+            <div class="card-content">
+              <div class="schedule-item">
+                <span class="day">Sunday</span>
+                <span class="time"
+                  >6:30 AM, 8:30 AM, 9:00 AM (Children), 6:00 PM</span
+                >
+              </div>
+              <div class="schedule-item">
+                <span class="day">Monday - Friday</span>
+                <span class="time">6:30 AM & 6:30 PM</span>
+              </div>
+              <div class="schedule-item">
+                <span class="day">Saturday & Holidays</span>
+                <span class="time">7:00 AM</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a href="parish-office.html#online-services" class="view-more-btn"
+                >Book Mass</a
+              >
+            </div>
+          </div>
+
+          <!-- Sacraments Card -->
+          <div
+            class="schedule-card sacrament-card"
+            data-aos="fade-up"
+            data-aos-delay="400"
+          >
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="fas fa-cross"></i>
+              </div>
+              <h3>Sacraments</h3>
+            </div>
+            <div class="card-content">
+              <div class="schedule-item">
+                <span class="day">Baptism Class</span>
+                <span class="time">Saturdays 10:00 AM</span>
+              </div>
+              <div class="schedule-item">
+                <span class="day">Marriage Prep</span>
+                <span class="time">Sundays 8:30 AM</span>
+              </div>
+              <div class="schedule-item">
+                <span class="day">Confession</span>
+                <span class="time">Saturdays 8:00am & 4:00pm</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a href="parish-office.html" class="view-more-btn"
+                >Registration Details</a
+              >
+            </div>
+          </div>
+
+          <!-- Parish Office Card -->
+          <div
+            class="schedule-card office-card"
+            data-aos="fade-up"
+            data-aos-delay="500"
+          >
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="fas fa-building"></i>
+              </div>
+              <h3>Parish Office</h3>
+            </div>
+            <div class="card-content">
+              <div class="schedule-item">
+                <span class="day">Monday - Friday</span>
+                <span class="time">9:00 AM - 4:00 PM</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a href="parish-office.html" class="view-more-btn"
+                >Contact Information</a
+              >
+            </div>
+          </div>
+
+          <!-- Activities Card -->
+          <div
+            class="schedule-card activities-card"
+            data-aos="fade-up"
+            data-aos-delay="600"
+          >
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <h3>Community Activities</h3>
+            </div>
+            <div class="card-content">
+              <div class="schedule-item">
+                <span class="day"
+                  >Organization's Meeting (CMO, CWO, CYAA, CYON)</span
+                >
+                <span class="time">2nd Sundays after 8:30am Mass</span>
+              </div>
+              <div class="schedule-item">
+                <span class="day">Adoration</span>
+                <span class="time">Sunday 5:00 PM</span>
+              </div>
+              <div class="schedule-item">
+                <span class="day">Visit to the sick</span>
+                <span class="time">Last Friday of the month</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a href="#parish-office" class="view-more-btn">Join Activities</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="section-header" data-aos="fade-up">
+          <h2>About Our Parish</h2>
+          <p>Discover our faith community, history, and mission</p>
+        </div>
+
+        <!-- About Content Grid -->
+        <div class="about-grid">
+          <!-- Church Image & Stats -->
+          <div class="about-visual" data-aos="fade-right">
+            <div class="church-image-container">
+              <img
+                src="assets/img/church2.jpg"
+                alt="Our Lady Mother and Queen Church"
+                class="church-img"
+              />
+              <div class="image-overlay">
+                <div class="overlay-content">
+                  <h3>Our Lady Mother and Queen</h3>
+                  <p>Catholic Church, Badore</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Parish Stats -->
+            <div class="parish-stats">
+              <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number" data-count="1500">0</div>
+                <div class="stat-label">Parishioners</div>
+              </div>
+              <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-number" data-count="25">0</div>
+                <div class="stat-label">Years Serving</div>
+              </div>
+              <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-number" data-count="12">0</div>
+                <div class="stat-label">Ministries</div>
+              </div>
+              <div class="stat-item" data-aos="fade-up" data-aos-delay="500">
+                <div class="stat-number" data-count="200">0</div>
+                <div class="stat-label">Families</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- About Content -->
+          <div class="about-content" data-aos="fade-left">
+            <div class="content-wrapper">
+              <!-- Mission Statement -->
+              <div class="mission-card">
+                <div class="card-icon">
+                  <i class="fas fa-heart"></i>
+                </div>
+                <h3>Our Mission</h3>
+                <p>
+                  To build a vibrant Catholic community that lives out the
+                  Gospel message through worship, service, and fellowship,
+                  guided by the intercession of Our Lady Mother and Queen.
+                </p>
+              </div>
+
+              <!-- Vision Statement -->
+              <div class="vision-card">
+                <div class="card-icon">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <h3>Our Vision</h3>
+                <p>
+                  To be a beacon of faith, hope, and love in Badore and beyond,
+                  nurturing disciples who transform the world through Christ's
+                  teachings.
+                </p>
+              </div>
+
+              <!-- Core Values -->
+              <div class="values-section">
+                <h3>Our Core Values</h3>
+                <div class="values-grid">
+                  <div class="value-item">
+                    <div class="value-icon">
+                      <i class="fas fa-praying-hands"></i>
+                    </div>
+                    <span>Faith</span>
+                  </div>
+                  <div class="value-item">
+                    <div class="value-icon">
+                      <i class="fas fa-users"></i>
+                    </div>
+                    <span>Community</span>
+                  </div>
+                  <div class="value-item">
+                    <div class="value-icon">
+                      <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <span>Service</span>
+                  </div>
+                  <div class="value-item">
+                    <div class="value-icon">
+                      <i class="fas fa-dove"></i>
+                    </div>
+                    <span>Peace</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Brief History -->
+              <div class="history-preview">
+                <h3>Our Story</h3>
+                <p>
+                  Established in 1999, Our Lady Mother and Queen Catholic Church
+                  has been a cornerstone of faith in the Badore community. From
+                  humble beginnings to our current vibrant parish, we continue
+                  to grow in faith and service.
+                </p>
+                <div class="timeline-preview">
+                  <div class="timeline-item">
+                    <div class="timeline-year">1999</div>
+                    <div class="timeline-event">Parish Founded</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-year">2005</div>
+                    <div class="timeline-event">Church Building Completed</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-event">Digital Ministry Launch</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Call to Action -->
+              <div class="about-cta">
+                <a href="about.html" class="cta-btn primary-btn">
+                  <span>Learn More About Us</span>
+                  <i class="fas fa-arrow-right"></i>
+                  <div class="btn-particles"></div>
+                </a>
+                <a
+                  href="#parish-office"
+                  class="cta-btn secondary-btn"
+                  id="about-join-parish-btn"
+                >
+                  <span>Join Our Parish</span>
+                  <i class="fas fa-user-plus"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parish Leadership Preview -->
+        <div class="leadership-preview" data-aos="fade-up" data-aos-delay="600">
+          <h3>Meet Our Leadership</h3>
+          <div class="leadership-grid">
+            <div class="leader-card" data-aos="flip-left" data-aos-delay="700">
+              <div class="leader-image">
+                <img src="assets/img/pp.jpg" alt="Parish Priest" />
+                <div class="leader-overlay">
+                  <div class="social-links">
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="leader-info">
+                <h4>Rev. Fr. Leon Houessou</h4>
+                <p>Parish Priest</p>
+              </div>
+            </div>
+
+            <div class="leader-card" data-aos="flip-left" data-aos-delay="800">
+              <div class="leader-image">
+                <img
+                  src="assets/img/app.jpg"
+                  alt="Assistant Priest"
+                />
+                <div class="leader-overlay">
+                  <div class="social-links">
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="leader-info">
+                <h4>Rev. Fr. Anthony Eze</h4>
+                <p>Assistant Priest</p>
+              </div>
+            </div>
+
+            <div class="leader-card" data-aos="flip-left" data-aos-delay="900">
+              <div class="leader-image">
+                <img src="assets/img/app2.png" alt="Assistant Parish Priest" />
+                <div class="leader-overlay">
+                  <div class="social-links">
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="leader-info">
+                <h4>Rev. Fr. Simeon Adejo</h4>
+                <p>Assistant Priest</p>
+              </div>
+            </div>
+
+            <div
+              class="view-all-card"
+              data-aos="flip-left"
+              data-aos-delay="1000"
+            >
+              <div class="view-all-content">
+                <div class="view-all-icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <h4>Meet Our Clergy</h4>
+                <p>Know more about our clergy</p>
+                <a href="about.html#leadership" class="view-all-btn">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Background Elements -->
+      <div class="floating-elements">
+        <div class="floating-cross"></div>
+        <div class="floating-dove"></div>
+      </div>
+    </section>
+
+    <!-- Daily Readings Section -->
+    <section id="daily-readings" class="readings-section">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="section-header" data-aos="fade-up">
+          <h2>Today's Readings</h2>
+          <p>Nourish your soul with God's Word</p>
+        </div>
+
+        <!-- Liturgical Info Bar -->
+        <div class="liturgical-info" data-aos="fade-up" data-aos-delay="200">
+          <div class="liturgical-season">
+            <div class="season-icon">
+              <i class="fas fa-leaf" id="season-icon"></i>
+            </div>
+            <div class="season-details">
+              <h3 id="liturgical-season">Ordinary Time</h3>
+              <p id="liturgical-week">Week 1</p>
+            </div>
+          </div>
+          <div class="liturgical-date">
+            <div class="date-display">
+              <span id="liturgical-date"></span>
+              <span id="liturgical-day"></span>
+            </div>
+          </div>
+          <div class="liturgical-color">
+            <div class="color-indicator" id="liturgical-color-indicator"></div>
+            <span id="liturgical-color-name">Green</span>
+          </div>
+        </div>
+
+        <!-- Readings Grid -->
+        <div class="readings-grid">
+          <!-- First Reading -->
+          <div
+            class="reading-card first-reading"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <div class="reading-header">
+              <div class="reading-icon">
+                <i class="fas fa-scroll"></i>
+              </div>
+              <div class="reading-title">
+                <h3>First Reading</h3>
+                <p id="first-reading-reference">Loading...</p>
+              </div>
+              <div class="reading-controls">
+                <button class="audio-btn" data-reading="first">
+                  <i class="fas fa-play"></i>
+                </button>
+                <button class="expand-btn" data-reading="first">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+            <div class="reading-content">
+              <div class="reading-text" id="first-reading-text">
+                Loading today's first reading...
+              </div>
+              <div class="reading-footer">
+                <span class="reading-end">The word of the Lord.</span>
+                <span class="reading-response">Thanks be to God.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Responsorial Psalm -->
+          <div
+            class="reading-card psalm"
+            data-aos="fade-up"
+            data-aos-delay="400"
+          >
+            <div class="reading-header">
+              <div class="reading-icon">
+                <i class="fas fa-music"></i>
+              </div>
+              <div class="reading-title">
+                <h3>Responsorial Psalm</h3>
+                <p id="psalm-reference">Loading...</p>
+              </div>
+              <div class="reading-controls">
+                <button class="audio-btn" data-reading="psalm">
+                  <i class="fas fa-play"></i>
+                </button>
+                <button class="expand-btn" data-reading="psalm">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+            <div class="reading-content">
+              <div class="psalm-response" id="psalm-response">
+                Loading psalm response...
+              </div>
+              <div class="reading-text" id="psalm-text">
+                Loading today's psalm...
+              </div>
+            </div>
+          </div>
+
+          <!-- Second Reading -->
+          <div
+            class="reading-card second-reading"
+            data-aos="fade-up"
+            data-aos-delay="500"
+          >
+            <div class="reading-header">
+              <div class="reading-icon">
+                <i class="fas fa-book-open"></i>
+              </div>
+              <div class="reading-title">
+                <h3>Second Reading</h3>
+                <p id="second-reading-reference">Loading...</p>
+              </div>
+              <div class="reading-controls">
+                <button class="audio-btn" data-reading="second">
+                  <i class="fas fa-play"></i>
+                </button>
+                <button class="expand-btn" data-reading="second">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+            <div class="reading-content">
+              <div class="reading-text" id="second-reading-text">
+                Loading today's second reading...
+              </div>
+              <div class="reading-footer">
+                <span class="reading-end">The word of the Lord.</span>
+                <span class="reading-response">Thanks be to God.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gospel -->
+          <div
+            class="reading-card gospel"
+            data-aos="fade-up"
+            data-aos-delay="600"
+          >
+            <div class="reading-header">
+              <div class="reading-icon">
+                <i class="fas fa-cross"></i>
+              </div>
+              <div class="reading-title">
+                <h3>Gospel</h3>
+                <p id="gospel-reference">Loading...</p>
+              </div>
+              <div class="reading-controls">
+                <button class="audio-btn" data-reading="gospel">
+                  <i class="fas fa-play"></i>
+                </button>
+                <button class="expand-btn" data-reading="gospel">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+            <div class="reading-content">
+              <div class="gospel-acclamation">
+                <p><strong>Alleluia, Alleluia!</strong></p>
+                <p id="gospel-acclamation-text">Loading...</p>
+                <p><strong>Alleluia!</strong></p>
+              </div>
+              <div class="reading-text" id="gospel-text">
+                Loading today's Gospel...
+              </div>
+              <div class="reading-footer">
+                <span class="reading-end">The Gospel of the Lord.</span>
+                <span class="reading-response"
+                  >Praise to you, Lord Jesus Christ.</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reflection Section -->
+        <div class="reflection-section" data-aos="fade-up" data-aos-delay="700">
+          <div class="reflection-card">
+            <div class="reflection-header">
+              <div class="reflection-icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <h3>Today's Reflection</h3>
+            </div>
+            <div class="reflection-content">
+              <p id="daily-reflection">Loading today's reflection...</p>
+              <div class="reflection-author">
+                <span>— Parish Reflection</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="readings-actions" data-aos="fade-up" data-aos-delay="800">
+          <button class="action-btn primary-btn" id="read-all-btn">
+            <i class="fas fa-book-reader"></i>
+            <span>Read All Readings</span>
+          </button>
+          <button class="action-btn secondary-btn" id="download-readings-btn">
+            <i class="fas fa-download"></i>
+            <span>Download PDF</span>
+          </button>
+          <button class="action-btn tertiary-btn" id="share-readings-btn">
+            <i class="fas fa-share-alt"></i>
+            <span>Share Readings</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Reading Modal -->
+      <div class="reading-modal" id="reading-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 id="modal-reading-title">Reading</h3>
+            <button class="close-modal" id="close-modal">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-reference" id="modal-reference"></div>
+            <div class="modal-text" id="modal-text"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="modal-btn" id="modal-audio-btn">
+              <i class="fas fa-play"></i>
+              <span>Listen</span>
+            </button>
+            <button class="modal-btn" id="modal-copy-btn">
+              <i class="fas fa-copy"></i>
+              <span>Copy Text</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Background Elements -->
+      <div class="readings-bg-elements">
+        <div class="floating-scripture">
+          <div class="scripture-verse">
+            "Your word is a lamp to my feet and a light to my path"
+          </div>
+          <div class="scripture-ref">Psalm 119:105</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Harvest Corner Section -->
+    <section id="harvest" class="harvest-section">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="section-header" data-aos="fade-up">
+          <div class="harvest-theme-badge">
+            <span class="year">2025</span>
+            <span class="theme-text">Annual Harvest & Bazaar</span>
+          </div>
+          <h2>Harvest of Divine Restoration</h2>
+          <div class="theme-response">
+            <span class="response-text">"Restore us Oh Lord!"</span>
+            <cite>- Joel 2:25</cite>
+          </div>
+          <p>
+            Join us as we celebrate God's faithfulness and seek His restoration
+            in our lives, families, and community
+          </p>
+        </div>
+
+        <!-- Harvest Event Info -->
+        <div class="harvest-event-info" data-aos="fade-up">
+          <!-- Children's Harvest -->
+          <div class="main-event children-harvest">
+            <div class="event-icon">
+              <i class="fas fa-child"></i>
+            </div>
+            <div class="event-details">
+              <h3>Children's Harvest Celebration</h3>
+              <div class="event-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Saturday, August 24th, 2024</span>
+              </div>
+              <div class="event-time">
+                <i class="fas fa-clock"></i>
+                <span>10:00 AM - 2:00 PM</span>
+              </div>
+              <p>
+                A special harvest celebration designed for our young
+                parishioners. Children will present their thanksgiving offerings
+                and participate in age-appropriate activities celebrating God's
+                abundant blessings.
+              </p>
+            </div>
+          </div>
+
+          <!-- Adult Harvest & Bazaar -->
+          <div class="main-event adult-harvest">
+            <div class="event-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="event-details">
+              <h3>Adult Harvest & Bazaar</h3>
+              <div class="event-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Sunday, November 16th, 2025</span>
+              </div>
+              <div class="event-time">
+                <i class="fas fa-clock"></i>
+                <span>10:30 AM - 6:00 PM</span>
+              </div>
+              <p>
+                Our main harvest celebration featuring thanksgiving Mass,
+                agricultural produce presentations, cultural displays, food
+                bazaar, and community fellowship. All proceeds support our
+                parish restoration projects.
+              </p>
+            </div>
+          </div>
+
+          <!-- Event Highlights -->
+          <div class="event-highlights">
+            <div class="highlight-item" data-aos="fade-up" data-aos-delay="100">
+              <div class="highlight-icon">
+                <i class="fas fa-church"></i>
+              </div>
+              <div class="highlight-content">
+                <h4>Thanksgiving Mass</h4>
+                <p>Special liturgical celebration with harvest blessing</p>
+              </div>
+            </div>
+
+            <div class="highlight-item" data-aos="fade-up" data-aos-delay="200">
+              <div class="highlight-icon">
+                <i class="fas fa-seedling"></i>
+              </div>
+              <div class="highlight-content">
+                <h4>Produce Display</h4>
+                <p>
+                  Showcase of agricultural products and thanksgiving offerings
+                </p>
+              </div>
+            </div>
+
+            <div class="highlight-item" data-aos="fade-up" data-aos-delay="300">
+              <div class="highlight-icon">
+                <i class="fas fa-store"></i>
+              </div>
+              <div class="highlight-content">
+                <h4>Community Bazaar</h4>
+                <p>Local vendors, food stalls, and handmade crafts</p>
+              </div>
+            </div>
+
+            <div class="highlight-item" data-aos="fade-up" data-aos-delay="400">
+              <div class="highlight-icon">
+                <i class="fas fa-music"></i>
+              </div>
+              <div class="highlight-content">
+                <h4>Cultural Program</h4>
+                <p>Traditional dances, choir performances, and entertainment</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Harvest Countdown Timer -->
+        <div
+          class="harvest-countdown-section"
+          data-aos="fade-up"
+          data-aos-delay="300"
+        >
+          <div class="countdown-header">
+            <h3>Time Until Harvest Celebration</h3>
+            <p>
+              Mark your calendars and prepare your hearts for this special day!
+            </p>
+          </div>
+          <div id="harvest-countdown" class="harvest-countdown">
+            <!-- Countdown will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Harvest Offerings -->
+        <div class="harvest-offerings" data-aos="fade-up" data-aos-delay="400">
+          <h3>Ways to Participate</h3>
+          <div class="offerings-grid">
+            <div class="offering-card produce-card">
+              <div class="offering-icon">
+                <i class="fas fa-seedling"></i>
+              </div>
+              <div class="offering-content">
+                <h4>Agricultural Produce</h4>
+                <p>
+                  Bring fruits, vegetables, grains, and farm produce as
+                  thanksgiving offerings
+                </p>
+                <ul class="offering-list">
+                  <li>
+                    <i class="fas fa-check"></i> Fresh fruits and vegetables
+                  </li>
+                  <li><i class="fas fa-check"></i> Rice, beans, and grains</li>
+                  <li><i class="fas fa-check"></i> Yams, plantains, cassava</li>
+                  <li>
+                    <i class="fas fa-check"></i> Palm oil and local products
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="offering-card monetary-card">
+              <div class="offering-icon">
+                <i class="fas fa-donate"></i>
+              </div>
+              <div class="offering-content">
+                <h4>Monetary Offerings</h4>
+                <p>
+                  Financial contributions to support parish restoration projects
+                </p>
+                <div class="quick-amounts">
+                  <button class="amount-btn" data-amount="5000">₦5,000</button>
+                  <button class="amount-btn" data-amount="10000">
+                    ₦10,000
+                  </button>
+                  <button class="amount-btn" data-amount="25000">
+                    ₦25,000
+                  </button>
+                  <button class="amount-btn custom-amount">Custom</button>
+                </div>
+                <button class="donate-btn">
+                  <i class="fas fa-heart"></i>
+                  <span>Donate Now</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="offering-card volunteer-card">
+              <div class="offering-icon">
+                <i class="fas fa-hands-helping"></i>
+              </div>
+              <div class="offering-content">
+                <h4>Volunteer Service</h4>
+                <p>
+                  Offer your time and talents to make the harvest celebration
+                  successful
+                </p>
+                <ul class="offering-list">
+                  <li>
+                    <i class="fas fa-check"></i> Event setup and decoration
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Food preparation and serving
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Children's activities
+                    coordination
+                  </li>
+                  <li><i class="fas fa-check"></i> Cleanup and organization</li>
+                </ul>
+                <button class="volunteer-btn">
+                  <i class="fas fa-user-plus"></i>
+                  <span>Volunteer</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="offering-card bazaar-card">
+              <div class="offering-icon">
+                <i class="fas fa-shopping-bag"></i>
+              </div>
+              <div class="offering-content">
+                <h4>Bazaar Participation</h4>
+                <p>Set up a stall or contribute items for the harvest bazaar</p>
+                <ul class="offering-list">
+                  <li><i class="fas fa-check"></i> Handmade crafts and arts</li>
+                  <li><i class="fas fa-check"></i> Cooked foods and snacks</li>
+                  <li><i class="fas fa-check"></i> Clothing and accessories</li>
+                  <li>
+                    <i class="fas fa-check"></i> Books and educational materials
+                  </li>
+                </ul>
+                <button class="register-btn">
+                  <i class="fas fa-store"></i>
+                  <span>Register Stall</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Restoration Projects -->
+        <div
+          class="restoration-projects"
+          data-aos="fade-up"
+          data-aos-delay="600"
+        >
+          <h3>Projects for Restoration</h3>
+          <p class="projects-intro">
+            Your harvest offerings will support these restoration initiatives in
+            our parish
+          </p>
+
+          <div class="projects-grid">
+            <div class="project-card">
+              <div class="project-icon">
+                <i class="fas fa-church"></i>
+              </div>
+              <div class="project-content">
+                <h4>Church Building Restoration</h4>
+                <p>Renovating and beautifying our sacred worship space</p>
+                <div class="project-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" data-progress="65"></div>
+                  </div>
+                  <div class="progress-stats">
+                    <span class="progress-text">65% Complete</span>
+                    <span class="progress-amount">₦32.5M / ₦50M</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="project-content">
+                <h4>Community Center Restoration</h4>
+                <p>Restoring our community hall for parish activities</p>
+                <div class="project-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" data-progress="40"></div>
+                  </div>
+                  <div class="progress-stats">
+                    <span class="progress-text">40% Complete</span>
+                    <span class="progress-amount">₦8M / ₦20M</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div class="project-content">
+                <h4>Education Support Program</h4>
+                <p>Restoring hope through educational scholarships</p>
+                <div class="project-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" data-progress="80"></div>
+                  </div>
+                  <div class="progress-stats">
+                    <span class="progress-text">80% Complete</span>
+                    <span class="progress-amount">₦4M / ₦5M</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+              <div class="project-content">
+                <h4>Family Restoration Ministry</h4>
+                <p>Supporting families in crisis and need</p>
+                <div class="project-progress">
+                  <div class="progress-bar">
+                    <div
+                      class="progress-fill ongoing"
+                      data-progress="100"
+                    ></div>
+                  </div>
+                  <div class="progress-stats">
+                    <span class="progress-text">Ongoing Ministry</span>
+                    <span class="progress-amount">Monthly Goal: ₦500K</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Harvest Schedule -->
+        <div class="harvest-schedule" data-aos="fade-up" data-aos-delay="800">
+          <h3>Harvest Day Schedule</h3>
+          <div class="schedule-timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">8:00 AM</div>
+              <div class="timeline-content">
+                <h4>Setup & Preparation</h4>
+                <p>Volunteers arrive for event setup and decoration</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-time">10:30 AM</div>
+              <div class="timeline-content">
+                <h4>Harvest Thanksgiving Mass</h4>
+                <p>Special liturgy with blessing of harvest offerings</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-time">12:00 PM</div>
+              <div class="timeline-content">
+                <h4>Harvest Bazaar Opens</h4>
+                <p>Community marketplace with local vendors and crafts</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-time">1:00 PM</div>
+              <div class="timeline-content">
+                <h4>Community Feast</h4>
+                <p>Shared meal and fellowship celebration</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-time">3:00 PM</div>
+              <div class="timeline-content">
+                <h4>Cultural Performances</h4>
+                <p>Music, dance, and artistic presentations</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-time">5:00 PM</div>
+              <div class="timeline-content">
+                <h4>Closing Prayer & Cleanup</h4>
+                <p>Thanksgiving prayer and event conclusion</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="harvest-cta" data-aos="fade-up" data-aos-delay="1000">
+          <div class="cta-content">
+            <h3>Be Part of the Restoration</h3>
+            <p>
+              Join us in this harvest of restoration as we celebrate God's
+              faithfulness and work together to restore our community
+            </p>
+            <div class="cta-buttons">
+              <button class="cta-btn primary-cta" id="participate-btn">
+                <i class="fas fa-hands-helping"></i>
+                <span>I Want to Participate</span>
+              </button>
+              <button class="cta-btn secondary-cta" id="donate-harvest-btn">
+                <i class="fas fa-donate"></i>
+                <span>Make Harvest Offering</span>
+              </button>
+              <a href="harvest-details.html" class="cta-btn tertiary-cta">
+                <i class="fas fa-info-circle"></i>
+                <span>More Details</span>
+              </a>
+            </div>
+          </div>
+          <div class="cta-visual">
+            <div class="restoration-animation">
+              <div class="broken-heart"></div>
+              <div class="healing-light"></div>
+              <div class="restored-heart"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Background Elements -->
+      <div class="harvest-bg-elements">
+        <div class="floating-wheat wheat-1"></div>
+        <div class="floating-wheat wheat-2"></div>
+        <div class="floating-wheat wheat-3"></div>
+        <div class="restoration-rays"></div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <h2>Parish Gallery</h2>
+          <p>Moments of faith, fellowship, and community life</p>
+        </div>
+        <div class="gallery-filters" data-aos="fade-up" data-aos-delay="200">
+          <button class="filter-btn active" data-filter="all">
+            <i class="fas fa-th"></i>
+            <span>All Photos</span>
+          </button>
+          <button class="filter-btn" data-filter="mass">
+            <i class="fas fa-church"></i>
+            <span>Holy Mass</span>
+          </button>
+          <button class="filter-btn" data-filter="events">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Parish Events</span>
+          </button>
+          <button class="filter-btn" data-filter="sacraments">
+            <i class="fas fa-cross"></i>
+            <span>Sacraments</span>
+          </button>
+          <button class="filter-btn" data-filter="community">
+            <i class="fas fa-users"></i>
+            <span>Community</span>
+          </button>
+          <button class="filter-btn" data-filter="youth">
+            <i class="fas fa-child"></i>
+            <span>Youth Ministry</span>
+          </button>
+        </div>
+        <div class="gallery-grid" data-aos="fade-up" data-aos-delay="400">
+          <div class="gallery-item" data-category="mass">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1520637736862-4d197d17c55a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Sunday Mass"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Sunday Mass Celebration</h4>
+                  <p>Our vibrant Sunday worship service</p>
+                  <span class="gallery-date">December 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button
+                    class="gallery-btn view-btn"
+                    data-image="https://images.unsplash.com/photo-1520637736862-4d197d17c55a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-item" data-category="events">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Parish Festival"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Parish Festival</h4>
+                  <p>Annual parish celebration</p>
+                  <span class="gallery-date">November 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button
+                    class="gallery-btn view-btn"
+                    data-image="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-item" data-category="sacraments">
+            <div class="gallery-image">
+              <img
+                src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Baptism Ceremony"
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <div class="gallery-info">
+                  <h4>Baptism Ceremony</h4>
+                  <p>New life in Christ</p>
+                  <span class="gallery-date">October 2024</span>
+                </div>
+                <div class="gallery-actions">
+                  <button
+                    class="gallery-btn view-btn"
+                    data-image="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="gallery-btn share-btn">
+                    <i class="fas fa-share-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gallery-load-more" data-aos="fade-up" data-aos-delay="600">
+          <button class="load-more-btn" id="load-more-gallery">
+            <i class="fas fa-plus"></i>
+            <span>Load More Photos</span>
+          </button>
+          <p class="gallery-count">
+            Showing <span id="current-count">3</span> of
+            <span id="total-count">50</span> photos
+          </p>
+        </div>
+        <div
+          class="gallery-upload-section"
+          data-aos="fade-up"
+          data-aos-delay="800"
+        >
+          <div class="upload-card">
+            <div class="upload-icon">
+              <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3>Share Your Photos</h3>
+            <p>
+              Have photos from parish events? Share them with our community!
+            </p>
+            <button class="upload-btn" id="upload-photos-btn">
+              <i class="fas fa-camera"></i>
+              <span>Upload Photos</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-modal" id="gallery-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+          <button class="modal-close" id="close-gallery-modal">
+            <i class="fas fa-times"></i>
+          </button>
+          <div class="modal-navigation">
+            <button class="nav-btn prev-btn" id="prev-image">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-btn next-btn" id="next-image">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          <div class="modal-image-container">
+            <img id="modal-image" src="" alt="" />
+            <div class="image-loader">
+              <div class="loader-spinner"></div>
+            </div>
+          </div>
+          <div class="modal-info">
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <span id="modal-date"></span>
+            <div class="modal-actions">
+              <button class="modal-action-btn download-btn" id="download-image">
+                <i class="fas fa-download"></i>
+                <span>Download</span>
+              </button>
+              <button class="modal-action-btn share-btn" id="share-image">
+                <i class="fas fa-share-alt"></i>
+                <span>Share</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Stream Section -->
+    <section id="live-stream" class="live-stream-section">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="section-header" data-aos="fade-up">
+          <h2>Live Mass & Prayer</h2>
+          <p>Join us for live worship from anywhere in the world</p>
+        </div>
+
+        <!-- Live Stream Status -->
+        <div class="stream-status" data-aos="fade-up" data-aos-delay="200">
+          <div class="status-indicator" id="stream-status">
+            <div class="status-dot offline"></div>
+            <span class="status-text">Stream Offline</span>
+          </div>
+          <div class="next-stream-info">
+            <i class="fas fa-clock"></i>
+            <span
+              >Next Live Mass:
+              <strong id="next-mass-time">Sunday 6:30 AM</strong></span
+            >
+          </div>
+        </div>
+
+        <!-- Video Player Container -->
+        <div class="video-container" data-aos="fade-up" data-aos-delay="300">
+          <div class="video-wrapper">
+            <!-- Live Stream Player -->
+            <div class="stream-player" id="stream-player">
+              <div class="stream-offline-state" id="offline-state">
+                <div class="offline-content">
+                  <div class="offline-icon">
+                    <i class="fas fa-video-slash"></i>
+                  </div>
+                  <h3>Stream Currently Offline</h3>
+                  <p>
+                    We're not streaming right now, but you can watch our recent
+                    Masses below or check our schedule for upcoming live
+                    streams.
+                  </p>
+                  <div class="offline-actions">
+                    <button class="btn btn-primary" id="notify-btn">
+                      <i class="fas fa-bell"></i>
+                      <span>Notify Me When Live</span>
+                    </button>
+                    <button class="btn btn-secondary" id="test-stream-btn">
+                      <i class="fas fa-play"></i>
+                      <span>Test Stream</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- YouTube Embed (Hidden by default) -->
+              <div
+                class="youtube-embed"
+                id="youtube-embed"
+                style="display: none"
+              >
+                <iframe
+                  id="youtube-iframe"
+                  width="100%"
+                  height="100%"
+                  src=""
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                >
+                </iframe>
+              </div>
+            </div>
+
+            <!-- Stream Controls -->
+            <div
+              class="stream-controls"
+              id="stream-controls"
+              style="display: none"
+            >
+              <div class="controls-left">
+                <button class="control-btn" id="play-pause-btn">
+                  <i class="fas fa-pause"></i>
+                </button>
+                <button class="control-btn" id="volume-btn">
+                  <i class="fas fa-volume-up"></i>
+                </button>
+                <div class="volume-slider">
+                  <input
+                    type="range"
+                    id="volume-range"
+                    min="0"
+                    max="100"
+                    value="80"
+                  />
+                </div>
+                <span class="stream-quality">HD</span>
+              </div>
+              <div class="controls-right">
+                <span class="viewer-count">
+                  <i class="fas fa-eye"></i>
+                  <span id="viewer-count">0</span>
+                </span>
+                <button class="control-btn" id="fullscreen-btn">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stream Info Panel -->
+          <div class="stream-info-panel">
+            <div class="current-service" id="current-service">
+              <div class="service-icon">
+                <i class="fas fa-church"></i>
+              </div>
+              <div class="service-details">
+                <h4>Sunday Mass</h4>
+                <p>Holy Eucharist Celebration</p>
+                <span class="service-time">Started at 6:30 AM</span>
+              </div>
+              <div class="live-badge">
+                <span>LIVE</span>
+              </div>
+            </div>
+
+            <div class="stream-actions">
+              <button class="action-btn share-btn" id="share-stream-btn">
+                <i class="fas fa-share-alt"></i>
+                <span>Share</span>
+              </button>
+              <button class="action-btn donate-btn" id="stream-donate-btn">
+                <i class="fas fa-heart"></i>
+                <span>Donate</span>
+              </button>
+              <button class="action-btn prayer-btn" id="prayer-request-btn">
+                <i class="fas fa-praying-hands"></i>
+                <span>Prayer Request</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Stream Schedule -->
+        <div class="stream-schedule" data-aos="fade-up" data-aos-delay="400">
+          <h3>Live Stream Schedule</h3>
+          <div class="schedule-grid">
+            <div class="schedule-day">
+              <div class="day-header">
+                <h4>Sunday</h4>
+                <span class="day-date">Today</span>
+              </div>
+              <div class="day-streams">
+                <div class="stream-item active">
+                  <div class="stream-time">6:30 AM</div>
+                  <div class="stream-title">Morning Mass</div>
+                  <div class="stream-status-badge live">Live Now</div>
+                </div>
+                <div class="stream-item">
+                  <div class="stream-time">8:30 AM</div>
+                  <div class="stream-title">Family Mass</div>
+                  <div class="stream-status-badge upcoming">Upcoming</div>
+                </div>
+                <div class="stream-item">
+                  <div class="stream-time">6:00 PM</div>
+                  <div class="stream-title">Evening Mass</div>
+                  <div class="stream-status-badge upcoming">Upcoming</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="schedule-day">
+              <div class="day-header">
+                <h4>Monday</h4>
+                <span class="day-date">Tomorrow</span>
+              </div>
+              <div class="day-streams">
+                <div class="stream-item">
+                  <div class="stream-time">6:30 AM</div>
+                  <div class="stream-title">Morning Mass</div>
+                  <div class="stream-status-badge scheduled">Scheduled</div>
+                </div>
+                <div class="stream-item">
+                  <div class="stream-time">6:30 PM</div>
+                  <div class="stream-title">Evening Mass</div>
+                  <div class="stream-status-badge scheduled">Scheduled</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="schedule-day">
+              <div class="day-header">
+                <h4>Wednesday</h4>
+                <span class="day-date">Dec 18</span>
+              </div>
+              <div class="day-streams">
+                <div class="stream-item">
+                  <div class="stream-time">6:30 AM</div>
+                  <div class="stream-title">Morning Mass</div>
+                  <div class="stream-status-badge scheduled">Scheduled</div>
+                </div>
+                <div class="stream-item">
+                  <div class="stream-time">7:00 PM</div>
+                  <div class="stream-title">Bible Study</div>
+                  <div class="stream-status-badge scheduled">Scheduled</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="schedule-day">
+              <div class="day-header">
+                <h4>Friday</h4>
+                <span class="day-date">Dec 20</span>
+              </div>
+              <div class="day-streams">
+                <div class="stream-item">
+                  <div class="stream-time">6:30 AM</div>
+                  <div class="stream-title">Morning Mass</div>
+                  <div class="stream-status-badge scheduled">Scheduled</div>
+                </div>
+                <div class="stream-item">
+                  <div class="stream-time">6:30 PM</div>
+                  <div class="stream-title">Prayer Group</div>
+                  <div class="stream-status-badge scheduled">Scheduled</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Recordings -->
+        <div class="recent-recordings" data-aos="fade-up" data-aos-delay="500">
+          <h3>Recent Mass Recordings</h3>
+          <div class="recordings-grid">
+            <div class="recording-item">
+              <div class="recording-thumbnail">
+                <img
+                  src="https://images.unsplash.com/photo-1520637736862-4d197d17c55a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Sunday Mass Recording"
+                />
+                <div class="play-overlay">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="recording-duration">1:15:30</div>
+              </div>
+              <div class="recording-info">
+                <h4>Sunday Mass - December 15, 2024</h4>
+                <p>Third Sunday of Advent</p>
+                <div class="recording-meta">
+                  <span class="recording-date">
+                    <i class="fas fa-calendar"></i>
+                    Dec 15, 2024
+                  </span>
+                  <span class="recording-views">
+                    <i class="fas fa-eye"></i>
+                    1,234 views
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="recording-item">
+              <div class="recording-thumbnail">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Weekday Mass Recording"
+                />
+                <div class="play-overlay">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="recording-duration">45:20</div>
+              </div>
+              <div class="recording-info">
+                <h4>Weekday Mass - December 12, 2024</h4>
+                <p>Feast of Our Lady of Guadalupe</p>
+                <div class="recording-meta">
+                  <span class="recording-date">
+                    <i class="fas fa-calendar"></i>
+                    Dec 12, 2024
+                  </span>
+                  <span class="recording-views">
+                    <i class="fas fa-eye"></i>
+                    856 views
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="recording-item">
+              <div class="recording-thumbnail">
+                <img
+                  src="https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Bible Study Recording"
+                />
+                <div class="play-overlay">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="recording-duration">52:15</div>
+              </div>
+              <div class="recording-info">
+                <h4>Bible Study - December 11, 2024</h4>
+                <p>Advent Reflections</p>
+                <div class="recording-meta">
+                  <span class="recording-date">
+                    <i class="fas fa-calendar"></i>
+                    Dec 11, 2024
+                  </span>
+                  <span class="recording-views">
+                    <i class="fas fa-eye"></i>
+                    432 views
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="recordings-actions">
+            <a href="recordings.html" class="btn btn-outline">
+              <i class="fas fa-video"></i>
+              <span>View All Recordings</span>
+            </a>
+            <a
+              href="https://www.youtube.com/@olmqbadore2146"
+              class="btn btn-primary"
+              target="_blank"
+            >
+              <i class="fab fa-youtube"></i>
+              <span>Subscribe on YouTube</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Background Elements -->
+      <div class="stream-bg-elements">
+        <div class="floating-signal signal-1"></div>
+        <div class="floating-signal signal-2"></div>
+        <div class="floating-signal signal-3"></div>
+      </div>
+    </section>
+
+    <!-- Announcements & Adverts Section -->
+    <section id="announcements" class="announcements-section">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="section-header" data-aos="fade-up">
+          <h2>Announcements & Adverts</h2>
+          <p>
+            Stay updated with parish news and advertise on our page
+          </p>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="announcements-grid">
+          <!-- Archdiocese Announcement -->
+          <div
+            class="announcement-card archdiocese-card"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <div class="card-header">
+              <div class="header-badge">
+                <i class="fas fa-church"></i>
+                <span>Archdiocese of Lagos</span>
+              </div>
+              <div class="card-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>December 16, 2024</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="archdiocese-logo">
+                <img
+                  src="assets/img/archbishop.jpg"
+                  alt="Archdiocese of Lagos Logo"
+                  onerror="this.style.display='none'"
+                />
+              </div>
+              <h3>Christmas Season Pastoral Letter</h3>
+              <p>
+                His Grace, Most Rev. Alfred Adewale Martins, Archbishop of
+                Lagos, has released the 2024 Christmas Pastoral Letter titled
+                "Emmanuel: God With Us in Times of Challenge."
+              </p>
+              <div class="announcement-highlights">
+                <div class="highlight-item">
+                  <i class="fas fa-star"></i>
+                  <span>Special Christmas Masses Schedule</span>
+                </div>
+                <div class="highlight-item">
+                  <i class="fas fa-heart"></i>
+                  <span>Charity Drive for the Needy</span>
+                </div>
+                <div class="highlight-item">
+                  <i class="fas fa-users"></i>
+                  <span>Youth Christmas Carol Festival</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a
+                href="https://www.lagosarchdiocese.org/"
+                target="_blank"
+                class="btn btn-primary"
+              >
+                <i class="fas fa-external-link-alt"></i>
+                <span>Visit Archdiocese Website</span>
+              </a>
+              <button class="btn btn-secondary" id="read-full-letter">
+                <i class="fas fa-book-open"></i>
+                <span>Read Full Letter</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Parish Priest's Desk -->
+          <div
+            class="announcement-card priest-desk-card"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <div class="card-header">
+              <div class="header-badge priest-badge">
+                <i class="fas fa-user-tie"></i>
+                <span>Parish Priest's Desk</span>
+              </div>
+              <div class="card-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>December 15, 2024</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="priest-info">
+                <div class="priest-avatar">
+                  <img
+                    src="assets/img/pp.jpg"
+                    alt="Parish Priest"
+                  />
+                </div>
+                <div class="priest-details">
+                  <h4>Rev. Fr. Leon Houessou</h4>
+                  <p>Parish Priest</p>
+                </div>
+              </div>
+              <h3>Advent Reflections & Christmas Preparations</h3>
+              <div class="message-preview">
+                <p>
+                  "Dear beloved parishioners, as we journey through this holy
+                  season of Advent, I invite you to prepare your hearts for the
+                  coming of our Lord Jesus Christ. This Christmas, let us focus
+                  on the true meaning of Emmanuel - God with us..."
+                </p>
+                <div class="message-fade"></div>
+              </div>
+              <div class="announcement-tags">
+                <span class="tag">Advent</span>
+                <span class="tag">Christmas</span>
+                <span class="tag">Preparation</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary" id="read-full-message">
+                <i class="fas fa-envelope-open"></i>
+                <span>Read Full Message</span>
+              </button>
+              <button class="btn btn-secondary" id="previous-messages">
+                <i class="fas fa-archive"></i>
+                <span>Previous Messages</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parish Announcements Ticker -->
+        <div
+          class="announcements-ticker"
+          data-aos="fade-up"
+          data-aos-delay="400"
+        >
+          <div class="ticker-header">
+            <i class="fas fa-bullhorn"></i>
+            <span>Parish Updates</span>
+          </div>
+          <div class="ticker-content">
+            <div class="ticker-scroll">
+              <span class="ticker-item">
+                <i class="fas fa-calendar"></i>
+                Christmas Novena starts December 16th at 6:00 PM daily
+              </span>
+              <span class="ticker-separator">•</span>
+              <span class="ticker-item">
+                <i class="fas fa-gift"></i>
+                Christmas Gift Distribution for Children - December 22nd after
+                9:00 AM Mass
+              </span>
+              <span class="ticker-separator">•</span>
+              <span class="ticker-item">
+                <i class="fas fa-music"></i>
+                Christmas Carol Night - December 23rd at 7:00 PM
+              </span>
+              <span class="ticker-separator">•</span>
+              <span class="ticker-item">
+                <i class="fas fa-star"></i>
+                Midnight Mass - December 24th at 11:30 PM
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!--Adverts Section -->
+        <div class="adverts-section" data-aos="fade-up" data-aos-delay="500">
+          <div class="section-divider">
+            <h3>Adverts Section</h3>
+            <p>Advertise your business here!</p>
+          </div>
+
+          <!-- Featured Adverts -->
+          <div class="featured-adverts">
+            <div
+              class="advert-card featured"
+              data-aos="zoom-in"
+              data-aos-delay="600"
+            >
+              <div class="advert-badge">
+                <span>Featured</span>
+              </div>
+              <div class="advert-content">
+                <div class="advert-logo">
+                  <img
+                    src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                    alt="Business Logo"
+                  />
+                </div>
+                <div class="advert-info">
+                  <h4>Divine Grace Schools</h4>
+                  <p>Quality Catholic Education for Your Children</p>
+                  <div class="advert-details">
+                    <span
+                      ><i class="fas fa-map-marker-alt"></i> Ajah, Lagos</span
+                    >
+                    <span><i class="fas fa-phone"></i> +234 801 234 5678</span>
+                  </div>
+                </div>
+              </div>
+              <div class="advert-actions">
+                <!-- <button class="contact-btn">
+                  <i class="fas fa-phone"></i>
+                  <span>Contact</span>
+                </button> -->
+                <button class="info-btn">
+                  <i class="fas fa-info-circle"></i>
+                  <span>More Info</span>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="advert-card featured"
+              data-aos="zoom-in"
+              data-aos-delay="700"
+            >
+              <div class="advert-badge">
+                <span>Featured</span>
+              </div>
+              <div class="advert-content">
+                <div class="advert-logo">
+                  <img
+                    src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                    alt="Business Logo"
+                  />
+                </div>
+                <div class="advert-info">
+                  <h4>Blessed Hands Catering</h4>
+                  <p>Professional Catering for All Occasions</p>
+                  <div class="advert-details">
+                    <span
+                      ><i class="fas fa-map-marker-alt"></i> Badore, Lagos</span
+                    >
+                    <span><i class="fas fa-phone"></i> +234 802 345 6789</span>
+                  </div>
+                </div>
+              </div>
+              <div class="advert-actions">
+                <!-- <button class="contact-btn">
+                  <i class="fas fa-phone"></i>
+                  <span>Contact</span>
+                </button> -->
+                <button class="info-btn">
+                  <i class="fas fa-info-circle"></i>
+                  <span>More Info</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Regular Adverts Grid -->
+          <div class="regular-adverts">
+            <div class="advert-card" data-aos="fade-up" data-aos-delay="800">
+              <div class="advert-content">
+                <div class="advert-logo">
+                  <img
+                    src="https://images.unsplash.com/photo-1586880244386-8b3e34c8382c?ixlib=rb-4.0.3&auto=format&fit=crop&w=80&q=80"
+                    alt="Business Logo"
+                  />
+                </div>
+                <div class="advert-info">
+                  <h4>Faith Pharmacy</h4>
+                  <p>Your Health, Our Priority</p>
+                  <span class="advert-location">
+                    <i class="fas fa-map-marker-alt"></i> Sangotedo
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="advert-card" data-aos="fade-up" data-aos-delay="900">
+              <div class="advert-content">
+                <div class="advert-logo">
+                  <img
+                    src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=80&q=80"
+                    alt="Business Logo"
+                  />
+                </div>
+                <div class="advert-info">
+                  <h4>Grace Auto Services</h4>
+                  <p>Reliable Car Repairs & Maintenance</p>
+                  <span class="advert-location">
+                    <i class="fas fa-map-marker-alt"></i> Ajah
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="advert-card" data-aos="fade-up" data-aos-delay="1000">
+              <div class="advert-content">
+                <div class="advert-logo">
+                  <img
+                    src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=80&q=80"
+                    alt="Business Logo"
+                  />
+                </div>
+                <div class="advert-info">
+                  <h4>Holy Trinity Boutique</h4>
+                  <p>Fashion & Accessories</p>
+                  <span class="advert-location">
+                    <i class="fas fa-map-marker-alt"></i> Badore
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="advert-card" data-aos="fade-up" data-aos-delay="1100">
+              <div class="advert-content">
+                <div class="advert-logo">
+                  <img
+                    src="https://images.unsplash.com/photo-1586880244386-8b3e34c8382c?ixlib=rb-4.0.3&auto=format&fit=crop&w=80&q=80"
+                    alt="Business Logo"
+                  />
+                </div>
+                <div class="advert-info">
+                  <h4>Miracle Bakery</h4>
+                  <p>Fresh Bread & Pastries Daily</p>
+                  <span class="advert-location">
+                    <i class="fas fa-map-marker-alt"></i> Sangotedo
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Advertise With Us CTA -->
+          <div class="advertise-cta" data-aos="fade-up" data-aos-delay="1200">
+            <div class="cta-content">
+              <div class="cta-icon">
+                <i class="fas fa-bullhorn"></i>
+              </div>
+              <div class="cta-text">
+                <h3>Advertise With Us</h3>
+                <p>
+                  Reach our vibrant parish community by advertising on our page.
+                </p>
+              </div>
+              <div class="cta-actions">
+                <button class="btn btn-primary" id="place-advert-btn">
+                  <i class="fas fa-plus"></i>
+                  <span>Place Your Advert</span>
+                </button>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Background Elements -->
+      <div class="announcements-bg">
+        <div class="floating-announcement"></div>
+        <div class="floating-announcement"></div>
+        <div class="floating-announcement"></div>
+      </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/daily-readings.js"></script>
+
+    <!-- Parish Registration Modal -->
+    <div id="parish-registration-modal" class="participation-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Welcome to Our Lady Mother and Queen</h3>
+          <p class="modal-subtitle">"We shall do whatever your son tells us"</p>
+          <button class="close-modal" id="close-parish-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="welcome-message">
+            <div class="welcome-icon">
+              <i class="fas fa-church"></i>
+            </div>
+            <h4>Join Our Parish Family</h4>
+            <p>
+              Are you new to our parish or would you like to become a registered
+              member of our faith community?
+            </p>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-primary" id="register-parish-btn">
+              <i class="fas fa-user-plus"></i>
+              <span>Yes, I want to register</span>
+            </button>
+            <button class="btn-secondary" id="browse-parish-btn">
+              <i class="fas fa-eye"></i>
+              <span>Just browsing for now</span>
+            </button>
+            <button class="btn-tertiary" id="already-member-btn">
+              <i class="fas fa-check"></i>
+              <span>I am already a member</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <small
+              >This message will not show again for 30 days if you choose an
+              option</small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Participation Modal -->
+    <div id="participation-modal" class="participation-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Join the Harvest of Restoration</h3>
+          <button class="close-modal" id="close-participation-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="participation-form">
+            <div class="form-group">
+              <label for="participant-name">Full Name *</label>
+              <input
+                type="text"
+                id="participant-name"
+                name="participant-name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="participant-email">Email Address *</label>
+              <input
+                type="email"
+                id="participant-email"
+                name="participant-email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="participant-phone">Phone Number *</label>
+              <input
+                type="tel"
+                id="participant-phone"
+                name="participant-phone"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Which harvest event? *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input
+                    type="radio"
+                    name="harvest-event"
+                    value="children"
+                    required
+                  />
+                  <span class="radio-mark"></span>
+                  Children's Harvest (August 24, 2024)
+                </label>
+                <label class="radio-label">
+                  <input
+                    type="radio"
+                    name="harvest-event"
+                    value="adult"
+                    required
+                  />
+                  <span class="radio-mark"></span>
+                  Adult Harvest & Bazaar (November 16, 2025)
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="harvest-event" value="both" />
+                  <span class="radio-mark"></span>
+                  Both Events
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>How would you like to participate? *</label>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="participation" value="produce" />
+                  <span class="checkmark"></span>
+                  Bring agricultural produce
+                </label>
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="participation"
+                    value="monetary"
+                  />
+                  <span class="checkmark"></span>
+                  Make monetary offering
+                </label>
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="participation"
+                    value="volunteer"
+                  />
+                  <span class="checkmark"></span>
+                  Volunteer for event
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="participation" value="bazaar" />
+                  <span class="checkmark"></span>
+                  Set up bazaar stall
+                </label>
+              </div>
+            </div>
+            <div class="form-group" id="produce-details" style="display: none">
+              <label for="produce-type">What produce will you bring?</label>
+              <textarea
+                id="produce-type"
+                name="produce-type"
+                rows="3"
+                placeholder="e.g., Rice (2 bags), Yams (1 basket), Palm oil (2 bottles)..."
+              ></textarea>
+            </div>
+            <div
+              class="form-group"
+              id="volunteer-details"
+              style="display: none"
+            >
+              <label for="volunteer-area">Preferred volunteer area</label>
+              <select id="volunteer-area" name="volunteer-area">
+                <option value="">Select area</option>
+                <option value="setup">Event setup & decoration</option>
+                <option value="food">Food preparation & serving</option>
+                <option value="children">Children's activities</option>
+                <option value="cleanup">Cleanup & organization</option>
+                <option value="registration">Registration & welcome</option>
+                <option value="security">Security & crowd control</option>
+              </select>
+            </div>
+            <div class="form-group" id="bazaar-details" style="display: none">
+              <label for="stall-type">What will you sell at your stall?</label>
+              <textarea
+                id="stall-type"
+                name="stall-type"
+                rows="3"
+                placeholder="Describe the items you plan to sell..."
+              ></textarea>
+              <small>Note: Stall registration fee is ₦2,000</small>
+            </div>
+            <div class="form-group">
+              <label for="special-requests">Special requests or comments</label>
+              <textarea
+                id="special-requests"
+                name="special-requests"
+                rows="3"
+                placeholder="Any special needs, dietary restrictions, or additional information..."
+              ></textarea>
+            </div>
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn-secondary"
+                id="cancel-participation"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-check"></i>
+                <span>Register Participation</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prayer Request Modal -->
+    <div id="prayer-request-modal" class="prayer-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Submit Prayer Request</h3>
+          <button class="close-modal" id="close-prayer-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="prayer-request-form">
+            <div class="form-group">
+              <label for="prayer-name">Your Name (Optional)</label>
+              <input
+                type="text"
+                id="prayer-name"
+                placeholder="Enter your name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="prayer-email">Email (Optional)</label>
+              <input
+                type="email"
+                id="prayer-email"
+                placeholder="Enter your email"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="prayer-request">Prayer Request *</label>
+              <textarea
+                id="prayer-request"
+                rows="5"
+                placeholder="Share your prayer request..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="prayer-anonymous" />
+                <span class="checkmark"></span>
+                Keep my request anonymous
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="prayer-urgent" />
+                <span class="checkmark"></span>
+                This is an urgent prayer request
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" id="cancel-prayer">
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-praying-hands"></i>
+                <span>Submit Prayer Request</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stream Notification Modal -->
+    <div id="stream-notification-modal" class="notification-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Stream Notifications</h3>
+          <button class="close-modal" id="close-notification-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="notification-options">
+            <div class="notification-method">
+              <div class="method-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="method-info">
+                <h4>Email Notifications</h4>
+                <p>Get notified via email when we go live</p>
+              </div>
+              <div class="method-toggle">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="email-notifications" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="notification-method">
+              <div class="method-icon">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div class="method-info">
+                <h4>SMS Notifications</h4>
+                <p>Receive text messages for live streams</p>
+              </div>
+              <div class="method-toggle">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sms-notifications" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="notification-method">
+              <div class="method-icon">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div class="method-info">
+                <h4>Browser Notifications</h4>
+                <p>Get instant browser notifications</p>
+              </div>
+              <div class="method-toggle">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="browser-notifications" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <form id="notification-form" style="display: none">
+            <div class="form-group">
+              <label for="notification-email">Email Address *</label>
+              <input type="email" id="notification-email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="notification-phone">Phone Number (for SMS)</label>
+              <input
+                type="tel"
+                id="notification-phone"
+                placeholder="+234 xxx xxx xxxx"
+              />
+            </div>
+
+            <div class="notification-preferences">
+              <h4>Notify me for:</h4>
+              <div class="preference-options">
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="notify-events"
+                    value="mass"
+                    checked
+                  />
+                  <span class="checkmark"></span>
+                  Holy Mass
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="notify-events" value="prayer" />
+                  <span class="checkmark"></span>
+                  Prayer Services
+                </label>
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="notify-events"
+                    value="bible-study"
+                  />
+                  <span class="checkmark"></span>
+                  Bible Study
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="notify-events" value="special" />
+                  <span class="checkmark"></span>
+                  Special Events
+                </label>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn-secondary"
+                id="cancel-notifications"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-bell"></i>
+                <span>Save Preferences</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pastoral Letter Modal -->
+    <div id="pastoral-letter-modal" class="announcement-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+            <img
+              src="assets/img/archdiocese-logo.png"
+              alt="Archdiocese Logo"
+              class="modal-logo"
+              onerror="this.style.display='none'"
+            />
+            <div>
+              <h3>Christmas Pastoral Letter 2024</h3>
+              <p>Archdiocese of Lagos</p>
+            </div>
+          </div>
+          <button class="close-modal" id="close-pastoral-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="letter-content">
+            <div class="letter-header">
+              <h4>"Emmanuel: God With Us in Times of Challenge"</h4>
+              <div class="letter-meta">
+                <span
+                  ><i class="fas fa-user"></i> Most Rev. Alfred Adewale
+                  Martins</span
+                >
+                <span><i class="fas fa-calendar"></i> December 16, 2024</span>
+              </div>
+            </div>
+            <div class="letter-text">
+              <p><strong>Dear Brothers and Sisters in Christ,</strong></p>
+              <p>
+                As we enter this holy season of Christmas, I write to you with
+                joy and hope, reflecting on the profound mystery of the
+                Incarnation - God becoming man to dwell among us.
+              </p>
+              <p>
+                The name Emmanuel, meaning "God with us," reminds us that in our
+                times of challenge, uncertainty, and even despair, we are not
+                alone. Our Lord Jesus Christ, born in Bethlehem over two
+                thousand years ago, continues to be present with us today...
+              </p>
+              <p><strong>Christmas Schedule:</strong></p>
+              <ul>
+                <li>Christmas Novena: December 16-24, 6:00 PM daily</li>
+                <li>Christmas Eve Mass: December 24, 11:30 PM</li>
+                <li>
+                  Christmas Day Masses: December 25, 7:00 AM, 9:00 AM, 11:00 AM
+                </li>
+              </ul>
+              <p>
+                I encourage all parishes to organize special programs for the
+                needy during this season, remembering that Christ came
+                especially for the poor and marginalized...
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="download-letter">
+            <i class="fas fa-download"></i>
+            <span>Download PDF</span>
+          </button>
+          <a
+            href="https://www.archdioceseoflagos.org"
+            target="_blank"
+            class="btn btn-primary"
+          >
+            <i class="fas fa-external-link-alt"></i>
+            <span>Visit Website</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Parish Priest Message Modal -->
+    <div id="priest-message-modal" class="announcement-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&q=80"
+              alt="Parish Priest"
+              class="modal-avatar"
+            />
+            <div>
+              <h3>Advent Reflections & Christmas Preparations</h3>
+              <p>Rev. Fr. Leo Garber - Parish Priest</p>
+            </div>
+          </div>
+          <button class="close-modal" id="close-priest-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="message-content">
+            <div class="message-date">
+              <i class="fas fa-calendar"></i>
+              <span>December 15, 2024</span>
+            </div>
+            <div class="message-text">
+              <p><strong>Dear beloved parishioners,</strong></p>
+              <p>
+                As we journey through this holy season of Advent, I invite you
+                to prepare your hearts for the coming of our Lord Jesus Christ.
+                This Christmas, let us focus on the true meaning of Emmanuel -
+                God with us.
+              </p>
+              <p>
+                In these times of global challenges and personal struggles, the
+                message of Christmas brings us hope and comfort. God chose to
+                become one of us, to share in our humanity, and to show us the
+                way to eternal life.
+              </p>
+              <p><strong>Parish Christmas Activities:</strong></p>
+              <ul>
+                <li>Daily Advent Reflections after evening Mass</li>
+                <li>Christmas decoration of the church - volunteers needed</li>
+                <li>Children's Christmas program rehearsals every Saturday</li>
+                <li>Christmas hamper distribution for needy families</li>
+              </ul>
+              <p>
+                I encourage each family to create a special time for prayer and
+                reflection during this Advent season. Let us prepare not just
+                our homes, but our hearts for the Prince of Peace.
+              </p>
+              <p>
+                May this Christmas bring you and your families abundant
+                blessings, peace, and joy.
+              </p>
+              <p><strong>In Christ,</strong><br />Rev. Fr. [Name]</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="share-message">
+            <i class="fas fa-share-alt"></i>
+            <span>Share Message</span>
+          </button>
+          <button class="btn btn-primary" id="previous-messages-btn">
+            <i class="fas fa-archive"></i>
+            <span>Previous Messages</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Place Advert Modal -->
+    <div id="place-advert-modal" class="announcement-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+            <div class="advert-modal-icon">
+              <i class="fas fa-bullhorn"></i>
+            </div>
+            <div>
+              <h3>Place Your Advertisement</h3>
+              <p>Reach our parish community</p>
+            </div>
+          </div>
+          <button class="close-modal" id="close-advert-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="advert-form">
+            <div class="form-section">
+              <h4>Business Information</h4>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="business-name">Business Name *</label>
+                  <input type="text" id="business-name" required />
+                </div>
+                <div class="form-group">
+                  <label for="business-category">Category *</label>
+                  <select id="business-category" required>
+                    <option value="">Select Category</option>
+                    <option value="food">Food & Catering</option>
+                    <option value="education">Education</option>
+                    <option value="healthcare">Healthcare</option>
+                    <option value="automotive">Automotive</option>
+                    <option value="fashion">Fashion & Beauty</option>
+                    <option value="construction">Construction</option>
+                    <option value="technology">Technology</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="business-description">Business Description *</label>
+                <textarea
+                  id="business-description"
+                  rows="3"
+                  placeholder="Brief description of your business..."
+                  required
+                ></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="business-phone">Phone Number *</label>
+                  <input type="tel" id="business-phone" required />
+                </div>
+                <div class="form-group">
+                  <label for="business-email">Email Address</label>
+                  <input type="email" id="business-email" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="business-address">Business Address *</label>
+                <input type="text" id="business-address" required />
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h4>Advertisement Package</h4>
+              <div class="package-options">
+                <label class="package-option">
+                  <input
+                    type="radio"
+                    name="package"
+                    value="basic"
+                    data-price="15000"
+                  />
+                  <div class="package-card">
+                    <div class="package-header">
+                      <h5>Basic Package</h5>
+                      <span class="package-price">₦15,000</span>
+                    </div>
+                    <ul class="package-features">
+                      <li><i class="fas fa-check"></i> 1 month display</li>
+                      <li><i class="fas fa-check"></i> Regular advert size</li>
+                      <li><i class="fas fa-check"></i> Website listing</li>
+                    </ul>
+                  </div>
+                </label>
+
+                <label class="package-option">
+                  <input
+                    type="radio"
+                    name="package"
+                    value="featured"
+                    data-price="25000"
+                  />
+                  <div class="package-card featured-package">
+                    <div class="package-badge">Popular</div>
+                    <div class="package-header">
+                      <h5>Featured Package</h5>
+                      <span class="package-price">₦25,000</span>
+                    </div>
+                    <ul class="package-features">
+                      <li><i class="fas fa-check"></i> 2 months display</li>
+                      <li><i class="fas fa-check"></i> Featured advert size</li>
+                      <li>
+                        <i class="fas fa-check"></i> Website & bulletin listing
+                      </li>
+                      <li><i class="fas fa-check"></i> Social media mention</li>
+                    </ul>
+                  </div>
+                </label>
+
+                <label class="package-option">
+                  <input
+                    type="radio"
+                    name="package"
+                    value="premium"
+                    data-price="40000"
+                  />
+                  <div class="package-card">
+                    <div class="package-header">
+                      <h5>Premium Package</h5>
+                      <span class="package-price">₦40,000</span>
+                    </div>
+                    <ul class="package-features">
+                      <li><i class="fas fa-check"></i> 3 months display</li>
+                      <li><i class="fas fa-check"></i> Large featured size</li>
+                      <li><i class="fas fa-check"></i> All platforms</li>
+                      <li><i class="fas fa-check"></i> Newsletter feature</li>
+                      <li><i class="fas fa-check"></i> Event announcements</li>
+                    </ul>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h4>Upload Materials</h4>
+              <div class="upload-area">
+                <div class="upload-zone" id="logo-upload">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p>Upload Business Logo</p>
+                  <span>PNG, JPG up to 2MB</span>
+                  <input type="file" id="business-logo" accept="image/*" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="special-requests">Special Requests</label>
+                <textarea
+                  id="special-requests"
+                  rows="3"
+                  placeholder="Any special requirements or requests..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h4>Contact Information</h4>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact-name">Your Name *</label>
+                  <input type="text" id="contact-name" required />
+                </div>
+                <div class="form-group">
+                  <label for="contact-phone">Your Phone *</label>
+                  <input type="tel" id="contact-phone" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="parishioner-discount" />
+                  <span class="checkmark"></span>
+                  I am a registered parishioner (10% discount applies)
+                </label>
+              </div>
+            </div>
+
+            <div class="form-total">
+              <div class="total-breakdown">
+                <div class="total-item">
+                  <span>Package Cost:</span>
+                  <span id="package-cost">₦0</span>
+                </div>
+                <div
+                  class="total-item discount-item"
+                  id="discount-row"
+                  style="display: none"
+                >
+                  <span>Parishioner Discount (10%):</span>
+                  <span id="discount-amount">-₦0</span>
+                </div>
+                <div class="total-item total-final">
+                  <span>Total Amount:</span>
+                  <span id="total-amount">₦0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" id="cancel-advert">
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-paper-plane"></i>
+                <span>Submit Application</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer-section">
+      <div class="container">
+        <!-- Main Footer Content -->
+        <div class="footer-content">
+          <!-- Church Information -->
+          <div class="footer-column church-info">
+            <div class="footer-logo">
+              <img
+                src="assets/img/logo.png"
+                alt="OLMQ Logo"
+                class="footer-logo-img"
+              />
+              <div class="footer-church-name">
+                <h3>Our Lady Mother and Queen</h3>
+                <p>Catholic Church, Badore</p>
+                <span class="footer-motto"
+                  >"We shall do whatever your son tells us"</span
+                >
+              </div>
+            </div>
+            <p class="church-description">
+              A vibrant Catholic community in the heart of Badore, dedicated to
+              worship, service, and fellowship. Join us as we grow together in
+              faith and love under the guidance of Our Lady Mother and Queen.
+            </p>
+            <div class="contact-info">
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Badore, Ajah, Lagos State, Nigeria</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>+234 (0) 801 234 5678</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>info@olmqbadore.org</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="footer-column quick-links">
+            <h4>Quick Links</h4>
+            <div class="links-grid">
+              <div class="links-column">
+                <a href="about.html" class="footer-link">
+                  <i class="fas fa-info-circle"></i>
+                  <span>About Our Parish</span>
+                </a>
+                <a href="our-faith.html" class="footer-link">
+                  <i class="fas fa-book-open"></i>
+                  <span>Our Faith & Teachings</span>
+                </a>
+                <a href="parish-office.html" class="footer-link">
+                  <i class="fas fa-building"></i>
+                  <span>Parish Office Services</span>
+                </a>
+                <a href="harvest.html" class="footer-link">
+                  <i class="fas fa-seedling"></i>
+                  <span>Harvest Corner</span>
+                </a>
+              </div>
+              <div class="links-column">
+                <a href="gallery.html" class="footer-link">
+                  <i class="fas fa-images"></i>
+                  <span>Photo Gallery</span>
+                </a>
+                <a href="live-stream.html" class="footer-link">
+                  <i class="fas fa-video"></i>
+                  <span>Live Streaming</span>
+                </a>
+                <a href="gallery.html" class="footer-link">
+                  <i class="fas fa-calendar-alt"></i>
+                  <span>Upcoming Events</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sacraments & Services -->
+          <div class="footer-column services">
+            <h4>Sacraments & Services</h4>
+            <div class="service-links">
+              <a href="parish-office.html" class="footer-link">
+                <i class="fas fa-water"></i>
+                <span>Baptism Registration</span>
+              </a>
+              <a href="parish-office.html" class="footer-link">
+                <i class="fas fa-rings-wedding"></i>
+                <span>Marriage Preparation</span>
+              </a>
+              <a href="parish-office.html" class="footer-link">
+                <i class="fas fa-cross"></i>
+                <span>Confession Times</span>
+              </a>
+              <a href="parish-office.html" class="footer-link">
+                <i class="fas fa-hands"></i>
+                <span>Confirmation Classes</span>
+              </a>
+              <a href="parish-office.html" class="footer-link">
+                <i class="fas fa-bread-slice"></i>
+                <span>First Holy Communion</span>
+              </a>
+              <a href="parish-office.html" class="footer-link">
+                <i class="fas fa-dove"></i>
+                <span>Funeral Services</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Connect With Us -->
+          <div class="footer-column connect">
+            <h4>Connect With Us</h4>
+            <div class="social-media">
+              <a
+                href="https://facebook.com/olmqbadore"
+                target="_blank"
+                class="social-link facebook"
+              >
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+              </a>
+              <a
+                href="https://instagram.com/olmqbadore"
+                target="_blank"
+                class="social-link instagram"
+              >
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+              </a>
+              <a
+                href="https://www.youtube.com/@olmqbadore2146"
+                target="_blank"
+                class="social-link youtube"
+              >
+                <i class="fab fa-youtube"></i>
+                <span>YouTube</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+          <div class="footer-bottom-content">
+            <div class="copyright">
+              <p>
+                &copy; 2025 Our Lady Mother and Queen Catholic Church, Badore.
+                All rights reserved.
+              </p>
+              <p>Archdiocese of Lagos | Catholic Church</p>
+            </div>
+            <div class="developed-by">
+              <p>
+                Developed with ❤️ by <a href="darlculus.dev">Darlculus</a> for
+                the Glory of God
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Background Elements -->
+      <div class="footer-bg-elements">
+        <div class="floating-cross footer-cross"></div>
+        <div class="floating-dove footer-dove"></div>
+        <div class="floating-heart footer-heart"></div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
