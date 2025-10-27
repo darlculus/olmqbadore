@@ -121,19 +121,67 @@ function initNavigation() {
     const navLinks = safeQuerySelectorAll('.nav-link');
     const navbar = safeQuerySelector('#navbar');
 
-    // Mobile menu toggle
+    // Mobile menu toggle with improved event handling
     if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
+        // Handle both click and touch events for better mobile support
+        const toggleMenu = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const isActive = navMenu.classList.contains('active');
+            
+            if (isActive) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        };
+        
+        const openMenu = () => {
+            navMenu.classList.add('active');
+            navToggle.classList.add('active');
+            document.body.classList.add('menu-open');
+            
+            // Store current scroll position
+            const scrollY = window.scrollY;
+            document.body.style.top = `-${scrollY}px`;
+        };
+        
+        const closeMenu = () => {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            
+            // Restore scroll position
+            const scrollY = document.body.style.top;
+            document.body.style.top = '';
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        };
+        
+        navToggle.addEventListener('click', toggleMenu);
+        navToggle.addEventListener('touchstart', toggleMenu, { passive: false });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                closeMenu();
+            }
         });
+        
+        // Store functions for use in other parts
+        window.OLMQNavigation = { openMenu, closeMenu };
     }
 
     // Close mobile menu when clicking links
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            if (navMenu) navMenu.classList.remove('active');
-            if (navToggle) navToggle.classList.remove('active');
+            if (window.OLMQNavigation && window.OLMQNavigation.closeMenu) {
+                window.OLMQNavigation.closeMenu();
+            } else {
+                if (navMenu) navMenu.classList.remove('active');
+                if (navToggle) navToggle.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
         });
     });
 
@@ -573,14 +621,23 @@ function initModals() {
         }
     });
 
-    // Close modal with Escape key
+    // Close modal with Escape key and close mobile menu
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
+            // Close modal
             const openModal = safeQuerySelector(
                 `${MODAL_SELECTOR}[style*="display: flex"], ${MODAL_SELECTOR}.show`
             );
             if (openModal) {
                 closeModalEl(openModal);
+            }
+            
+            // Close mobile menu
+            if (window.OLMQNavigation && window.OLMQNavigation.closeMenu) {
+                const navMenu = safeQuerySelector('#nav-menu');
+                if (navMenu && navMenu.classList.contains('active')) {
+                    window.OLMQNavigation.closeMenu();
+                }
             }
         }
     });
@@ -997,6 +1054,29 @@ function initAnnouncements() {
     }
 }
 
+// ===== HARVEST BUTTONS =====
+function initHarvestButtons() {
+    document.addEventListener('click', function(e) {
+        // Volunteer button
+        if (e.target.closest('.volunteer-btn')) {
+            const modal = safeQuerySelector('#participation-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        // Register Stall button
+        if (e.target.closest('.register-btn')) {
+            const modal = safeQuerySelector('#participation-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+    });
+}
+
 // ===== MAIN INITIALIZATION =====
 function initializeWebsite() {
     try {
@@ -1024,9 +1104,13 @@ function initializeWebsite() {
         initNewsletter();
         initAdverts();
         initAnnouncements();
+        initHarvestButtons();
         
         // Ensure body is scrollable
         document.body.style.overflow = 'auto';
+        
+        // Add mobile-specific fixes
+        addMobileFixes();
         
         console.log('OLMQ Church website initialized successfully!');
         
@@ -1042,6 +1126,67 @@ function initializeWebsite() {
         
         showNotification('Website loaded with limited functionality', 'error');
     }
+}
+
+// ===== MOBILE FIXES =====
+function addMobileFixes() {
+    // Fix for iOS Safari viewport issues
+    const setVH = () => {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+    
+    setVH();
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+    
+    // Improve touch responsiveness
+    const navToggle = safeQuerySelector('#nav-toggle');
+    if (navToggle) {
+        navToggle.style.touchAction = 'manipulation';
+        navToggle.style.userSelect = 'none';
+        navToggle.style.webkitUserSelect = 'none';
+        navToggle.style.webkitTouchCallout = 'none';
+        
+        // Add visual feedback for touch
+        navToggle.addEventListener('touchstart', () => {
+            navToggle.style.transform = 'scale(0.95)';
+        }, { passive: true });
+        
+        navToggle.addEventListener('touchend', () => {
+            setTimeout(() => {
+                navToggle.style.transform = '';
+            }, 150);
+        }, { passive: true });
+    }
+    
+    // Prevent zoom on input focus (iOS)
+    const inputs = safeQuerySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        if (input.style.fontSize === '' || parseFloat(input.style.fontSize) < 16) {
+            input.style.fontSize = '16px';
+        }
+    });
+    
+    // Add touch-friendly styles to interactive elements
+    const interactiveElements = safeQuerySelectorAll('button, .btn, .nav-link, .filter-btn');
+    interactiveElements.forEach(element => {
+        element.style.touchAction = 'manipulation';
+    });
+    
+    // Handle orientation change
+    window.addEventListener('orientationchange', () => {
+        // Close mobile menu on orientation change
+        if (window.OLMQNavigation && window.OLMQNavigation.closeMenu) {
+            const navMenu = safeQuerySelector('#nav-menu');
+            if (navMenu && navMenu.classList.contains('active')) {
+                window.OLMQNavigation.closeMenu();
+            }
+        }
+        
+        // Recalculate viewport height
+        setTimeout(setVH, 500);
+    });
 }
 
 // ===== DOM READY =====
@@ -1078,5 +1223,20 @@ window.OLMQChurch = {
     showNotification,
     initializeWebsite,
     safeQuerySelector,
-    safeQuerySelectorAll
+    safeQuerySelectorAll,
+    addMobileFixes
+};
+
+// Debug function for mobile testing
+window.debugMobileMenu = function() {
+    const navToggle = safeQuerySelector('#nav-toggle');
+    const navMenu = safeQuerySelector('#nav-menu');
+    
+    console.log('Nav Toggle:', navToggle);
+    console.log('Nav Menu:', navMenu);
+    console.log('Nav Toggle Classes:', navToggle?.className);
+    console.log('Nav Menu Classes:', navMenu?.className);
+    console.log('Body Classes:', document.body.className);
+    console.log('Window Width:', window.innerWidth);
+    console.log('OLMQNavigation:', window.OLMQNavigation);
 };
