@@ -116,7 +116,7 @@ function initLoadingScreen() {
 
 // ===== NAVIGATION =====
 function initNavigation() {
-    const navToggle = safeQuerySelector('#nav-toggle');
+    const navToggle = safeQuerySelector('#hamburger');
     const navMenu = safeQuerySelector('#nav-menu');
     const navLinks = safeQuerySelectorAll('.nav-link');
     const navbar = safeQuerySelector('#navbar');
@@ -360,8 +360,10 @@ function initMassCountdown() {
                 massTime = '6:30 AM';
             }
         } else {
-            // Weekday Mass at 6:30 AM
-            nextMass.setHours(6, 30, 0, 0);
+            // Weekday Mass - Saturday is 7:00 AM, others are 6:30 AM
+            const morningHour = today === 6 ? 7 : 6; // Saturday = 6, so 7:00 AM
+            const morningMinute = today === 6 ? 0 : 30;
+            nextMass.setHours(morningHour, morningMinute, 0, 0);
             if (now > nextMass) {
                 nextMass.setHours(18, 30, 0, 0);
                 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -369,15 +371,17 @@ function initMassCountdown() {
                 massTime = '6:30 PM';
                 if (now > nextMass) {
                     nextMass.setDate(nextMass.getDate() + 1);
-                    nextMass.setHours(6, 30, 0, 0);
                     const nextDay = (today + 1) % 7;
+                    const nextMorningHour = nextDay === 6 ? 7 : 6;
+                    const nextMorningMinute = nextDay === 6 ? 0 : 30;
+                    nextMass.setHours(nextMorningHour, nextMorningMinute, 0, 0);
                     massDay = dayNames[nextDay];
-                    massTime = '6:30 AM';
+                    massTime = nextDay === 6 ? '7:00 AM' : '6:30 AM';
                 }
             } else {
                 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
                 massDay = dayNames[today];
-                massTime = '6:30 AM';
+                massTime = today === 6 ? '7:00 AM' : '6:30 AM';
             }
         }
         
@@ -566,9 +570,12 @@ function initModals() {
     const openModalById = (modalId) => {
         const modal = safeQuerySelector(`#${modalId}`);
         if (modal) {
+            const scrollY = window.scrollY;
             modal.style.display = 'flex';
             modal.classList.add('show');
-            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
         }
     };
 
@@ -577,6 +584,9 @@ function initModals() {
             modal.classList.remove('show');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                window.scrollTo(0, savedScrollPosition);
+            }, 10);
         }
     };
 
@@ -591,6 +601,8 @@ function initModals() {
 
         // Explicit: Place Your Advert button
         if (e.target.closest && e.target.closest('#place-advert-btn')) {
+            e.preventDefault();
+            e.stopPropagation();
             openModalById('place-advert-modal');
             return;
         }
@@ -987,7 +999,10 @@ function initAnnouncements() {
     };
 
     if (letterBtn) {
-        letterBtn.addEventListener('click', () => {
+        letterBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            savedScrollPosition = window.scrollY;
             const content = `
                 <p><strong>Emmanuel: God With Us in Times of Challenge</strong></p>
                 <p>Beloved in Christ, as we celebrate the mystery of the Incarnation, we are reminded that God draws near to His people, especially in moments of trial. Let the light of Christ dispel every darkness in our families and in our nation.</p>
@@ -1077,10 +1092,200 @@ function initHarvestButtons() {
     });
 }
 
+// ===== LIVE STREAM FUNCTIONALITY =====
+function initLiveStream() {
+    // Notify Me When Live button
+    const notifyBtn = safeQuerySelector('#notify-btn');
+    if (notifyBtn) {
+        notifyBtn.addEventListener('click', function() {
+            const modal = safeQuerySelector('#stream-notification-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    }
+
+    // Test Stream button
+    const testStreamBtn = safeQuerySelector('#test-stream-btn');
+    if (testStreamBtn) {
+        testStreamBtn.addEventListener('click', function() {
+            const offlineState = safeQuerySelector('#offline-state');
+            const youtubeEmbed = safeQuerySelector('#youtube-embed');
+            const iframe = safeQuerySelector('#youtube-iframe');
+            
+            if (offlineState && youtubeEmbed && iframe) {
+                // Show test stream (sample video)
+                iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
+                offlineState.style.display = 'none';
+                youtubeEmbed.style.display = 'block';
+                
+                showNotification('Test stream started! This is a sample video.', 'success');
+                
+                // Update stream status
+                const statusDot = safeQuerySelector('.status-dot');
+                const statusText = safeQuerySelector('.status-text');
+                if (statusDot) statusDot.className = 'status-dot live';
+                if (statusText) statusText.textContent = 'Test Stream Live';
+            }
+        });
+    }
+
+    // Share Stream button
+    const shareBtn = safeQuerySelector('#share-stream-btn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', function() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'OLMQ Live Stream',
+                    text: 'Join us for live Mass at Our Lady Mother and Queen Catholic Church, Badore',
+                    url: window.location.href + '#live-stream'
+                }).catch(err => console.log('Error sharing:', err));
+            } else {
+                // Fallback: copy to clipboard
+                const url = window.location.href + '#live-stream';
+                navigator.clipboard.writeText(url).then(() => {
+                    showNotification('Stream link copied to clipboard!', 'success');
+                }).catch(() => {
+                    showNotification('Unable to copy link. Please share manually.', 'error');
+                });
+            }
+        });
+    }
+
+    // Donate button
+    const donateBtn = safeQuerySelector('#stream-donate-btn');
+    if (donateBtn) {
+        donateBtn.addEventListener('click', function() {
+            showNotification('Donation: Access Bank - 0017925881 - OUR LADY MOTHER AND QUEEN', 'info');
+        });
+    }
+
+    // Prayer Request button
+    const prayerBtn = safeQuerySelector('#prayer-request-btn');
+    if (prayerBtn) {
+        prayerBtn.addEventListener('click', function() {
+            const modal = safeQuerySelector('#prayer-request-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    }
+
+    // Recording play buttons
+    const playOverlays = safeQuerySelectorAll('.play-overlay');
+    playOverlays.forEach(overlay => {
+        overlay.addEventListener('click', function() {
+            const recordingItem = overlay.closest('.recording-item');
+            if (recordingItem) {
+                const title = recordingItem.querySelector('h4')?.textContent || 'Mass Recording';
+                
+                // Create and show video modal
+                createVideoModal(title, 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1');
+                showNotification(`Playing: ${title}`, 'success');
+            }
+        });
+    });
+
+    // Stream notification form handling
+    const notificationForm = safeQuerySelector('#notification-form');
+    if (notificationForm) {
+        // Show form when notification options are toggled
+        const toggles = safeQuerySelectorAll('#stream-notification-modal input[type="checkbox"]');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const anyChecked = Array.from(toggles).some(t => t.checked);
+                notificationForm.style.display = anyChecked ? 'block' : 'none';
+            });
+        });
+    }
+}
+
+// Create video modal for recordings
+function createVideoModal(title, videoUrl) {
+    // Remove existing video modal
+    const existingModal = safeQuerySelector('#video-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'video-modal';
+    modal.className = 'announcement-modal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <h3>${title}</h3>
+                </div>
+                <button class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <div class="video-container" style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
+                    <iframe 
+                        src="${videoUrl}" 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">
+                    <i class="fas fa-times"></i>
+                    <span>Close</span>
+                </button>
+                <a href="https://www.youtube.com/@olmqbadore2146" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-youtube"></i>
+                    <span>Visit Our YouTube</span>
+                </a>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    modal.style.display = 'flex';
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+// ===== GLOBAL SCROLL POSITION STORAGE =====
+let savedScrollPosition = 0;
+
+// ===== FIX PLACE ADVERT BUTTON =====
+function fixPlaceAdvertButton() {
+    const btn = document.getElementById('place-advert-btn');
+    if (btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            
+            savedScrollPosition = window.scrollY;
+            const modal = document.getElementById('place-advert-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+            return false;
+        }, true);
+    }
+}
+
 // ===== MAIN INITIALIZATION =====
 function initializeWebsite() {
     try {
         console.log('Initializing OLMQ Church website...');
+        
+        // Fix the advert button first
+        fixPlaceAdvertButton();
         
         // Core functionality
         initLoadingScreen();
@@ -1105,6 +1310,7 @@ function initializeWebsite() {
         initAdverts();
         initAnnouncements();
         initHarvestButtons();
+        initLiveStream();
         
         // Ensure body is scrollable
         document.body.style.overflow = 'auto';
@@ -1141,7 +1347,7 @@ function addMobileFixes() {
     window.addEventListener('orientationchange', setVH);
     
     // Improve touch responsiveness
-    const navToggle = safeQuerySelector('#nav-toggle');
+    const navToggle = safeQuerySelector('#hamburger');
     if (navToggle) {
         navToggle.style.touchAction = 'manipulation';
         navToggle.style.userSelect = 'none';
@@ -1229,7 +1435,7 @@ window.OLMQChurch = {
 
 // Debug function for mobile testing
 window.debugMobileMenu = function() {
-    const navToggle = safeQuerySelector('#nav-toggle');
+    const navToggle = safeQuerySelector('#hamburger');
     const navMenu = safeQuerySelector('#nav-menu');
     
     console.log('Nav Toggle:', navToggle);
