@@ -1,5 +1,4 @@
 // ===== OLMQ CHURCH WEBSITE - MAIN JAVASCRIPT =====
-// Fixed version to resolve page loading issues
 
 // ===== ERROR HANDLING =====
 window.addEventListener('error', function(e) {
@@ -227,9 +226,9 @@ function initDateDisplay() {
     const updateDate = () => {
         const now = new Date();
         const options = { 
-            weekday: 'long', 
+            weekday: 'short', 
             year: 'numeric', 
-            month: 'long', 
+            month: 'short', 
             day: 'numeric' 
         };
         dateDisplay.textContent = now.toLocaleDateString('en-US', options);

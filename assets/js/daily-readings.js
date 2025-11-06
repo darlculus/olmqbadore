@@ -475,7 +475,8 @@ function initializeReadingControls() {
     // Audio buttons
     const audioButtons = document.querySelectorAll('.audio-btn');
     audioButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
             const readingType = this.getAttribute('data-reading');
             playReading(readingType);
         });
@@ -484,9 +485,18 @@ function initializeReadingControls() {
     // Expand buttons
     const expandButtons = document.querySelectorAll('.expand-btn');
     expandButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
             const readingType = this.getAttribute('data-reading');
             toggleReadingExpansion(readingType);
+        });
+    });
+    
+    // Action buttons
+    const actionButtons = document.querySelectorAll('.action-btn:not([href])');
+    actionButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
         });
     });
 }
@@ -526,6 +536,11 @@ function toggleReadingExpansion(readingType) {
     const readingCard = document.querySelector(`.reading-card.${readingType}-reading, .reading-card.${readingType}`);
     if (readingCard) {
         readingCard.classList.toggle('expanded');
+        
+        // Scroll to the reading if expanded
+        if (readingCard.classList.contains('expanded')) {
+            readingCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     }
 }
 
