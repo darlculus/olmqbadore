@@ -364,11 +364,13 @@ body {
     font-size: 24px;
     font-weight: 700;
     line-height: 1;
+    color: white;
 }
 
 .stat-label {
     font-size: 14px;
     opacity: 0.8;
+    color: white;
 }
 
 .scroll-indicator {
