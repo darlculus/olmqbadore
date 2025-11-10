@@ -88,8 +88,8 @@ function closeModal(modalId) {
 
 // ===== NAVIGATION =====
 function initNavigation() {
-  const navToggle = safeQuerySelector(".nav-toggle");
-  const navMenu = safeQuerySelector(".nav-menu");
+  const navToggle = safeQuerySelector("#nav-toggle");
+  const navMenu = safeQuerySelector("#nav-menu");
 
   if (navToggle && navMenu) {
     navToggle.addEventListener("click", () => {
@@ -104,6 +104,14 @@ function initNavigation() {
         navToggle.classList.remove("active");
         navMenu.classList.remove("active");
       });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        navToggle.classList.remove("active");
+        navMenu.classList.remove("active");
+      }
     });
   }
 
