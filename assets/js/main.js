@@ -548,7 +548,7 @@ function initScrollToTop() {
 function initSmoothScrolling() {
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a[href^="#"]');
-        if (link) {
+        if (link && link.getAttribute('href') !== '#') {
             e.preventDefault();
             const targetId = link.getAttribute('href').substring(1);
             const target = safeQuerySelector(`#${targetId}`);

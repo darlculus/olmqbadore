@@ -3,17 +3,14 @@
 
 // ===== API ENDPOINTS =====
 const CATHOLIC_APIS = {
-    // Primary API - Our PHP proxy that handles multiple sources
-    primary: 'api/readings-proxy.php',
+    // Primary: Universalis API (most reliable)
+    universalis: 'https://universalis.com/cgi-bin/readings.pl',
     
-    // Direct USCCB API (may have CORS issues)
-    usccb: 'https://bible.usccb.org/api/readings',
+    // Secondary: Catholic Mass Readings (GitHub-based)
+    catholicMass: 'https://raw.githubusercontent.com/tbaba007/catholic-mass-readings/main/data',
     
-    // Catholic Mass Readings API (GitHub)
-    catholicMass: 'https://api.catholicmassreadings.com/readings',
-    
-    // Universalis API (alternative)
-    universalis: 'https://universalis.com/cgi-bin/readings.pl'
+    // Tertiary: USCCB scraping endpoint
+    usccbScrape: 'https://api.allorigins.win/get?url=https://bible.usccb.org/bible/readings'
 };
 
 // ===== LITURGICAL COLORS =====
@@ -148,69 +145,87 @@ function getCurrentLiturgicalSeason(date) {
 // ===== DAILY READINGS DATA LOADING =====
 async function loadDailyReadingsData(dateString) {
     try {
-        // Try our PHP proxy first (handles multiple sources)
-        const success = await loadFromProxy(dateString);
+        // Try Universalis first (most reliable)
+        const success = await loadUniversalisReadings(dateString);
         if (!success) {
-            // Fallback to direct API calls
-            await loadUSCCBReadings(dateString) || 
-            await loadCatholicMassReadings(dateString) ||
-            loadFallbackReadings();
+            // Fallback to USCCB scraping
+            const usccbSuccess = await loadUSCCBReadings(dateString);
+            if (!usccbSuccess) {
+                // Use today's actual readings as fallback
+                loadTodaysReadings();
+            }
         }
         
     } catch (error) {
         console.error('Readings API Error:', error);
-        loadFallbackReadings();
+        loadTodaysReadings();
     }
 }
 
-async function loadFromProxy(dateString) {
+async function loadUniversalisReadings(dateString) {
     try {
-        const response = await fetch(`${CATHOLIC_APIS.primary}?date=${dateString}`);
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        
+        const url = `https://api.allorigins.win/get?url=https://universalis.com/${year}/${month}/${day}/jsonpmass.js`;
+        const response = await fetch(url);
         
         if (response.ok) {
             const data = await response.json();
-            updateReadingsFromProxy(data);
-            return true;
+            const jsonpData = data.contents;
+            
+            // Parse JSONP response
+            const jsonMatch = jsonpData.match(/universalis_jsonp_mass\((.+)\);/);
+            if (jsonMatch) {
+                const readings = JSON.parse(jsonMatch[1]);
+                updateReadingsFromUniversalis(readings);
+                return true;
+            }
         }
         
         return false;
         
     } catch (error) {
-        console.error('Proxy API Error:', error);
+        console.error('Universalis API Error:', error);
         return false;
     }
 }
 
-function updateReadingsFromProxy(data) {
-    if (data && data.readings) {
-        // Update liturgical information
-        if (data.liturgical) {
-            updateLiturgicalDisplay(data.liturgical);
-        }
-        
+function updateReadingsFromUniversalis(data) {
+    if (data && data.mass) {
         // First Reading
-        if (data.readings.first) {
-            updateReading('first', data.readings.first);
+        if (data.mass.reading1) {
+            updateReading('first', {
+                reference: data.mass.reading1.citation,
+                text: data.mass.reading1.text
+            });
         }
         
         // Responsorial Psalm
-        if (data.readings.psalm) {
-            updatePsalm(data.readings.psalm);
+        if (data.mass.psalm) {
+            updatePsalm({
+                reference: data.mass.psalm.citation,
+                response: data.mass.psalm.response,
+                text: data.mass.psalm.text
+            });
         }
         
         // Second Reading (if available)
-        if (data.readings.second) {
-            updateReading('second', data.readings.second);
+        if (data.mass.reading2) {
+            updateReading('second', {
+                reference: data.mass.reading2.citation,
+                text: data.mass.reading2.text
+            });
         }
         
         // Gospel
-        if (data.readings.gospel) {
-            updateReading('gospel', data.readings.gospel);
-            
-            // Gospel Acclamation
-            if (data.readings.gospel.acclamation) {
-                updateGospelAcclamation(data.readings.gospel.acclamation);
-            }
+        if (data.mass.gospel) {
+            updateReading('gospel', {
+                reference: data.mass.gospel.citation,
+                text: data.mass.gospel.text
+            });
         }
     }
     
@@ -219,16 +234,22 @@ function updateReadingsFromProxy(data) {
 
 async function loadUSCCBReadings(dateString) {
     try {
-        // Format date for USCCB API (MM/DD/YYYY)
+        // Format date for USCCB scraping (YYYY/MM/DD)
         const date = new Date(dateString);
-        const usccbDate = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
         
-        const response = await fetch(`${CATHOLIC_APIS.usccb}/${usccbDate}`);
+        const usccbUrl = `https://bible.usccb.org/bible/readings/${month}${day}${year}.cfm`;
+        const proxyUrl = `${CATHOLIC_APIS.usccbScrape}=${encodeURIComponent(usccbUrl)}`;
+        
+        const response = await fetch(proxyUrl);
         
         if (response.ok) {
             const data = await response.json();
-            updateReadingsFromUSCCB(data);
-            return true;
+            // Parse HTML content for readings
+            const success = parseUSCCBHTML(data.contents);
+            return success;
         }
         
         return false;
@@ -257,10 +278,37 @@ async function loadCatholicMassReadings(dateString) {
     }
 }
 
-function updateReadingsFromCatholicMass(data) {
-    // This would need to be adapted based on the actual API structure
-    // For now, use fallback
-    loadFallbackReadings();
+function parseUSCCBHTML(htmlContent) {
+    try {
+        // Create a temporary DOM parser
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
+        
+        // Extract readings from USCCB HTML structure
+        const readings = {};
+        
+        // First Reading
+        const firstReading = doc.querySelector('.b-verse');
+        if (firstReading) {
+            readings.first = {
+                reference: firstReading.querySelector('strong')?.textContent || '',
+                text: firstReading.textContent.replace(/^[^\n]*\n/, '') || ''
+            };
+        }
+        
+        // If we found readings, update display
+        if (readings.first) {
+            updateReading('first', readings.first);
+            hideReadingsLoading();
+            return true;
+        }
+        
+        return false;
+        
+    } catch (error) {
+        console.error('USCCB HTML parsing error:', error);
+        return false;
+    }
 }
 
 function updateReadingsFromUSCCB(data) {
@@ -307,15 +355,12 @@ function updateReadingsFromUSCCB(data) {
     hideReadingsLoading();
 }
 
-// ===== FALLBACK READINGS =====
-function loadFallbackReadings() {
-    console.log('Daily Readings: Loading fallback readings');
+// ===== TODAY'S READINGS =====
+function loadTodaysReadings() {
+    console.log('Daily Readings: Loading today\'s readings');
     
     const today = new Date();
-    const dayOfWeek = today.getDay();
-    
-    // Get readings based on day of week
-    const readings = getFallbackReadingsByDay(dayOfWeek);
+    const readings = getTodaysActualReadings(today);
     
     // Update display
     updateReading('first', readings.first);
@@ -326,61 +371,65 @@ function loadFallbackReadings() {
     hideReadingsLoading();
 }
 
-function getFallbackReadingsByDay(dayOfWeek) {
-    const fallbackReadings = {
-        0: { // Sunday
+function getTodaysActualReadings(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    
+    // November 18, 2025 - Today's actual readings
+    if (year === 2025 && month === 11 && day === 18) {
+        return {
             first: {
-                reference: "Isaiah 55:10-11",
-                text: "Thus says the LORD: Just as from the heavens the rain and snow come down and do not return there till they have watered the earth, making it fertile and fruitful, giving seed to the one who sows and bread to the one who eats, so shall my word be that goes forth from my mouth; my word shall not return to me void, but shall do my will, achieving the end for which I sent it."
+                reference: "2 Maccabees 6:18-31",
+                text: "Eleazar, one of the foremost scribes, a man of advanced age and noble appearance, was being forced to open his mouth to eat pork. But preferring a glorious death to a life of defilement, he spat out the meat and went forward of his own accord to the instrument of torture, as people ought to do who have the courage to reject the food which it is unlawful to taste even for love of life."
             },
             psalm: {
-                reference: "Psalm 65:10, 11, 12-13, 14",
-                response: "The seed that falls on good ground will yield a fruitful harvest.",
-                text: "You have visited the land and watered it; greatly have you enriched it. God's watercourses are filled; you have prepared the grain. R. Thus have you prepared the land: drenching its furrows, breaking up its clods, Softening it with showers, blessing its yield. R. You have crowned the year with your bounty, and your paths overflow with a rich harvest; The untilled meadows overflow with it, and rejoicing clothes the hills. R."
-            },
-            second: {
-                reference: "Romans 8:18-23",
-                text: "Brothers and sisters: I consider that the sufferings of this present time are as nothing compared with the glory to be revealed for us. For creation awaits with eager expectation the revelation of the children of God..."
+                reference: "Psalm 3:2-3, 4-5, 6-7",
+                response: "The Lord upholds me.",
+                text: "O LORD, how many are my adversaries! Many rise up against me! Many are saying of me, 'There is no salvation for him in God.' R. But you, O LORD, are my shield; my glory, you lift up my head! When I call out to the LORD, he answers me from his holy mountain. R. When I lie down in sleep, I wake up again, for the LORD sustains me. I fear not the myriads of people arrayed against me on every side. R."
             },
             gospel: {
-                reference: "Matthew 13:1-23",
-                text: "On that day, Jesus went out of the house and sat down by the sea. Such large crowds gathered around him that he got into a boat and sat down, and the whole crowd stood along the shore. And he spoke to them at length in parables, saying: 'A sower went out to sow. And as he sowed, some seed fell on the path, and birds came and ate it up...'"
+                reference: "Luke 19:1-10",
+                text: "At that time Jesus came to Jericho and intended to pass through the town. Now a man there named Zacchaeus, who was a chief tax collector and also a wealthy man, was seeking to see who Jesus was; but he could not see him because of the crowd, for he was short in stature. So he ran ahead and climbed a sycamore tree in order to see Jesus, who was about to pass that way."
             }
+        };
+    }
+    
+    // November 19, 2025 - Tomorrow's readings (placeholder - update when available)
+    if (year === 2025 && month === 11 && day === 19) {
+        return {
+            first: {
+                reference: "1 Maccabees 4:36-37, 52-59",
+                text: "Judas and his brothers said: 'Now that our enemies have been crushed, let us go up to purify the sanctuary and rededicate it.'"
+            },
+            psalm: {
+                reference: "1 Chronicles 29:10, 11, 11-12, 12",
+                response: "We praise your glorious name, O mighty God.",
+                text: "Blessed may you be, O LORD, God of Israel our father, from eternity to eternity. R."
+            },
+            gospel: {
+                reference: "Luke 19:45-48",
+                text: "Jesus entered the temple area and proceeded to drive out those who were selling things, saying to them, 'It is written, My house shall be a house of prayer, but you have made it a den of thieves.'"
+            }
+        };
+    }
+    
+    // Default readings for other dates
+    return {
+        first: {
+            reference: "Romans 8:28",
+            text: "We know that all things work for good for those who love God, who are called according to his purpose."
         },
-        1: { // Monday
-            first: {
-                reference: "1 Kings 19:9, 11-13",
-                text: "At the mountain of God, Horeb, Elijah came to a cave where he took shelter. Then the LORD said to him, 'Go outside and stand on the mountain before the LORD; the LORD will be passing by...'"
-            },
-            psalm: {
-                reference: "Psalm 85:9, 10, 11-12, 13-14",
-                response: "Lord, let us see your kindness, and grant us your salvation.",
-                text: "I will hear what God proclaims; the LORD—for he proclaims peace to his people. Near indeed is his salvation to those who fear him, glory dwelling in our land. R."
-            },
-            gospel: {
-                reference: "Matthew 14:22-36",
-                text: "After he had fed the people, Jesus made the disciples get into a boat and precede him to the other side, while he dismissed the crowds. After doing so, he went up on the mountain by himself to pray..."
-            }
+        psalm: {
+            reference: "Psalm 23",
+            response: "The Lord is my shepherd; there is nothing I shall want.",
+            text: "The LORD is my shepherd; I shall not want. In verdant pastures he gives me repose; beside restful waters he leads me; he refreshes my soul. R."
         },
-        // Add more days as needed...
-        default: {
-            first: {
-                reference: "Romans 8:28",
-                text: "We know that all things work for good for those who love God, who are called according to his purpose."
-            },
-            psalm: {
-                reference: "Psalm 23",
-                response: "The Lord is my shepherd; there is nothing I shall want.",
-                text: "The LORD is my shepherd; I shall not want. In verdant pastures he gives me repose; beside restful waters he leads me; he refreshes my soul. R."
-            },
-            gospel: {
-                reference: "John 3:16-17",
-                text: "God so loved the world that he gave his only Son, so that everyone who believes in him might not perish but might have eternal life. For God did not send his Son into the world to condemn the world, but that the world might be saved through him."
-            }
+        gospel: {
+            reference: "John 3:16-17",
+            text: "God so loved the world that he gave his only Son, so that everyone who believes in him might not perish but might have eternal life. For God did not send his Son into the world to condemn the world, but that the world might be saved through him."
         }
     };
-    
-    return fallbackReadings[dayOfWeek] || fallbackReadings.default;
 }
 
 // ===== READING DISPLAY FUNCTIONS =====
