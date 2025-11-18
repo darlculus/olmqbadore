@@ -786,7 +786,7 @@ function initParishRegistrationModal() {
     if (registerBtn) {
         registerBtn.addEventListener('click', () => {
             closeModal();
-            showNotification('Thank you for your interest! Please contact our parish office.', 'success');
+            window.location.href = 'about.html#join-parish';
         });
     }
     
