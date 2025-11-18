@@ -88,8 +88,8 @@ function closeModal(modalId) {
 
 // ===== NAVIGATION =====
 function initNavigation() {
-  const navToggle = safeQuerySelector("#nav-toggle");
-  const navMenu = safeQuerySelector("#nav-menu");
+  const navToggle = safeQuerySelector(".nav-toggle");
+  const navMenu = safeQuerySelector(".nav-menu");
 
   if (navToggle && navMenu) {
     navToggle.addEventListener("click", () => {

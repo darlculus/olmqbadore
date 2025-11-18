@@ -1052,7 +1052,7 @@ function getFaithContent(topicType) {
                         </div>
                         <div class="sacrament-item">
                             <div class="sacrament-icon">
-                                <i class="fas fa-rings-wedding"></i>
+                                <i class="fas fa-ring"></i>
                             </div>
                             <h5>Matrimony</h5>
                             <p>The covenant between a man and woman in Christ.</p>
