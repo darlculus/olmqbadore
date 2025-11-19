@@ -461,7 +461,19 @@ function initDailyReadings() {
             day: 'numeric'
         });
     }
-    // Daily readings, liturgical season, and color are handled by the dedicated daily-readings script.
+    
+    // Initialize automated readings system if available
+    if (window.DailyReadingsManager && !window.dailyReadingsManager) {
+        window.dailyReadingsManager = new window.DailyReadingsManager();
+    }
+    
+    // Fallback: Load sample readings if automated system isn't available
+    setTimeout(() => {
+        const firstReadingText = safeQuerySelector('#first-reading-text');
+        if (firstReadingText && !firstReadingText.textContent?.trim()) {
+            loadSampleReadings();
+        }
+    }, 2000);
 }
 
 function loadSampleReadings() {
