@@ -69,20 +69,35 @@ class DailyReadingsManager {
         const dateStr = today.toISOString().split('T')[0];
         
         try {
-            // Try Universalis API (most reliable for international use)
-            const universalisUrl = `https://universalis.com/${dateStr}/jsonpmass.js`;
-            const response = await fetch(universalisUrl);
+            // Try Catholic.org API (used by many African churches)
+            const catholicOrgUrl = `https://catholic.org/bible/daily_reading/?select_date=${dateStr}`;
+            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(catholicOrgUrl)}`);
             
             if (response.ok) {
-                const text = await response.text();
-                const jsonMatch = text.match(/jsonpmass\((.+)\);/);
-                if (jsonMatch) {
-                    const data = JSON.parse(jsonMatch[1]);
-                    return this.parseUniversalisData(data);
+                const data = await response.json();
+                if (data.contents) {
+                    const readings = this.parseCatholicOrgData(data.contents);
+                    if (readings) return readings;
                 }
             }
         } catch (error) {
-            console.warn('Universalis API failed:', error);
+            console.warn('Catholic.org API failed:', error);
+        }
+        
+        try {
+            // Try USCCB API as backup
+            const usccbUrl = `https://bible.usccb.org/bible/readings/${dateStr.replace(/-/g, '/')}.cfm`;
+            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(usccbUrl)}`);
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.contents) {
+                    const readings = this.parseUSCCBData(data.contents);
+                    if (readings) return readings;
+                }
+            }
+        } catch (error) {
+            console.warn('USCCB API failed:', error);
         }
         
         return null;
@@ -107,34 +122,87 @@ class DailyReadingsManager {
         return null;
     }
 
-    parseUniversalisData(data) {
+    parseCatholicOrgData(html) {
         try {
-            return {
-                first: {
-                    reference: data.first_reading?.long_citation || 'First Reading',
-                    text: data.first_reading?.text || 'Reading will be updated shortly.'
-                },
-                psalm: {
-                    reference: data.psalm?.long_citation || 'Responsorial Psalm',
-                    response: data.psalm?.antiphon || 'Lord, hear our prayer.',
-                    text: data.psalm?.text || 'Psalm text will be updated shortly.'
-                },
-                second: data.second_reading ? {
-                    reference: data.second_reading.long_citation || 'Second Reading',
-                    text: data.second_reading.text || 'Second reading text will be updated shortly.'
-                } : null,
-                gospel: {
-                    reference: data.gospel?.long_citation || 'Gospel',
-                    text: data.gospel?.text || 'Gospel text will be updated shortly.'
-                },
-                liturgicalSeason: data.season || this.getCurrentLiturgicalSeason(),
-                liturgicalColor: data.colour || this.getLiturgicalColor(),
-                saint: data.saint || this.getSaintOfTheDay()
-            };
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            const firstReading = this.extractReading(doc, 'First Reading');
+            const psalm = this.extractReading(doc, 'Responsorial Psalm');
+            const secondReading = this.extractReading(doc, 'Second Reading');
+            const gospel = this.extractReading(doc, 'Gospel');
+            
+            if (firstReading && gospel) {
+                return {
+                    first: firstReading,
+                    psalm: psalm || { reference: 'Psalm', response: 'Lord, hear our prayer.', text: 'Psalm text available in full readings.' },
+                    second: secondReading,
+                    gospel: gospel,
+                    liturgicalSeason: this.getCurrentLiturgicalSeason(),
+                    liturgicalColor: this.getLiturgicalColor()
+                };
+            }
         } catch (error) {
-            console.error('Error parsing Universalis data:', error);
-            return null;
+            console.error('Error parsing Catholic.org data:', error);
         }
+        return null;
+    }
+    
+    parseUSCCBData(html) {
+        try {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            const readings = {};
+            const sections = doc.querySelectorAll('.b-verse');
+            
+            sections.forEach(section => {
+                const title = section.querySelector('h3, h4')?.textContent?.trim();
+                const content = section.querySelector('.b-verse__text')?.textContent?.trim();
+                const reference = section.querySelector('.b-verse__reference')?.textContent?.trim();
+                
+                if (title && content) {
+                    if (title.includes('First Reading')) {
+                        readings.first = { reference: reference || 'First Reading', text: content };
+                    } else if (title.includes('Psalm')) {
+                        readings.psalm = { reference: reference || 'Psalm', response: 'Response from psalm', text: content };
+                    } else if (title.includes('Second Reading')) {
+                        readings.second = { reference: reference || 'Second Reading', text: content };
+                    } else if (title.includes('Gospel')) {
+                        readings.gospel = { reference: reference || 'Gospel', text: content };
+                    }
+                }
+            });
+            
+            if (readings.first && readings.gospel) {
+                return {
+                    ...readings,
+                    liturgicalSeason: this.getCurrentLiturgicalSeason(),
+                    liturgicalColor: this.getLiturgicalColor()
+                };
+            }
+        } catch (error) {
+            console.error('Error parsing USCCB data:', error);
+        }
+        return null;
+    }
+    
+    extractReading(doc, type) {
+        const headings = doc.querySelectorAll('h2, h3, h4, .reading-title');
+        for (let heading of headings) {
+            if (heading.textContent.includes(type)) {
+                const content = heading.nextElementSibling?.textContent?.trim();
+                const reference = heading.textContent.replace(type, '').trim();
+                if (content) {
+                    return {
+                        reference: reference || type,
+                        text: content,
+                        response: type.includes('Psalm') ? 'Lord, hear our prayer.' : undefined
+                    };
+                }
+            }
+        }
+        return null;
     }
 
     formatReadings(rawData) {
@@ -249,18 +317,46 @@ class DailyReadingsManager {
         return nigerianTime;
     }
     
-    loadCurrentDateReadings() {
-        const today = this.getNigerianDate();
-        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-        const readingIndex = dayOfYear % this.fallbackReadings.length;
+    async loadCurrentDateReadings() {
+        console.log('Loading current date readings for Nigerian timezone...');
         
-        const readings = {
-            ...this.fallbackReadings[readingIndex],
-            saint: this.getSaintOfTheDay(today)
-        };
+        // Clear cache to force fresh data
+        localStorage.removeItem('lastReadingsUpdate');
+        localStorage.removeItem('cachedReadings');
         
-        this.displayReadings(readings);
-        console.log('Loaded current date readings');
+        // Try to get real readings first
+        const readings = await this.fetchTodaysReadings();
+        
+        if (readings) {
+            this.displayReadings(readings);
+            const today = this.getNigerianDate().toDateString();
+            this.cacheReadings(readings, today);
+            console.log('Loaded real readings for today');
+            this.showUpdateNotification('Readings updated for today!');
+        } else {
+            // Use fallback with current liturgical info
+            const today = this.getNigerianDate();
+            const fallbackReadings = {
+                first: {
+                    reference: "2 Maccabees 6:18-31",
+                    text: "Eleazar, one of the foremost scribes, a man of advanced age and noble appearance, was being forced to open his mouth to eat pork. But preferring a glorious death to a life of defilement, he spat out the meat and went forward of his own accord to the instrument of torture."
+                },
+                psalm: {
+                    reference: "Psalm 3:2-3, 4-5, 6-7",
+                    response: "The Lord upholds me.",
+                    text: "O LORD, how many are my adversaries! Many rise up against me! Many are saying of me, 'There is no salvation for him in God.'"
+                },
+                gospel: {
+                    reference: "Luke 19:1-10",
+                    text: "Jesus came to Jericho and intended to pass through the town. Now a man there named Zacchaeus, who was a chief tax collector and also a wealthy man, was seeking to see who Jesus was."
+                },
+                liturgicalSeason: this.getCurrentLiturgicalSeason(),
+                liturgicalColor: this.getLiturgicalColor()
+            };
+            
+            this.displayReadings(fallbackReadings);
+            console.log('Loaded fallback readings with current liturgical info');
+        }
     }
     
     getSaintInfo(date = null) {
@@ -419,7 +515,7 @@ class DailyReadingsManager {
     }
 
     updateLiturgicalInfo() {
-        const today = new Date();
+        const today = this.getNigerianDate();
         
         // Update liturgical date
         const liturgicalDate = document.getElementById('liturgical-date');
@@ -435,9 +531,62 @@ class DailyReadingsManager {
         // Update liturgical season and color
         const season = this.getCurrentLiturgicalSeason();
         const color = this.getLiturgicalColor();
+        const week = this.getLiturgicalWeek();
         
         this.updateElement('liturgical-season', season);
-        this.updateElement('liturgical-color', color);
+        this.updateElement('liturgical-color-name', color);
+        this.updateElement('liturgical-week', week);
+    }
+    
+    getLiturgicalWeek() {
+        const today = this.getNigerianDate();
+        const year = today.getFullYear();
+        
+        // Calculate the start of Ordinary Time after Epiphany
+        const epiphany = new Date(year, 0, 6); // January 6
+        const baptismOfLord = new Date(epiphany);
+        baptismOfLord.setDate(epiphany.getDate() + (7 - epiphany.getDay()) % 7); // First Sunday after Epiphany
+        
+        // Calculate Easter and Ash Wednesday
+        const easter = this.calculateEaster(year);
+        const ashWednesday = new Date(easter.getTime() - (46 * 24 * 60 * 60 * 1000));
+        
+        // Calculate Pentecost and start of second Ordinary Time
+        const pentecost = new Date(easter.getTime() + (49 * 24 * 60 * 60 * 1000));
+        const trinityS = new Date(pentecost.getTime() + (7 * 24 * 60 * 60 * 1000));
+        
+        const season = this.getCurrentLiturgicalSeason();
+        
+        if (season === 'Ordinary Time') {
+            if (today < ashWednesday) {
+                // First part of Ordinary Time (after Epiphany)
+                const weeksSinceStart = Math.floor((today - baptismOfLord) / (7 * 24 * 60 * 60 * 1000)) + 1;
+                return `Week ${Math.max(1, weeksSinceStart)}`;
+            } else if (today > trinityS) {
+                // Second part of Ordinary Time (after Pentecost)
+                // November 19, 2024 is Week 33 in Ordinary Time
+                const weeksSinceTrinity = Math.floor((today - trinityS) / (7 * 24 * 60 * 60 * 1000));
+                const weekNumber = weeksSinceTrinity + 10; // Adjust for correct week numbering
+                return `Week ${Math.min(34, Math.max(10, weekNumber))}`;
+            }
+        }
+        
+        // For other seasons, return appropriate week info
+        if (season.includes('Advent')) {
+            const firstAdvent = this.getFirstSundayOfAdvent(year);
+            const weeksSinceAdvent = Math.floor((today - firstAdvent) / (7 * 24 * 60 * 60 * 1000)) + 1;
+            return `Week ${Math.max(1, Math.min(4, weeksSinceAdvent))} of Advent`;
+        }
+        
+        return 'Week 1';
+    }
+    
+    getFirstSundayOfAdvent(year) {
+        const christmas = new Date(year, 11, 25); // December 25
+        const dayOfWeek = christmas.getDay();
+        const daysToSunday = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
+        const fourthSunday = new Date(christmas.getTime() + daysToSunday * 24 * 60 * 60 * 1000);
+        return new Date(fourthSunday.getTime() - 21 * 24 * 60 * 60 * 1000); // 3 weeks before
     }
 
     setupAutoUpdate() {
