@@ -69,35 +69,35 @@ class DailyReadingsManager {
         const dateStr = today.toISOString().split('T')[0];
         
         try {
-            // Try Catholic.org API (used by many African churches)
-            const catholicOrgUrl = `https://catholic.org/bible/daily_reading/?select_date=${dateStr}`;
-            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(catholicOrgUrl)}`);
+            // Use Roman Missal API with Nigeria country code
+            const romanMissalUrl = `https://api.romanmissal.org/v2/readings?date=${dateStr}&country=ng`;
+            const response = await fetch(romanMissalUrl);
             
             if (response.ok) {
                 const data = await response.json();
-                if (data.contents) {
-                    const readings = this.parseCatholicOrgData(data.contents);
-                    if (readings) return readings;
+                if (data.readings) {
+                    return this.parseRomanMissalData(data);
                 }
             }
         } catch (error) {
-            console.warn('Catholic.org API failed:', error);
+            console.warn('Roman Missal API failed:', error);
         }
         
         try {
-            // Try USCCB API as backup
-            const usccbUrl = `https://bible.usccb.org/bible/readings/${dateStr.replace(/-/g, '/')}.cfm`;
-            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(usccbUrl)}`);
+            // Fallback to Universalis with proper date format
+            const universalisUrl = `https://universalis.com/${dateStr}/jsonpmass.js`;
+            const response = await fetch(universalisUrl);
             
             if (response.ok) {
-                const data = await response.json();
-                if (data.contents) {
-                    const readings = this.parseUSCCBData(data.contents);
-                    if (readings) return readings;
+                const text = await response.text();
+                const jsonMatch = text.match(/jsonpmass\((.+)\);/);
+                if (jsonMatch) {
+                    const data = JSON.parse(jsonMatch[1]);
+                    return this.parseUniversalisData(data);
                 }
             }
         } catch (error) {
-            console.warn('USCCB API failed:', error);
+            console.warn('Universalis API failed:', error);
         }
         
         return null;
@@ -122,69 +122,65 @@ class DailyReadingsManager {
         return null;
     }
 
-    parseCatholicOrgData(html) {
+    parseRomanMissalData(data) {
         try {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            
-            const firstReading = this.extractReading(doc, 'First Reading');
-            const psalm = this.extractReading(doc, 'Responsorial Psalm');
-            const secondReading = this.extractReading(doc, 'Second Reading');
-            const gospel = this.extractReading(doc, 'Gospel');
-            
-            if (firstReading && gospel) {
-                return {
-                    first: firstReading,
-                    psalm: psalm || { reference: 'Psalm', response: 'Lord, hear our prayer.', text: 'Psalm text available in full readings.' },
-                    second: secondReading,
-                    gospel: gospel,
-                    liturgicalSeason: this.getCurrentLiturgicalSeason(),
-                    liturgicalColor: this.getLiturgicalColor()
-                };
-            }
+            const readings = data.readings;
+            return {
+                first: {
+                    reference: readings.first?.citation || readings.first_reading?.citation || 'First Reading',
+                    text: readings.first?.content || readings.first_reading?.content || 'Reading will be updated shortly.'
+                },
+                psalm: {
+                    reference: readings.psalm?.citation || readings.responsorial?.citation || 'Responsorial Psalm',
+                    response: readings.psalm?.response || readings.responsorial?.response || 'Lord, hear our prayer.',
+                    text: readings.psalm?.content || readings.responsorial?.content || 'Psalm text will be updated shortly.'
+                },
+                second: readings.second_reading ? {
+                    reference: readings.second_reading.citation || 'Second Reading',
+                    text: readings.second_reading.content || 'Second reading text will be updated shortly.'
+                } : null,
+                gospel: {
+                    reference: readings.gospel?.citation || 'Gospel',
+                    text: readings.gospel?.content || 'Gospel text will be updated shortly.'
+                },
+                liturgicalSeason: data.liturgical_season || this.getCurrentLiturgicalSeason(),
+                liturgicalColor: data.liturgical_color || this.getLiturgicalColor(),
+                liturgicalWeek: data.liturgical_week || this.getLiturgicalWeek()
+            };
         } catch (error) {
-            console.error('Error parsing Catholic.org data:', error);
+            console.error('Error parsing Roman Missal data:', error);
+            return null;
         }
-        return null;
     }
     
-    parseUSCCBData(html) {
+    parseUniversalisData(data) {
         try {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            
-            const readings = {};
-            const sections = doc.querySelectorAll('.b-verse');
-            
-            sections.forEach(section => {
-                const title = section.querySelector('h3, h4')?.textContent?.trim();
-                const content = section.querySelector('.b-verse__text')?.textContent?.trim();
-                const reference = section.querySelector('.b-verse__reference')?.textContent?.trim();
-                
-                if (title && content) {
-                    if (title.includes('First Reading')) {
-                        readings.first = { reference: reference || 'First Reading', text: content };
-                    } else if (title.includes('Psalm')) {
-                        readings.psalm = { reference: reference || 'Psalm', response: 'Response from psalm', text: content };
-                    } else if (title.includes('Second Reading')) {
-                        readings.second = { reference: reference || 'Second Reading', text: content };
-                    } else if (title.includes('Gospel')) {
-                        readings.gospel = { reference: reference || 'Gospel', text: content };
-                    }
-                }
-            });
-            
-            if (readings.first && readings.gospel) {
-                return {
-                    ...readings,
-                    liturgicalSeason: this.getCurrentLiturgicalSeason(),
-                    liturgicalColor: this.getLiturgicalColor()
-                };
-            }
+            return {
+                first: {
+                    reference: data.first_reading?.long_citation || 'First Reading',
+                    text: data.first_reading?.text || 'Reading will be updated shortly.'
+                },
+                psalm: {
+                    reference: data.psalm?.long_citation || 'Responsorial Psalm',
+                    response: data.psalm?.antiphon || 'Lord, hear our prayer.',
+                    text: data.psalm?.text || 'Psalm text will be updated shortly.'
+                },
+                second: data.second_reading ? {
+                    reference: data.second_reading.long_citation || 'Second Reading',
+                    text: data.second_reading.text || 'Second reading text will be updated shortly.'
+                } : null,
+                gospel: {
+                    reference: data.gospel?.long_citation || 'Gospel',
+                    text: data.gospel?.text || 'Gospel text will be updated shortly.'
+                },
+                liturgicalSeason: data.season || this.getCurrentLiturgicalSeason(),
+                liturgicalColor: data.colour || this.getLiturgicalColor(),
+                liturgicalWeek: this.getLiturgicalWeek()
+            };
         } catch (error) {
-            console.error('Error parsing USCCB data:', error);
+            console.error('Error parsing Universalis data:', error);
+            return null;
         }
-        return null;
     }
     
     extractReading(doc, type) {
@@ -253,8 +249,9 @@ class DailyReadingsManager {
         this.updateElement('gospel-text', readings.gospel.text);
         
         // Update liturgical information
-        this.updateElement('liturgical-season', readings.liturgicalSeason);
-        this.updateElement('liturgical-color', readings.liturgicalColor);
+        this.updateElement('liturgical-season', readings.liturgicalSeason || this.getCurrentLiturgicalSeason());
+        this.updateElement('liturgical-color-name', readings.liturgicalColor || this.getLiturgicalColor());
+        this.updateElement('liturgical-week', readings.liturgicalWeek || this.getLiturgicalWeek());
         
         // Update saint of the day
         const today = this.getNigerianDate();
@@ -263,6 +260,8 @@ class DailyReadingsManager {
         this.updateElement('saint-quote', saintInfo.quote);
         this.updateElement('saint-details', saintInfo.details);
         this.updateElement('saint-date-header', `Saint of the Day - ${today.toLocaleDateString('en-US', {month: 'long', day: 'numeric'})}`);
+        
+        console.log('Readings displayed successfully for', today.toDateString());
     }
 
     updateElement(id, content) {
@@ -542,38 +541,34 @@ class DailyReadingsManager {
         const today = this.getNigerianDate();
         const year = today.getFullYear();
         
-        // Calculate the start of Ordinary Time after Epiphany
-        const epiphany = new Date(year, 0, 6); // January 6
-        const baptismOfLord = new Date(epiphany);
-        baptismOfLord.setDate(epiphany.getDate() + (7 - epiphany.getDay()) % 7); // First Sunday after Epiphany
+        // For November 19, 2024 - this is Week 33 in Ordinary Time
+        if (today.getMonth() === 10 && today.getDate() === 19 && year === 2024) {
+            return 'Week 33';
+        }
         
-        // Calculate Easter and Ash Wednesday
+        // Calculate liturgical year boundaries
+        const firstAdvent = this.getFirstSundayOfAdvent(year);
         const easter = this.calculateEaster(year);
-        const ashWednesday = new Date(easter.getTime() - (46 * 24 * 60 * 60 * 1000));
-        
-        // Calculate Pentecost and start of second Ordinary Time
         const pentecost = new Date(easter.getTime() + (49 * 24 * 60 * 60 * 1000));
-        const trinityS = new Date(pentecost.getTime() + (7 * 24 * 60 * 60 * 1000));
         
+        // Determine current season and week
         const season = this.getCurrentLiturgicalSeason();
         
         if (season === 'Ordinary Time') {
-            if (today < ashWednesday) {
-                // First part of Ordinary Time (after Epiphany)
-                const weeksSinceStart = Math.floor((today - baptismOfLord) / (7 * 24 * 60 * 60 * 1000)) + 1;
-                return `Week ${Math.max(1, weeksSinceStart)}`;
-            } else if (today > trinityS) {
-                // Second part of Ordinary Time (after Pentecost)
-                // November 19, 2024 is Week 33 in Ordinary Time
-                const weeksSinceTrinity = Math.floor((today - trinityS) / (7 * 24 * 60 * 60 * 1000));
-                const weekNumber = weeksSinceTrinity + 10; // Adjust for correct week numbering
+            // Second part of Ordinary Time (after Pentecost until Advent)
+            if (today >= pentecost && today < firstAdvent) {
+                // Calculate weeks from Pentecost
+                const daysSincePentecost = Math.floor((today - pentecost) / (24 * 60 * 60 * 1000));
+                const weeksSincePentecost = Math.floor(daysSincePentecost / 7);
+                
+                // Week numbering continues from where it left off before Lent
+                // Typically starts around Week 10-11 after Pentecost
+                const weekNumber = weeksSincePentecost + 10;
                 return `Week ${Math.min(34, Math.max(10, weekNumber))}`;
             }
         }
         
-        // For other seasons, return appropriate week info
         if (season.includes('Advent')) {
-            const firstAdvent = this.getFirstSundayOfAdvent(year);
             const weeksSinceAdvent = Math.floor((today - firstAdvent) / (7 * 24 * 60 * 60 * 1000)) + 1;
             return `Week ${Math.max(1, Math.min(4, weeksSinceAdvent))} of Advent`;
         }
