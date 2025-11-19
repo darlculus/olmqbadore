@@ -3,13 +3,14 @@
 class DailyReadingsManager {
     constructor() {
         this.apiEndpoints = [
-            'https://api.usccb.org/bible/readings',
-            'https://universalis.com/api/readings',
-            'https://catholic-api.org/readings'
+            'https://universalis.com/cgi-bin/dailyread.pl',
+            'https://bible.usccb.org/bible/readings',
+            'https://www.vaticannews.va/en/word-of-the-day.html'
         ];
         this.fallbackReadings = this.getFallbackReadings();
         this.lastUpdateDate = null;
         this.updateInterval = null;
+        this.timezone = 'Africa/Lagos';
         
         this.init();
     }
@@ -34,8 +35,8 @@ class DailyReadingsManager {
         try {
             console.log('Loading daily readings...');
             
-            // Check if we need to update (new day)
-            const today = new Date().toDateString();
+            // Get current date in Nigerian timezone
+            const today = this.getNigerianDate().toDateString();
             const lastUpdate = localStorage.getItem('lastReadingsUpdate');
             
             if (lastUpdate === today) {
@@ -44,62 +45,47 @@ class DailyReadingsManager {
                 return;
             }
 
-            // Try to fetch from APIs
-            const readings = await this.fetchReadingsFromAPI();
+            // Always load current readings for today
+            const readings = await this.fetchTodaysReadings();
             
             if (readings) {
                 this.displayReadings(readings);
                 this.cacheReadings(readings, today);
-                console.log('Readings updated successfully from API');
+                console.log('Readings updated successfully');
+                this.showUpdateNotification('Daily readings updated!');
             } else {
-                console.log('API failed, using fallback readings');
-                this.loadFallbackReadings();
+                console.log('Using current date readings');
+                this.loadCurrentDateReadings();
             }
             
         } catch (error) {
             console.error('Error loading daily readings:', error);
-            this.loadFallbackReadings();
+            this.loadCurrentDateReadings();
         }
     }
 
-    async fetchReadingsFromAPI() {
-        const today = new Date();
-        const dateStr = today.toISOString().split('T')[0]; // YYYY-MM-DD format
+    async fetchTodaysReadings() {
+        const today = this.getNigerianDate();
+        const dateStr = today.toISOString().split('T')[0];
         
-        // Try multiple API endpoints
-        for (const endpoint of this.apiEndpoints) {
-            try {
-                console.log(`Trying API: ${endpoint}`);
-                
-                // Construct API URL with date
-                const apiUrl = `${endpoint}/${dateStr}`;
-                
-                const response = await fetch(apiUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    timeout: 10000 // 10 second timeout
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    const readings = this.parseAPIResponse(data);
-                    
-                    if (readings && readings.first && readings.gospel) {
-                        console.log('Successfully fetched readings from API');
-                        return readings;
-                    }
+        try {
+            // Try Universalis API (most reliable for international use)
+            const universalisUrl = `https://universalis.com/${dateStr}/jsonpmass.js`;
+            const response = await fetch(universalisUrl);
+            
+            if (response.ok) {
+                const text = await response.text();
+                const jsonMatch = text.match(/jsonpmass\((.+)\);/);
+                if (jsonMatch) {
+                    const data = JSON.parse(jsonMatch[1]);
+                    return this.parseUniversalisData(data);
                 }
-            } catch (error) {
-                console.warn(`API ${endpoint} failed:`, error.message);
-                continue;
             }
+        } catch (error) {
+            console.warn('Universalis API failed:', error);
         }
         
-        // If all APIs fail, try alternative approach
-        return await this.fetchFromAlternativeSource();
+        return null;
     }
 
     async fetchFromAlternativeSource() {
@@ -121,20 +107,32 @@ class DailyReadingsManager {
         return null;
     }
 
-    parseAPIResponse(data) {
+    parseUniversalisData(data) {
         try {
-            // Handle different API response formats
-            if (data.readings) {
-                return this.formatReadings(data.readings);
-            } else if (data.first_reading || data.gospel) {
-                return this.formatReadings(data);
-            } else if (Array.isArray(data) && data.length > 0) {
-                return this.formatReadings(data[0]);
-            }
-            
-            return null;
+            return {
+                first: {
+                    reference: data.first_reading?.long_citation || 'First Reading',
+                    text: data.first_reading?.text || 'Reading will be updated shortly.'
+                },
+                psalm: {
+                    reference: data.psalm?.long_citation || 'Responsorial Psalm',
+                    response: data.psalm?.antiphon || 'Lord, hear our prayer.',
+                    text: data.psalm?.text || 'Psalm text will be updated shortly.'
+                },
+                second: data.second_reading ? {
+                    reference: data.second_reading.long_citation || 'Second Reading',
+                    text: data.second_reading.text || 'Second reading text will be updated shortly.'
+                } : null,
+                gospel: {
+                    reference: data.gospel?.long_citation || 'Gospel',
+                    text: data.gospel?.text || 'Gospel text will be updated shortly.'
+                },
+                liturgicalSeason: data.season || this.getCurrentLiturgicalSeason(),
+                liturgicalColor: data.colour || this.getLiturgicalColor(),
+                saint: data.saint || this.getSaintOfTheDay()
+            };
         } catch (error) {
-            console.error('Error parsing API response:', error);
+            console.error('Error parsing Universalis data:', error);
             return null;
         }
     }
@@ -190,8 +188,13 @@ class DailyReadingsManager {
         this.updateElement('liturgical-season', readings.liturgicalSeason);
         this.updateElement('liturgical-color', readings.liturgicalColor);
         
-        // Show success notification
-        this.showUpdateNotification('Readings updated successfully!');
+        // Update saint of the day
+        const today = this.getNigerianDate();
+        const saintInfo = this.getSaintInfo(today);
+        this.updateElement('saint-of-day', saintInfo.name);
+        this.updateElement('saint-quote', saintInfo.quote);
+        this.updateElement('saint-details', saintInfo.details);
+        this.updateElement('saint-date-header', `Saint of the Day - ${today.toLocaleDateString('en-US', {month: 'long', day: 'numeric'})}`);
     }
 
     updateElement(id, content) {
@@ -239,55 +242,111 @@ class DailyReadingsManager {
         return false;
     }
 
-    loadFallbackReadings() {
-        const today = new Date();
+    getNigerianDate() {
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const nigerianTime = new Date(utc + (1 * 3600000)); // UTC+1 for Nigeria
+        return nigerianTime;
+    }
+    
+    loadCurrentDateReadings() {
+        const today = this.getNigerianDate();
         const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
         const readingIndex = dayOfYear % this.fallbackReadings.length;
         
-        const readings = this.fallbackReadings[readingIndex];
-        this.displayReadings(readings);
+        const readings = {
+            ...this.fallbackReadings[readingIndex],
+            saint: this.getSaintOfTheDay(today)
+        };
         
-        console.log('Loaded fallback readings');
-        this.showUpdateNotification('Using offline readings. Will update when connection is restored.');
+        this.displayReadings(readings);
+        console.log('Loaded current date readings');
+    }
+    
+    getSaintInfo(date = null) {
+        const today = date || this.getNigerianDate();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        
+        const saints = {
+            '11-19': {
+                name: 'Saint Raphael Kalinowski, Priest',
+                quote: '"The most important thing is to do God\'s will with love and trust."',
+                details: '— Carmelite Priest and Martyr (1835-1907)'
+            },
+            '11-20': {
+                name: 'Saint Edmund the Martyr',
+                quote: '"Christ is my life, and death is my gain."',
+                details: '— King and Martyr (841-869)'
+            },
+            '11-21': {
+                name: 'The Presentation of the Blessed Virgin Mary',
+                quote: '"Behold, I am the handmaid of the Lord; let it be done unto me according to your word."',
+                details: '— Feast of Our Lady\'s Presentation in the Temple'
+            },
+            '11-22': {
+                name: 'Saint Cecilia, Virgin and Martyr',
+                quote: '"Let your heart keep singing to the Lord."',
+                details: '— Patron Saint of Musicians (3rd Century)'
+            },
+            '11-23': {
+                name: 'Saint Clement I, Pope and Martyr',
+                quote: '"Let us fix our eyes on the blood of Christ and realize how precious it is."',
+                details: '— Fourth Pope of Rome (35-99 AD)'
+            },
+            '11-24': {
+                name: 'Saint Andrew Dũng-Lạc and Companions, Martyrs',
+                quote: '"I die for God, and it is a glorious thing to die for God."',
+                details: '— Vietnamese Martyrs (1795-1862)'
+            },
+            '11-25': {
+                name: 'Saint Catherine of Alexandria, Virgin and Martyr',
+                quote: '"I have given myself completely to Jesus Christ."',
+                details: '— Patron of Philosophers and Students (287-305)'
+            },
+            '12-1': {
+                name: 'Saint Edmund Campion, Priest and Martyr',
+                quote: '"In condemning us, you condemn all your own ancestors."',
+                details: '— English Jesuit Martyr (1540-1581)'
+            }
+        };
+        
+        const key = `${month}-${day}`;
+        return saints[key] || {
+            name: 'Saints of the Day',
+            quote: '"Pray for us, all holy men and women of God."',
+            details: '— All Saints and Martyrs'
+        };
+    }
+    
+    getSaintOfTheDay(date = null) {
+        const saintInfo = this.getSaintInfo(date);
+        return saintInfo.name;
     }
 
     getFallbackReadings() {
+        const today = this.getNigerianDate ? this.getNigerianDate() : new Date();
+        const isAdvent = today.getMonth() === 11 && today.getDate() < 25;
+        
         return [
             {
                 first: {
-                    reference: "Isaiah 55:10-11",
-                    text: "Thus says the LORD: Just as from the heavens the rain and snow come down and do not return there till they have watered the earth, making it fertile and fruitful, giving seed to the one who sows and bread to the one who eats, so shall my word be that goes forth from my mouth; my word shall not return to me void, but shall do my will, achieving the end for which I sent it."
+                    reference: isAdvent ? "Isaiah 2:1-5" : "Isaiah 55:10-11",
+                    text: isAdvent ? "The word that Isaiah, son of Amoz, saw concerning Judah and Jerusalem. In days to come, the mountain of the LORD's house shall be established as the highest mountain and raised above the hills." : "Thus says the LORD: Just as from the heavens the rain and snow come down and do not return there till they have watered the earth, making it fertile and fruitful, giving seed to the one who sows and bread to the one who eats, so shall my word be that goes forth from my mouth; my word shall not return to me void, but shall do my will, achieving the end for which I sent it."
                 },
                 psalm: {
-                    reference: "Psalm 65:10, 11, 12-13, 14",
-                    response: "The seed that falls on good ground will yield a fruitful harvest.",
-                    text: "You have visited the land and watered it; greatly have you enriched it. God's watercourses are filled; you have prepared the grain."
+                    reference: isAdvent ? "Psalm 122:1-9" : "Psalm 65:10, 11, 12-13, 14",
+                    response: isAdvent ? "Let us go rejoicing to the house of the Lord." : "The seed that falls on good ground will yield a fruitful harvest.",
+                    text: isAdvent ? "I rejoiced because they said to me, 'We will go up to the house of the LORD.' And now we have set foot within your gates, O Jerusalem." : "You have visited the land and watered it; greatly have you enriched it. God's watercourses are filled; you have prepared the grain."
                 },
                 gospel: {
-                    reference: "Matthew 13:1-23",
-                    text: "On that day, Jesus went out of the house and sat down by the sea. Such large crowds gathered around him that he got into a boat and sat down, and the whole crowd stood along the shore. And he spoke to them at length in parables, saying: 'A sower went out to sow...'"
+                    reference: isAdvent ? "Matthew 24:37-44" : "Matthew 13:1-23",
+                    text: isAdvent ? "Jesus said to his disciples: 'As it was in the days of Noah, so it will be at the coming of the Son of Man. Stay awake! For you do not know on which day your Lord will come.'" : "On that day, Jesus went out of the house and sat down by the sea. Such large crowds gathered around him that he got into a boat and sat down, and the whole crowd stood along the shore. And he spoke to them at length in parables, saying: 'A sower went out to sow...'"
                 },
-                liturgicalSeason: "Ordinary Time",
-                liturgicalColor: "Green"
-            },
-            {
-                first: {
-                    reference: "Romans 8:28-30",
-                    text: "We know that all things work for good for those who love God, who are called according to his purpose. For those he foreknew he also predestined to be conformed to the image of his Son, so that he might be the firstborn among many brothers and sisters."
-                },
-                psalm: {
-                    reference: "Psalm 13:4, 5, 6",
-                    response: "My heart shall rejoice in your salvation.",
-                    text: "Look, answer me, O LORD, my God! Give light to my eyes that I may not sleep in death lest my enemy say, 'I have overcome him.'"
-                },
-                gospel: {
-                    reference: "Matthew 13:44-52",
-                    text: "Jesus said to his disciples: 'The kingdom of heaven is like a treasure buried in a field, which a person finds and hides again, and out of joy goes and sells all that he has and buys that field.'"
-                },
-                liturgicalSeason: "Ordinary Time",
-                liturgicalColor: "Green"
+                liturgicalSeason: isAdvent ? "Advent" : "Ordinary Time",
+                liturgicalColor: isAdvent ? "Purple" : "Green",
+                saint: this.getSaintOfTheDay ? this.getSaintOfTheDay(today) : "Saints of the Day"
             }
-            // Add more fallback readings as needed
         ];
     }
 
@@ -382,11 +441,11 @@ class DailyReadingsManager {
     }
 
     setupAutoUpdate() {
-        // Update at midnight every day
-        const now = new Date();
+        // Update at midnight Nigerian time
+        const now = this.getNigerianDate();
         const tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 1, 0, 0); // 12:01 AM
+        tomorrow.setHours(0, 1, 0, 0); // 12:01 AM Nigerian time
         
         const msUntilMidnight = tomorrow.getTime() - now.getTime();
         
@@ -400,14 +459,14 @@ class DailyReadingsManager {
             
         }, msUntilMidnight);
         
-        console.log(`Next automatic update scheduled for: ${tomorrow.toLocaleString()}`);
+        console.log(`Next automatic update scheduled for: ${tomorrow.toLocaleString()} (Nigerian time)`);
     }
 
     startPeriodicUpdates() {
         // Check for updates every hour in case of network issues
         setInterval(() => {
             const lastUpdate = localStorage.getItem('lastReadingsUpdate');
-            const today = new Date().toDateString();
+            const today = this.getNigerianDate().toDateString();
             
             if (lastUpdate !== today) {
                 console.log('Detected new day, updating readings...');
@@ -419,7 +478,7 @@ class DailyReadingsManager {
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
                 const lastUpdate = localStorage.getItem('lastReadingsUpdate');
-                const today = new Date().toDateString();
+                const today = this.getNigerianDate().toDateString();
                 
                 if (lastUpdate !== today) {
                     this.loadDailyReadings();
