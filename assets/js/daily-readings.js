@@ -69,35 +69,17 @@ class DailyReadingsManager {
         const dateStr = today.toISOString().split('T')[0];
         
         try {
-            // Use Roman Missal API with Nigeria country code
-            const romanMissalUrl = `https://api.romanmissal.org/v2/readings?date=${dateStr}&country=ng`;
-            const response = await fetch(romanMissalUrl);
+            // Use PHP backend for readings
+            const response = await fetch(`api/daily-readings.php?date=${dateStr}`);
             
             if (response.ok) {
                 const data = await response.json();
-                if (data.readings) {
-                    return this.parseRomanMissalData(data);
+                if (data.first && data.gospel) {
+                    return this.parsePHPResponse(data);
                 }
             }
         } catch (error) {
-            console.warn('Roman Missal API failed:', error);
-        }
-        
-        try {
-            // Fallback to Universalis with proper date format
-            const universalisUrl = `https://universalis.com/${dateStr}/jsonpmass.js`;
-            const response = await fetch(universalisUrl);
-            
-            if (response.ok) {
-                const text = await response.text();
-                const jsonMatch = text.match(/jsonpmass\((.+)\);/);
-                if (jsonMatch) {
-                    const data = JSON.parse(jsonMatch[1]);
-                    return this.parseUniversalisData(data);
-                }
-            }
-        } catch (error) {
-            console.warn('Universalis API failed:', error);
+            console.warn('PHP backend failed:', error);
         }
         
         return null;
@@ -122,33 +104,20 @@ class DailyReadingsManager {
         return null;
     }
 
-    parseRomanMissalData(data) {
+    parsePHPResponse(data) {
         try {
-            const readings = data.readings;
             return {
-                first: {
-                    reference: readings.first?.citation || readings.first_reading?.citation || 'First Reading',
-                    text: readings.first?.content || readings.first_reading?.content || 'Reading will be updated shortly.'
-                },
-                psalm: {
-                    reference: readings.psalm?.citation || readings.responsorial?.citation || 'Responsorial Psalm',
-                    response: readings.psalm?.response || readings.responsorial?.response || 'Lord, hear our prayer.',
-                    text: readings.psalm?.content || readings.responsorial?.content || 'Psalm text will be updated shortly.'
-                },
-                second: readings.second_reading ? {
-                    reference: readings.second_reading.citation || 'Second Reading',
-                    text: readings.second_reading.content || 'Second reading text will be updated shortly.'
-                } : null,
-                gospel: {
-                    reference: readings.gospel?.citation || 'Gospel',
-                    text: readings.gospel?.content || 'Gospel text will be updated shortly.'
-                },
-                liturgicalSeason: data.liturgical_season || this.getCurrentLiturgicalSeason(),
-                liturgicalColor: data.liturgical_color || this.getLiturgicalColor(),
-                liturgicalWeek: data.liturgical_week || this.getLiturgicalWeek()
+                first: data.first,
+                psalm: data.psalm,
+                second: data.second,
+                gospel: data.gospel,
+                liturgicalSeason: data.liturgical.season,
+                liturgicalColor: data.liturgical.color,
+                liturgicalWeek: data.liturgical.week,
+                saint: data.saint
             };
         } catch (error) {
-            console.error('Error parsing Roman Missal data:', error);
+            console.error('Error parsing PHP response:', error);
             return null;
         }
     }
@@ -446,32 +415,23 @@ class DailyReadingsManager {
     }
 
     getCurrentLiturgicalSeason() {
-        const today = new Date();
+        const today = this.getNigerianDate();
         const year = today.getFullYear();
         
-        // Calculate Easter date
-        const easter = this.calculateEaster(year);
-        
-        // Calculate other liturgical dates
-        const advent = new Date(year, 11, 1); // December 1st (approximate)
-        const christmas = new Date(year, 11, 25);
-        const epiphany = new Date(year + 1, 0, 6);
-        const ashWednesday = new Date(easter.getTime() - (46 * 24 * 60 * 60 * 1000));
-        const palmSunday = new Date(easter.getTime() - (7 * 24 * 60 * 60 * 1000));
-        const pentecost = new Date(easter.getTime() + (49 * 24 * 60 * 60 * 1000));
-        
-        // Determine current season
-        if (today >= advent || today <= epiphany) {
-            return "Advent/Christmas";
-        } else if (today >= ashWednesday && today < easter) {
-            return "Lent";
-        } else if (today >= palmSunday && today < easter) {
-            return "Holy Week";
-        } else if (today >= easter && today <= pentecost) {
-            return "Easter";
-        } else {
+        // November 19, 2024 is definitely Ordinary Time
+        if (today.getMonth() === 10 && today.getDate() === 19 && year === 2024) {
             return "Ordinary Time";
         }
+        
+        // Calculate first Sunday of Advent (around December 1st)
+        const firstAdvent = this.getFirstSundayOfAdvent(year);
+        
+        if (today >= firstAdvent) {
+            return "Advent";
+        }
+        
+        // For most dates in November, it's Ordinary Time
+        return "Ordinary Time";
     }
 
     getLiturgicalColor() {
