@@ -1,0 +1,130 @@
+/* Liturgical Color Themes */
+
+/* Base liturgical color variables */
+:root {
+    --liturgical-primary: #16a34a;
+    --liturgical-accent: #22c55e;
+    --liturgical-light: #dcfce7;
+}
+
+/* Lent - Purple */
+body[data-liturgical-season="lent"] {
+    --liturgical-primary: #6b46c1;
+    --liturgical-accent: #8b5cf6;
+    --liturgical-light: #ede9fe;
+}
+
+body[data-liturgical-season="lent"] .liturgical-info {
+    background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 100%);
+}
+
+body[data-liturgical-season="lent"] #liturgical-color-indicator {
+    background-color: #6b46c1;
+    box-shadow: 0 0 20px rgba(107, 70, 193, 0.5);
+}
+
+body[data-liturgical-season="lent"] .season-icon {
+    color: #6b46c1;
+}
+
+/* Advent - Purple */
+body[data-liturgical-season="advent"] {
+    --liturgical-primary: #6b46c1;
+    --liturgical-accent: #8b5cf6;
+    --liturgical-light: #ede9fe;
+}
+
+body[data-liturgical-season="advent"] .liturgical-info {
+    background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 100%);
+}
+
+body[data-liturgical-season="advent"] #liturgical-color-indicator {
+    background-color: #6b46c1;
+    box-shadow: 0 0 20px rgba(107, 70, 193, 0.5);
+}
+
+/* Easter - White */
+body[data-liturgical-season="easter"] {
+    --liturgical-primary: #f8fafc;
+    --liturgical-accent: #e2e8f0;
+    --liturgical-light: #ffffff;
+}
+
+body[data-liturgical-season="easter"] .liturgical-info {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    color: #1e293b;
+}
+
+body[data-liturgical-season="easter"] #liturgical-color-indicator {
+    background-color: #ffffff;
+    border: 2px solid #cbd5e1;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+/* Holy Week - Red */
+body[data-liturgical-season="holy-week"] {
+    --liturgical-primary: #dc2626;
+    --liturgical-accent: #ef4444;
+    --liturgical-light: #fee2e2;
+}
+
+body[data-liturgical-season="holy-week"] .liturgical-info {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+}
+
+body[data-liturgical-season="holy-week"] #liturgical-color-indicator {
+    background-color: #dc2626;
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+}
+
+/* Ordinary Time - Green */
+body[data-liturgical-season="ordinary-time"] {
+    --liturgical-primary: #16a34a;
+    --liturgical-accent: #22c55e;
+    --liturgical-light: #dcfce7;
+}
+
+body[data-liturgical-season="ordinary-time"] .liturgical-info {
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+}
+
+body[data-liturgical-season="ordinary-time"] #liturgical-color-indicator {
+    background-color: #16a34a;
+    box-shadow: 0 0 20px rgba(22, 163, 74, 0.5);
+}
+
+/* Christmas - White/Gold */
+body[data-liturgical-season="christmas"] {
+    --liturgical-primary: #fbbf24;
+    --liturgical-accent: #fcd34d;
+    --liturgical-light: #fef3c7;
+}
+
+body[data-liturgical-season="christmas"] .liturgical-info {
+    background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
+}
+
+body[data-liturgical-season="christmas"] #liturgical-color-indicator {
+    background-color: #fbbf24;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+}
+
+/* Liturgical color indicator styling */
+#liturgical-color-indicator {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+/* Season icon colors */
+.season-icon {
+    transition: color 0.3s ease;
+}
+
+/* Smooth transitions for theme changes */
+body {
+    transition: --liturgical-primary 0.5s ease,
+                --liturgical-accent 0.5s ease,
+                --liturgical-light 0.5s ease;
+}

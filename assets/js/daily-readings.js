@@ -59,132 +59,101 @@ class DailyReadingsManager {
 
     async fetchTodaysReadings() {
         const today = this.getNigerianDate();
-        const dateStr = today.toISOString().split('T')[0];
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const dateStr = `${year}${month}${day}`;
         
         try {
-            // Use PHP backend for readings
-            const response = await fetch(`api/daily-readings.php?date=${dateStr}`);
-            
+            const response = await fetch(`https://bible.usccb.org/bible/readings/${dateStr}.cfm`);
             if (response.ok) {
-                const data = await response.json();
-                if (data.first && data.gospel) {
-                    return this.parsePHPResponse(data);
-                }
+                const html = await response.text();
+                return this.parseUSCCBHTML(html);
             }
         } catch (error) {
-            console.warn('PHP backend failed:', error);
+            console.warn('USCCB fetch failed:', error);
         }
         
         return null;
     }
 
-    async fetchFromAlternativeSource() {
-        try {
-            // Try to scrape from USCCB website as fallback
-            const proxyUrl = 'https://api.allorigins.win/get?url=';
-            const targetUrl = encodeURIComponent('https://bible.usccb.org/bible/readings');
-            
-            const response = await fetch(proxyUrl + targetUrl);
-            const data = await response.json();
-            
-            if (data.contents) {
-                return this.parseUSCCBContent(data.contents);
-            }
-        } catch (error) {
-            console.warn('Alternative source failed:', error);
-        }
+    parseUSCCBHTML(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
         
-        return null;
-    }
-
-    parsePHPResponse(data) {
-        try {
-            return {
-                first: data.first,
-                psalm: data.psalm,
-                second: data.second,
-                gospel: data.gospel,
-                liturgicalSeason: data.liturgical.season,
-                liturgicalColor: data.liturgical.color,
-                liturgicalWeek: data.liturgical.week,
-                saint: data.saint
-            };
-        } catch (error) {
-            console.error('Error parsing PHP response:', error);
-            return null;
-        }
-    }
-    
-    parseUniversalisData(data) {
-        try {
-            return {
-                first: {
-                    reference: data.first_reading?.long_citation || 'First Reading',
-                    text: data.first_reading?.text || 'Reading will be updated shortly.'
-                },
-                psalm: {
-                    reference: data.psalm?.long_citation || 'Responsorial Psalm',
-                    response: data.psalm?.antiphon || 'Lord, hear our prayer.',
-                    text: data.psalm?.text || 'Psalm text will be updated shortly.'
-                },
-                second: data.second_reading ? {
-                    reference: data.second_reading.long_citation || 'Second Reading',
-                    text: data.second_reading.text || 'Second reading text will be updated shortly.'
-                } : null,
-                gospel: {
-                    reference: data.gospel?.long_citation || 'Gospel',
-                    text: data.gospel?.text || 'Gospel text will be updated shortly.'
-                },
-                liturgicalSeason: data.season || this.getCurrentLiturgicalSeason(),
-                liturgicalColor: data.colour || this.getLiturgicalColor(),
-                liturgicalWeek: this.getLiturgicalWeek()
-            };
-        } catch (error) {
-            console.error('Error parsing Universalis data:', error);
-            return null;
-        }
-    }
-    
-    extractReading(doc, type) {
-        const headings = doc.querySelectorAll('h2, h3, h4, .reading-title');
-        for (let heading of headings) {
-            if (heading.textContent.includes(type)) {
-                const content = heading.nextElementSibling?.textContent?.trim();
-                const reference = heading.textContent.replace(type, '').trim();
-                if (content) {
-                    return {
-                        reference: reference || type,
-                        text: content,
-                        response: type.includes('Psalm') ? 'Lord, hear our prayer.' : undefined
-                    };
-                }
-            }
-        }
-        return null;
-    }
-
-    formatReadings(rawData) {
-        return {
-            first: {
-                reference: rawData.first_reading?.citation || rawData.firstReading?.reference || 'Reading Reference',
-                text: rawData.first_reading?.content || rawData.firstReading?.text || 'Reading text will be updated shortly.'
-            },
-            psalm: {
-                reference: rawData.psalm?.citation || rawData.responsorialPsalm?.reference || 'Psalm Reference',
-                response: rawData.psalm?.response || rawData.responsorialPsalm?.response || 'Psalm response',
-                text: rawData.psalm?.content || rawData.responsorialPsalm?.text || 'Psalm text will be updated shortly.'
-            },
-            second: rawData.second_reading ? {
-                reference: rawData.second_reading.citation || 'Second Reading Reference',
-                text: rawData.second_reading.content || 'Second reading text will be updated shortly.'
-            } : null,
-            gospel: {
-                reference: rawData.gospel?.citation || rawData.gospel?.reference || 'Gospel Reference',
-                text: rawData.gospel?.content || rawData.gospel?.text || 'Gospel text will be updated shortly.'
-            },
-            liturgicalSeason: rawData.liturgical_season || this.getCurrentLiturgicalSeason(),
-            liturgicalColor: rawData.liturgical_color || this.getLiturgicalColor()
+        const readings = {
+            first: this.extractUSCCBReading(doc, 'first'),
+            psalm: this.extractUSCCBPsalm(doc),
+            second: this.extractUSCCBReading(doc, 'second'),
+            gospel: this.extractUSCCBReading(doc, 'gospel'),
+            liturgicalSeason: this.getCurrentLiturgicalSeason(),
+            liturgicalColor: this.getLiturgicalColor()
         };
+        
+        return readings;
+    }
+    
+    extractUSCCBReading(doc, type) {
+        const contentDiv = doc.querySelector('.content-body');
+        if (!contentDiv) return null;
+        
+        const headings = contentDiv.querySelectorAll('h3');
+        for (let heading of headings) {
+            const text = heading.textContent.toLowerCase();
+            if ((type === 'first' && text.includes('first reading')) ||
+                (type === 'second' && text.includes('second reading')) ||
+                (type === 'gospel' && text.includes('gospel'))) {
+                
+                const citation = heading.nextElementSibling;
+                let content = citation?.nextElementSibling;
+                let fullText = '';
+                
+                while (content && content.tagName !== 'H3') {
+                    if (content.classList.contains('poetry') || content.tagName === 'P') {
+                        fullText += content.textContent.trim() + ' ';
+                    }
+                    content = content.nextElementSibling;
+                }
+                
+                return {
+                    reference: citation?.textContent.trim() || '',
+                    text: fullText.trim() || 'Reading text available at USCCB.org'
+                };
+            }
+        }
+        return null;
+    }
+    
+    extractUSCCBPsalm(doc) {
+        const contentDiv = doc.querySelector('.content-body');
+        if (!contentDiv) return null;
+        
+        const headings = contentDiv.querySelectorAll('h3');
+        for (let heading of headings) {
+            if (heading.textContent.toLowerCase().includes('psalm')) {
+                const citation = heading.nextElementSibling;
+                let content = citation?.nextElementSibling;
+                let fullText = '';
+                let response = '';
+                
+                while (content && content.tagName !== 'H3') {
+                    const text = content.textContent.trim();
+                    if (text.startsWith('R.') || text.startsWith('℟.')) {
+                        response = text.replace(/^[R℟]\.\s*/, '');
+                    } else if (content.classList.contains('poetry') || content.tagName === 'P') {
+                        fullText += text + ' ';
+                    }
+                    content = content.nextElementSibling;
+                }
+                
+                return {
+                    reference: citation?.textContent.trim() || '',
+                    response: response || 'Lord, hear our prayer.',
+                    text: fullText.trim() || 'Psalm text available at USCCB.org'
+                };
+            }
+        }
+        return null;
     }
 
     displayReadings(readings) {
@@ -209,10 +178,23 @@ class DailyReadingsManager {
         this.updateElement('gospel-reference', readings.gospel.reference);
         this.updateElement('gospel-text', readings.gospel.text);
         
-        // Force update liturgical information
-        this.updateElement('liturgical-season', 'Ordinary Time');
-        this.updateElement('liturgical-color-name', 'Green');
-        this.updateElement('liturgical-week', 'Week 33');
+        // Update liturgical information dynamically
+        const season = this.getCurrentLiturgicalSeason();
+        const color = this.getLiturgicalColor();
+        const week = this.getLiturgicalWeek();
+        
+        this.updateElement('liturgical-season', season);
+        this.updateElement('liturgical-color-name', color);
+        this.updateElement('liturgical-week', week);
+        
+        // Update color indicator
+        const colorIndicator = document.getElementById('liturgical-color-indicator');
+        if (colorIndicator) {
+            colorIndicator.style.backgroundColor = this.getColorHex(color);
+        }
+        
+        // Update body class for theme
+        document.body.setAttribute('data-liturgical-season', season.toLowerCase().replace(' ', '-'));
         
         // Update saint of the day
         const today = this.getNigerianDate();
@@ -281,30 +263,29 @@ class DailyReadingsManager {
     }
     
     loadHardcodedReadings() {
-        console.log('Loading correct readings for today...');
+        console.log('Loading fallback readings...');
         
         const readings = {
             first: {
-                reference: "Revelation 14:14-19",
-                text: "I, John, looked and there was a white cloud, and sitting on the cloud one who looked like a son of man, with a gold crown on his head and a sharp sickle in his hand."
+                reference: "Deuteronomy 30:15-20",
+                text: "Moses said to the people: 'Today I have set before you life and prosperity, death and doom. If you obey the commandments of the LORD, your God, which I enjoin on you today, loving him, and walking in his ways, and keeping his commandments, statutes and decrees, you will live and grow numerous, and the LORD, your God, will bless you in the land you are entering to occupy.'"
             },
             psalm: {
-                reference: "Psalm 96:10, 11-12, 13",
-                response: "The Lord comes to judge the earth.",
-                text: "Say among the nations: The LORD is king. He has made the world firm, not to be moved; he governs the peoples with equity."
+                reference: "Psalm 1:1-2, 3, 4 and 6",
+                response: "Blessed are they who hope in the Lord.",
+                text: "Blessed the man who follows not the counsel of the wicked nor walks in the way of sinners, nor sits in the company of the insolent, but delights in the law of the LORD and meditates on his law day and night."
             },
             second: null,
             gospel: {
-                reference: "Luke 21:5-11",
-                text: "While some people were speaking about how the temple was adorned with costly stones and votive offerings, Jesus said, 'All that you see here-- the days will come when there will not be left a stone upon another stone that will not be thrown down.'"
+                reference: "Luke 9:22-25",
+                text: "Jesus said to his disciples: 'The Son of Man must suffer greatly and be rejected by the elders, the chief priests, and the scribes, and be killed and on the third day be raised. Then he said to all, If anyone wishes to come after me, he must deny himself and take up his cross daily and follow me.'"
             },
-            liturgicalSeason: "Ordinary Time",
-            liturgicalColor: "Green",
-            liturgicalWeek: "Week 33"
+            liturgicalSeason: this.getCurrentLiturgicalSeason(),
+            liturgicalColor: this.getLiturgicalColor()
         };
         
         this.displayReadings(readings);
-        console.log('Loaded correct readings for November 19, 2024');
+        console.log('Loaded fallback readings');
     }
     
     getSaintInfo(date = null) {
@@ -398,19 +379,32 @@ class DailyReadingsManager {
         const today = this.getNigerianDate();
         const year = today.getFullYear();
         
-        // November 19, 2024 is definitely Ordinary Time
-        if (today.getMonth() === 10 && today.getDate() === 19 && year === 2024) {
-            return "Ordinary Time";
-        }
+        // Calculate Easter for current year
+        const easter = this.calculateEaster(year);
         
-        // Calculate first Sunday of Advent (around December 1st)
+        // Calculate Ash Wednesday (46 days before Easter)
+        const ashWednesday = new Date(easter.getTime() - (46 * 24 * 60 * 60 * 1000));
+        
+        // Calculate Palm Sunday (7 days before Easter)
+        const palmSunday = new Date(easter.getTime() - (7 * 24 * 60 * 60 * 1000));
+        
+        // Calculate Pentecost (49 days after Easter)
+        const pentecost = new Date(easter.getTime() + (49 * 24 * 60 * 60 * 1000));
+        
+        // Calculate first Sunday of Advent
         const firstAdvent = this.getFirstSundayOfAdvent(year);
         
-        if (today >= firstAdvent) {
+        // Determine current season
+        if (today >= ashWednesday && today < palmSunday) {
+            return "Lent";
+        } else if (today >= palmSunday && today < easter) {
+            return "Holy Week";
+        } else if (today >= easter && today < pentecost) {
+            return "Easter";
+        } else if (today >= firstAdvent) {
             return "Advent";
         }
         
-        // For most dates in November, it's Ordinary Time
         return "Ordinary Time";
     }
 
@@ -431,6 +425,17 @@ class DailyReadingsManager {
             default:
                 return "Green";
         }
+    }
+    
+    getColorHex(colorName) {
+        const colors = {
+            'Purple': '#6b46c1',
+            'White': '#ffffff',
+            'Red': '#dc2626',
+            'Green': '#16a34a',
+            'Gold': '#fbbf24'
+        };
+        return colors[colorName] || '#16a34a';
     }
 
     calculateEaster(year) {
@@ -480,37 +485,49 @@ class DailyReadingsManager {
     getLiturgicalWeek() {
         const today = this.getNigerianDate();
         const year = today.getFullYear();
-        
-        // For November 19, 2024 - this is Week 33 in Ordinary Time
-        if (today.getMonth() === 10 && today.getDate() === 19 && year === 2024) {
-            return 'Week 33';
-        }
-        
-        // Calculate liturgical year boundaries
-        const firstAdvent = this.getFirstSundayOfAdvent(year);
-        const easter = this.calculateEaster(year);
-        const pentecost = new Date(easter.getTime() + (49 * 24 * 60 * 60 * 1000));
-        
-        // Determine current season and week
         const season = this.getCurrentLiturgicalSeason();
         
-        if (season === 'Ordinary Time') {
-            // Second part of Ordinary Time (after Pentecost until Advent)
-            if (today >= pentecost && today < firstAdvent) {
-                // Calculate weeks from Pentecost
-                const daysSincePentecost = Math.floor((today - pentecost) / (24 * 60 * 60 * 1000));
-                const weeksSincePentecost = Math.floor(daysSincePentecost / 7);
-                
-                // Week numbering continues from where it left off before Lent
-                // Typically starts around Week 10-11 after Pentecost
-                const weekNumber = weeksSincePentecost + 10;
-                return `Week ${Math.min(34, Math.max(10, weekNumber))}`;
+        // Calculate liturgical year boundaries
+        const easter = this.calculateEaster(year);
+        const ashWednesday = new Date(easter.getTime() - (46 * 24 * 60 * 60 * 1000));
+        const pentecost = new Date(easter.getTime() + (49 * 24 * 60 * 60 * 1000));
+        const firstAdvent = this.getFirstSundayOfAdvent(year);
+        
+        if (season === 'Lent') {
+            const daysSinceAshWednesday = Math.floor((today - ashWednesday) / (24 * 60 * 60 * 1000));
+            const weekNumber = Math.floor(daysSinceAshWednesday / 7);
+            
+            if (weekNumber === 0) {
+                return 'Ash Wednesday Week';
+            } else if (weekNumber >= 1 && weekNumber <= 5) {
+                return `Week ${weekNumber} of Lent`;
+            } else {
+                return 'Holy Week';
             }
+        }
+        
+        if (season === 'Holy Week') {
+            return 'Holy Week';
+        }
+        
+        if (season === 'Easter') {
+            const daysSinceEaster = Math.floor((today - easter) / (24 * 60 * 60 * 1000));
+            const weekNumber = Math.floor(daysSinceEaster / 7) + 1;
+            return `Week ${weekNumber} of Easter`;
         }
         
         if (season.includes('Advent')) {
             const weeksSinceAdvent = Math.floor((today - firstAdvent) / (7 * 24 * 60 * 60 * 1000)) + 1;
             return `Week ${Math.max(1, Math.min(4, weeksSinceAdvent))} of Advent`;
+        }
+        
+        if (season === 'Ordinary Time') {
+            if (today >= pentecost && today < firstAdvent) {
+                const daysSincePentecost = Math.floor((today - pentecost) / (24 * 60 * 60 * 1000));
+                const weeksSincePentecost = Math.floor(daysSincePentecost / 7);
+                const weekNumber = weeksSincePentecost + 10;
+                return `Week ${Math.min(34, Math.max(10, weekNumber))}`;
+            }
         }
         
         return 'Week 1';
