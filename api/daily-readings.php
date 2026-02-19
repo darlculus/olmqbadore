@@ -73,34 +73,11 @@ function formatReadings($data, $date) {
 }
 
 function getFallbackReadings($date) {
-    if ($date === '2024-11-19') {
-        return [
-            'date' => $date,
-            'first' => [
-                'reference' => '2 Maccabees 6:18-31',
-                'text' => 'Eleazar, one of the foremost scribes, a man of advanced age and noble appearance, was being forced to open his mouth to eat pork. But preferring a glorious death to a life of defilement, he spat out the meat and went forward of his own accord to the instrument of torture.'
-            ],
-            'psalm' => [
-                'reference' => 'Psalm 3:2-3, 4-5, 6-7',
-                'response' => 'The Lord upholds me.',
-                'text' => 'O LORD, how many are my adversaries! Many rise up against me! Many are saying of me, "There is no salvation for him in God."'
-            ],
-            'second' => null,
-            'gospel' => [
-                'reference' => 'Luke 19:1-10',
-                'text' => 'Jesus came to Jericho and intended to pass through the town. Now a man there named Zacchaeus, who was a chief tax collector and also a wealthy man, was seeking to see who Jesus was.'
-            ],
-            'liturgical' => [
-                'season' => 'Ordinary Time',
-                'color' => 'Green',
-                'week' => 'Week 33'
-            ],
-            'saint' => [
-                'name' => 'Saint Raphael Kalinowski, Priest',
-                'quote' => 'The most important thing is to do God\'s will with love and trust.',
-                'details' => 'Carmelite Priest and Martyr (1835-1907)'
-            ]
-        ];
+    // Get actual readings based on date
+    $readings = getDailyReadings($date);
+    
+    if ($readings) {
+        return $readings;
     }
     
     return [
@@ -128,6 +105,60 @@ function getFallbackReadings($date) {
     ];
 }
 
+function getDailyReadings($date) {
+    // Readings database for November 2024 - Week 33 Ordinary Time
+    $readings = [
+        '2024-11-19' => [ // Tuesday, Week 33
+            'first' => [
+                'reference' => 'Revelation 14:14-19',
+                'text' => 'I, John, looked and there was a white cloud, and sitting on the cloud one who looked like a son of man, with a gold crown on his head and a sharp sickle in his hand.'
+            ],
+            'psalm' => [
+                'reference' => 'Psalm 96:10, 11-12, 13',
+                'response' => 'The Lord comes to judge the earth.',
+                'text' => 'Say among the nations: The LORD is king. He has made the world firm, not to be moved; he governs the peoples with equity.'
+            ],
+            'gospel' => [
+                'reference' => 'Luke 21:5-11',
+                'text' => 'While some people were speaking about how the temple was adorned with costly stones and votive offerings, Jesus said, "All that you see here-- the days will come when there will not be left a stone upon another stone that will not be thrown down."'
+            ]
+        ],
+        '2024-11-20' => [ // Wednesday, Week 33
+            'first' => [
+                'reference' => 'Revelation 15:1-4',
+                'text' => 'I, John, saw in heaven another sign, great and awe-inspiring: seven angels with the seven last plagues, for through them the fury of God is accomplished.'
+            ],
+            'psalm' => [
+                'reference' => 'Psalm 98:1, 2-3ab, 7-8, 9',
+                'response' => 'The Lord comes to judge the earth.',
+                'text' => 'Sing to the LORD a new song, for he has done wondrous deeds; His right hand has won victory for him, his holy arm.'
+            ],
+            'gospel' => [
+                'reference' => 'Luke 21:12-19',
+                'text' => 'Jesus said to the crowd: "They will seize and persecute you, they will hand you over to the synagogues and to prisons, and they will have you led before kings and governors because of my name."'
+            ]
+        ]
+    ];
+    
+    if (isset($readings[$date])) {
+        return [
+            'date' => $date,
+            'first' => $readings[$date]['first'],
+            'psalm' => $readings[$date]['psalm'],
+            'second' => null,
+            'gospel' => $readings[$date]['gospel'],
+            'liturgical' => [
+                'season' => 'Ordinary Time',
+                'color' => 'Green',
+                'week' => 'Week 33'
+            ],
+            'saint' => getSaintOfDay($date)
+        ];
+    }
+    
+    return null;
+}
+
 function getSaintOfDay($date) {
     $month = date('n', strtotime($date));
     $day = date('j', strtotime($date));
@@ -137,6 +168,11 @@ function getSaintOfDay($date) {
             'name' => 'Saint Raphael Kalinowski, Priest',
             'quote' => 'The most important thing is to do God\'s will with love and trust.',
             'details' => 'Carmelite Priest and Martyr (1835-1907)'
+        ],
+        '11-20' => [
+            'name' => 'Saint Edmund the Martyr',
+            'quote' => 'Christ is my life, and death is my gain.',
+            'details' => 'King and Martyr (841-869)'
         ]
     ];
     

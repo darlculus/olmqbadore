@@ -92,17 +92,28 @@ function initNavigation() {
   const navMenu = safeQuerySelector(".nav-menu");
 
   if (navToggle && navMenu) {
-    navToggle.addEventListener("click", () => {
+    const toggleMenu = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
       navToggle.classList.toggle("active");
       navMenu.classList.toggle("active");
-    });
+      document.body.classList.toggle("menu-open");
+    };
+    
+    navToggle.addEventListener("click", toggleMenu);
+    navToggle.addEventListener("touchstart", toggleMenu, { passive: false });
 
-    // Close menu when clicking on links
+    // Close menu when clicking on links - IMPORTANT: Don't prevent default for external links
     const navLinks = safeQuerySelectorAll(".nav-link");
     navLinks.forEach((link) => {
       link.addEventListener("click", () => {
-        navToggle.classList.remove("active");
-        navMenu.classList.remove("active");
+        // Only close menu, don't prevent navigation
+        if (navMenu.classList.contains("active")) {
+          navToggle.classList.remove("active");
+          navMenu.classList.remove("active");
+          document.body.classList.remove("menu-open");
+        }
+        // Let the link navigate normally
       });
     });
 
@@ -111,6 +122,7 @@ function initNavigation() {
       if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
         navToggle.classList.remove("active");
         navMenu.classList.remove("active");
+        document.body.classList.remove("menu-open");
       }
     });
   }

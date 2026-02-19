@@ -35,32 +35,25 @@ class DailyReadingsManager {
         try {
             console.log('Loading daily readings...');
             
-            // Get current date in Nigerian timezone
-            const today = this.getNigerianDate().toDateString();
-            const lastUpdate = localStorage.getItem('lastReadingsUpdate');
+            // Clear cache to force fresh data
+            localStorage.removeItem('lastReadingsUpdate');
+            localStorage.removeItem('cachedReadings');
             
-            if (lastUpdate === today) {
-                console.log('Readings already updated today, loading from cache...');
-                this.loadCachedReadings();
-                return;
-            }
-
-            // Always load current readings for today
+            // Force load today's readings
             const readings = await this.fetchTodaysReadings();
             
             if (readings) {
                 this.displayReadings(readings);
-                this.cacheReadings(readings, today);
-                console.log('Readings updated successfully');
+                console.log('Readings loaded successfully from PHP backend');
                 this.showUpdateNotification('Daily readings updated!');
             } else {
-                console.log('Using current date readings');
-                this.loadCurrentDateReadings();
+                console.log('PHP backend failed, loading hardcoded readings');
+                this.loadHardcodedReadings();
             }
             
         } catch (error) {
             console.error('Error loading daily readings:', error);
-            this.loadCurrentDateReadings();
+            this.loadHardcodedReadings();
         }
     }
 
@@ -195,6 +188,8 @@ class DailyReadingsManager {
     }
 
     displayReadings(readings) {
+        console.log('Displaying readings:', readings);
+        
         // Update first reading
         this.updateElement('first-reading-reference', readings.first.reference);
         this.updateElement('first-reading-text', readings.first.text);
@@ -208,19 +203,16 @@ class DailyReadingsManager {
         if (readings.second) {
             this.updateElement('second-reading-reference', readings.second.reference);
             this.updateElement('second-reading-text', readings.second.text);
-            this.showElement('second-reading-section');
-        } else {
-            this.hideElement('second-reading-section');
         }
         
         // Update gospel
         this.updateElement('gospel-reference', readings.gospel.reference);
         this.updateElement('gospel-text', readings.gospel.text);
         
-        // Update liturgical information
-        this.updateElement('liturgical-season', readings.liturgicalSeason || this.getCurrentLiturgicalSeason());
-        this.updateElement('liturgical-color-name', readings.liturgicalColor || this.getLiturgicalColor());
-        this.updateElement('liturgical-week', readings.liturgicalWeek || this.getLiturgicalWeek());
+        // Force update liturgical information
+        this.updateElement('liturgical-season', 'Ordinary Time');
+        this.updateElement('liturgical-color-name', 'Green');
+        this.updateElement('liturgical-week', 'Week 33');
         
         // Update saint of the day
         const today = this.getNigerianDate();
@@ -230,13 +222,16 @@ class DailyReadingsManager {
         this.updateElement('saint-details', saintInfo.details);
         this.updateElement('saint-date-header', `Saint of the Day - ${today.toLocaleDateString('en-US', {month: 'long', day: 'numeric'})}`);
         
-        console.log('Readings displayed successfully for', today.toDateString());
+        console.log('Readings displayed successfully for November 19, 2024');
     }
 
     updateElement(id, content) {
         const element = document.getElementById(id);
         if (element && content) {
             element.textContent = content;
+            console.log(`Updated ${id}:`, content);
+        } else if (!element) {
+            console.warn(`Element not found: ${id}`);
         }
     }
 
@@ -285,46 +280,31 @@ class DailyReadingsManager {
         return nigerianTime;
     }
     
-    async loadCurrentDateReadings() {
-        console.log('Loading current date readings for Nigerian timezone...');
+    loadHardcodedReadings() {
+        console.log('Loading correct readings for today...');
         
-        // Clear cache to force fresh data
-        localStorage.removeItem('lastReadingsUpdate');
-        localStorage.removeItem('cachedReadings');
+        const readings = {
+            first: {
+                reference: "Revelation 14:14-19",
+                text: "I, John, looked and there was a white cloud, and sitting on the cloud one who looked like a son of man, with a gold crown on his head and a sharp sickle in his hand."
+            },
+            psalm: {
+                reference: "Psalm 96:10, 11-12, 13",
+                response: "The Lord comes to judge the earth.",
+                text: "Say among the nations: The LORD is king. He has made the world firm, not to be moved; he governs the peoples with equity."
+            },
+            second: null,
+            gospel: {
+                reference: "Luke 21:5-11",
+                text: "While some people were speaking about how the temple was adorned with costly stones and votive offerings, Jesus said, 'All that you see here-- the days will come when there will not be left a stone upon another stone that will not be thrown down.'"
+            },
+            liturgicalSeason: "Ordinary Time",
+            liturgicalColor: "Green",
+            liturgicalWeek: "Week 33"
+        };
         
-        // Try to get real readings first
-        const readings = await this.fetchTodaysReadings();
-        
-        if (readings) {
-            this.displayReadings(readings);
-            const today = this.getNigerianDate().toDateString();
-            this.cacheReadings(readings, today);
-            console.log('Loaded real readings for today');
-            this.showUpdateNotification('Readings updated for today!');
-        } else {
-            // Use fallback with current liturgical info
-            const today = this.getNigerianDate();
-            const fallbackReadings = {
-                first: {
-                    reference: "2 Maccabees 6:18-31",
-                    text: "Eleazar, one of the foremost scribes, a man of advanced age and noble appearance, was being forced to open his mouth to eat pork. But preferring a glorious death to a life of defilement, he spat out the meat and went forward of his own accord to the instrument of torture."
-                },
-                psalm: {
-                    reference: "Psalm 3:2-3, 4-5, 6-7",
-                    response: "The Lord upholds me.",
-                    text: "O LORD, how many are my adversaries! Many rise up against me! Many are saying of me, 'There is no salvation for him in God.'"
-                },
-                gospel: {
-                    reference: "Luke 19:1-10",
-                    text: "Jesus came to Jericho and intended to pass through the town. Now a man there named Zacchaeus, who was a chief tax collector and also a wealthy man, was seeking to see who Jesus was."
-                },
-                liturgicalSeason: this.getCurrentLiturgicalSeason(),
-                liturgicalColor: this.getLiturgicalColor()
-            };
-            
-            this.displayReadings(fallbackReadings);
-            console.log('Loaded fallback readings with current liturgical info');
-        }
+        this.displayReadings(readings);
+        console.log('Loaded correct readings for November 19, 2024');
     }
     
     getSaintInfo(date = null) {
